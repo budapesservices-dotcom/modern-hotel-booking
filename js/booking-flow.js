@@ -224,7 +224,7 @@
             class="button button-dark still-booking-understand"
             type="button"
             data-booking-understand>
-            Mengerti
+            Understood
           </button>
         </div>
       </div>
