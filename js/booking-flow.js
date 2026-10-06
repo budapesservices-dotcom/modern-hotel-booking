@@ -26,7 +26,6 @@
 (() => {
   const BYPASS_LOGIN = true;
   const LOGIN_URL = 'login.html';
-  const WHATSAPP_NUMBER = '620000000000';
   const MODAL_ID = 'still-booking-confirmation';
 
   const formatDate = value => {
@@ -96,23 +95,110 @@
     }, 260);
   };
 
-  const proceedToBooking = bookingData => {
-    window.dispatchEvent(new CustomEvent('still:booking-confirmed'));
+  const generateBookingId = () => {
+    const now = new Date();
+    const datePart =
+      String(now.getFullYear()) +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0');
 
-    const guestCount = bookingData.guests || '2';
-    const roomPart = bookingData.room ? ` for ${bookingData.room}` : '';
-    const datePart = bookingData.checkin && bookingData.checkout
-      ? ` from ${bookingData.checkin} to ${bookingData.checkout}`
-      : '';
+    const randomPart = window.crypto?.getRandomValues
+      ? Array.from(window.crypto.getRandomValues(new Uint8Array(3)))
+          .map(value => value.toString(16).padStart(2, '0'))
+          .join('')
+          .toUpperCase()
+      : Math.random().toString(36).slice(2, 8).toUpperCase();
 
-    const message =
-      `Hello, I'd like to ask about booking a room at The Still Hotel${roomPart}${datePart} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
+    return `STL-${datePart}-${randomPart}`;
+  };
 
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
-      '_blank',
-      'noopener'
+  const showBookingSuccess = (modal, bookingData) => {
+    if (!modal) return;
+
+    const bookingId = generateBookingId();
+    const scheduledDate = bookingData.checkin
+      ? new Date(bookingData.checkin + 'T12:00:00')
+      : null;
+    const scheduledText = scheduledDate && !Number.isNaN(scheduledDate.getTime())
+      ? new Intl.DateTimeFormat('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        }).format(scheduledDate)
+      : 'your scheduled check-in date';
+
+    try {
+      sessionStorage.setItem('stillHotelBookingId', bookingId);
+      sessionStorage.setItem(
+        'stillHotelBooking',
+        JSON.stringify({ ...bookingData, bookingId })
+      );
+    } catch {
+      // Session storage is optional for this front-end demo.
+    }
+
+    modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
+
+    const receipt = modal.querySelector('.still-booking-receipt');
+    if (!receipt) return;
+
+    receipt.innerHTML = `
+      <div class="still-booking-success">
+        <div class="still-booking-receipt-head">
+          <p class="eyebrow">The Still Hotel / Booking confirmed</p>
+          <span>THANK YOU</span>
+        </div>
+
+        <div class="still-booking-success-mark" aria-hidden="true">✓</div>
+
+        <div class="still-booking-success-copy">
+          <p class="still-booking-receipt-kicker">Your stay is noted</p>
+          <h2>Your booking<br><em>is confirmed.</em></h2>
+
+          <p class="still-booking-success-message">
+            Thank you for choosing The Still Hotel. Please arrive on
+            <strong>${escapeHtml(scheduledText)}</strong> according to your
+            scheduled time and show the Booking ID below to our reception team.
+          </p>
+        </div>
+
+        <div class="still-booking-id-block">
+          <span>BOOKING ID</span>
+          <strong>${escapeHtml(bookingId)}</strong>
+        </div>
+
+        <div class="still-booking-success-note">
+          <p>
+            Keep this Booking ID with you when you arrive. Our reception team
+            will use it to locate your booking details.
+          </p>
+          <p>We look forward to welcoming you. Enjoy your stay at The Still Hotel.</p>
+        </div>
+
+        <div class="still-booking-success-actions">
+          <button
+            class="button button-dark still-booking-understand"
+            type="button"
+            data-booking-understand>
+            Mengerti
+          </button>
+        </div>
+      </div>
+    `;
+
+    receipt.querySelector('[data-booking-understand]')?.addEventListener(
+      'click',
+      () => {
+        closeConfirmation();
+        window.dispatchEvent(new CustomEvent('still:booking-confirmed', {
+          detail: { ...bookingData, bookingId }
+        }));
+      }
     );
+
+    window.setTimeout(() => {
+      receipt.querySelector('[data-booking-understand]')?.focus();
+    }, 60);
   };
 
   const showConfirmation = bookingData => {
@@ -238,8 +324,7 @@
     modal.querySelector('[data-booking-confirm-continue]')?.addEventListener(
       'click',
       () => {
-        closeConfirmation();
-        proceedToBooking(bookingData);
+        showBookingSuccess(modal, bookingData);
       }
     );
 
