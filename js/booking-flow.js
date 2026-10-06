@@ -46,7 +46,7 @@
   const emitBookingUpdate=detail=>window.dispatchEvent(new CustomEvent('still:booking-updated',{detail:detail||{}}));
   const notifyAdmin=({type,booking,requestId='',title,message})=>{
     if(!booking?.bookingToken)return false;
-    const id=requestId?\`${type}:${requestId}\`:\`${type}:${booking.bookingToken}\`;
+    const id=requestId?`${type}:${requestId}`:`${type}:${booking.bookingToken}`;
     const notifications=getNotifications();
     if(notifications.some(item=>item.id===id))return false;
     notifications.unshift({id,type,status:'pending',requestId,bookingToken:booking.bookingToken,customerBookingId:booking.customerBookingId||'',adminBookingId:booking.adminBookingId||'',room:booking.room||'',checkin:booking.checkin||'',checkout:booking.checkout||'',title,message,createdAt:new Date().toISOString()});
@@ -64,7 +64,7 @@
       const canExpire=booking.status===STATUS.CONFIRMED||booking.status===STATUS.CANCELLATION_PENDING;
       if(!canExpire||!checkoutHasPassed(booking))return booking;
       const expired={...booking,status:STATUS.EXPIRED,expiredAt:booking.expiredAt||new Date().toISOString()};
-      notifyAdmin({type:'expiry',booking:expired,title:'Booking ID expired',message:\`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.\`});
+      notifyAdmin({type:'expiry',booking:expired,title:'Booking ID expired',message:`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.`});
       changed=true; return expired;
     });
     if(changed){saveBookings(next);emitBookingUpdate({reason:'booking-expired'});}
@@ -81,11 +81,11 @@
       const checkin=new Date(booking.checkin+'T00:00:00');
       if(!Number.isNaN(checkin.getTime())&&checkin<today)return{ok:false,reason:'stay-started',booking};
     }
-    const requestId=\`${booking.bookingToken}-CXL-${Date.now().toString(36).toUpperCase()}\`;
+    const requestId=`${booking.bookingToken}-CXL-${Date.now().toString(36).toUpperCase()}`;
     const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationRequestId:requestId,cancellationRequestedAt:new Date().toISOString()};
     const next=[...bookings]; next[index]=updated;
     if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
-    notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:\`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.\`});
+    notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.`});
     emitBookingUpdate({reason:'cancellation-requested',booking:updated});
     return{ok:true,booking:updated};
   };
