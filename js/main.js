@@ -296,9 +296,14 @@
           activeCategory === 'all' ||
           itemCategory === activeCategory;
 
+        const requestedCapacity = activeCapacity === 'all' ? null : Number(activeCapacity);
+        const roomCapacity = Number(itemCapacity);
+
         const matchesCapacity =
-          activeCapacity === 'all' ||
-          itemCapacity === activeCapacity;
+          requestedCapacity === null ||
+          (Number.isFinite(roomCapacity) &&
+           Number.isFinite(requestedCapacity) &&
+           roomCapacity >= requestedCapacity);
 
         const show = matchesCategory && matchesCapacity;
 
