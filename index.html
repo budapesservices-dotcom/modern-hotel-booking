@@ -327,6 +327,83 @@
   }
 })();
 </script>
+<script>
+(() => {
+  const carousel = document.querySelector('[data-suite-carousel]');
+  if (!carousel) return;
+
+  const track = carousel.querySelector('[data-suite-track]');
+  const slides = [...carousel.querySelectorAll('[data-suite-slide]')];
+  const current = carousel.querySelector('[data-suite-current]');
+  const prev = carousel.querySelector('[data-suite-prev]');
+  const next = carousel.querySelector('[data-suite-next]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!track || !slides.length) return;
+
+  let index = 0;
+
+  const update = () => {
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle('is-active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      const link = slide.querySelector('.suite-image');
+      if (link) link.tabIndex = active ? 0 : -1;
+    });
+
+    const viewport = carousel.querySelector('.suite-viewport');
+    const activeSlide = slides[index];
+    const offset = activeSlide ? activeSlide.offsetLeft : 0;
+    const centerOffset = viewport ? Math.max(0, (viewport.clientWidth - activeSlide.offsetWidth) / 2) : 0;
+    track.style.transform = `translate3d(${centerOffset - offset}px,0,0)`;
+
+    if (current) current.textContent = String(index + 1).padStart(2, '0');
+  };
+
+  const go = step => {
+    index = (index + step + slides.length) % slides.length;
+    update();
+  };
+
+  prev?.addEventListener('click', () => go(-1));
+  next?.addEventListener('click', () => go(1));
+
+  window.addEventListener('resize', update, { passive: true });
+  update();
+
+  // Minimal touch/swipe navigation.
+  let startX = 0;
+  let startY = 0;
+
+  track.addEventListener('touchstart', e => {
+    const touch = e.changedTouches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+  }, { passive: true });
+
+  track.addEventListener('touchend', e => {
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  carousel.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      go(1);
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      go(-1);
+    }
+  });
+
+  if (reduce) {
+    track.style.transition = 'none';
+  }
+})();
+</script>
 <script src="js/hero-config.js" defer></script>
 <script src="js/main.js" defer></script>
 </body>
