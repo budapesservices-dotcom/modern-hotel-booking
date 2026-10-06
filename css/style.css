@@ -3658,3 +3658,51 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     justify-self:start !important;
   }
 }
+
+
+/* =========================================================
+   ROOM ATLAS — FINAL DESKTOP ALIGNMENT
+   Clean four-part row: image / class / room copy / price.
+   ========================================================= */
+@media(min-width:1101px){
+  .page-rooms .room-directory-row{
+    display:grid;
+    grid-template-columns:220px 90px minmax(0,1fr) 145px !important;
+    grid-template-areas:"image class main action" !important;
+    column-gap:28px;
+    align-items:center;
+    min-height:188px;
+    padding:16px 22px;
+  }
+  .page-rooms .room-dir-image{
+    grid-area:image !important;
+    width:220px !important;
+    height:156px !important;
+    margin:0;
+  }
+  .page-rooms .room-dir-class{
+    grid-area:class !important;
+    align-self:center;
+    min-width:0;
+  }
+  .page-rooms .room-dir-main{
+    grid-area:main !important;
+    min-width:0;
+    align-self:center;
+  }
+  .page-rooms .room-dir-action{
+    grid-area:action !important;
+    align-self:center;
+    justify-self:end !important;
+    min-width:0;
+    margin:0;
+    padding-left:22px;
+    border-left:1px solid #3e3830;
+  }
+}
+
+@media(max-width:1100px) and (min-width:600px){
+  .page-rooms .room-directory-row{
+    padding:16px 18px;
+  }
+}
