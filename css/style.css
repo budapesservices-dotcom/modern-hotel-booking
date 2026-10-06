@@ -2880,3 +2880,139 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   letter-spacing:.09em;
   text-transform:uppercase;
 }
+
+/* =========================================================
+   ROOMS HEADER + GLOBAL BOOKING DRAWER — LUXURY PASS
+   ========================================================= */
+.page-rooms .signature-header:not(.scrolled){
+  color:#f4f0e7;
+  background:transparent;
+  backdrop-filter:none;
+  box-shadow:none;
+}
+.page-rooms .signature-header:not(.scrolled) .brand,
+.page-rooms .signature-header:not(.scrolled) .site-nav a,
+.page-rooms .signature-header:not(.scrolled) .menu-toggle{
+  color:#f4f0e7;
+  text-shadow:0 1px 12px rgba(0,0,0,.28);
+}
+.page-rooms .signature-header:not(.scrolled) .nav-book{
+  background:#f4f0e7;
+  color:#292720;
+  border-color:#f4f0e7;
+}
+.page-rooms .signature-header:not(.scrolled) .nav-book:hover{
+  background:#d6b36a;
+  color:#292720;
+  border-color:#d6b36a;
+}
+
+.booking-drawer{
+  background:rgba(10,9,7,.18);
+}
+.booking-backdrop{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(214,179,106,.10),transparent 34%),
+    rgba(9,8,7,.72);
+  backdrop-filter:blur(7px);
+}
+.booking-panel{
+  width:min(650px,100%);
+  background:
+    linear-gradient(180deg,#1b1916 0%,#171512 100%);
+  color:#f4f0e7;
+  border-left:1px solid rgba(214,179,106,.18);
+  box-shadow:-32px 0 90px rgba(0,0,0,.38);
+  padding:clamp(30px,5vw,62px);
+}
+.booking-head{
+  min-height:42px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(214,179,106,.18);
+}
+.booking-panel .eyebrow{
+  margin:0;
+  color:#a99f91;
+  font-size:9px;
+  letter-spacing:.18em;
+}
+.booking-panel h2{
+  margin:54px 0 42px;
+  color:#f5f0e6;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(52px,6.5vw,82px);
+  line-height:.9;
+  letter-spacing:-.045em;
+  font-weight:400;
+}
+.booking-panel h2 em{color:#d6b36a}
+.booking-fields{
+  gap:12px;
+}
+.booking-fields label{
+  gap:8px;
+  color:#958d80;
+  font-size:8px;
+  letter-spacing:.16em;
+}
+.booking-fields input,
+.booking-fields select{
+  border:1px solid #3a352e;
+  background:#24211c;
+  color:#f4f0e7;
+  padding:15px 14px;
+  border-radius:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.booking-fields input:focus,
+.booking-fields select:focus{
+  border-color:#a47b43;
+  box-shadow:0 0 0 3px rgba(164,123,67,.10);
+}
+.booking-summary{
+  margin:30px 0 26px;
+  padding:19px 0;
+  border-block:1px solid #38332c;
+  color:#9d9589;
+  font-size:12px;
+}
+.booking-summary strong{
+  color:#d6b36a;
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.booking-panel .button-dark{
+  min-height:54px;
+  background:#d6b36a;
+  color:#26231e;
+  border-color:#d6b36a;
+  letter-spacing:.04em;
+}
+.booking-panel .button-dark:hover{
+  background:#ead08e;
+  color:#22201c;
+  border-color:#ead08e;
+}
+.booking-panel .micro-copy{
+  color:#777066;
+  font-size:9px;
+  line-height:1.6;
+}
+
+@media(max-width:599px){
+  .booking-panel{
+    width:100%;
+    padding:24px 20px 28px;
+  }
+  .booking-panel h2{
+    margin:42px 0 30px;
+    font-size:clamp(46px,14vw,72px);
+  }
+  .booking-fields{
+    grid-template-columns:1fr;
+  }
+  .booking-fields label:last-child{
+    grid-column:auto;
+  }
+}
