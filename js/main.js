@@ -14,6 +14,7 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const pad = n => String(n).padStart(2, '0');
+  const IMAGE_FALLBACK = 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=84';
 
   // ---------- Header ----------
   const syncHeader = () => header?.classList.toggle('scrolled', window.scrollY > 32);
@@ -657,13 +658,28 @@
 
     const renderMain = index => {
       activeImage = index;
-      roomDetailMainImage.src = images[index];
+      roomDetailMainImage.dataset.fallbackApplied = 'false';
+      roomDetailMainImage.src = images[index] || IMAGE_FALLBACK;
       roomDetailMainImage.alt = item.querySelector('.room-dir-image img')?.alt || activeRoomName;
       if (roomDetailImageCurrent) roomDetailImageCurrent.textContent = String(index+1).padStart(2,'0');
       [...roomDetailThumbs.querySelectorAll('button')].forEach((btn,i) => btn.classList.toggle('is-active', i===index));
     };
 
-    roomDetailThumbs.innerHTML = images.map((src,index) => `<button type="button" class="room-detail-thumb${index===0 ? ' is-active' : ''}" aria-label="View room photo ${index+1}" data-room-detail-thumb data-index="${index}"><img src="${src}" alt="" loading="lazy"></button>`).join('');
+    roomDetailMainImage.onerror = () => {
+      if (roomDetailMainImage.dataset.fallbackApplied === 'true') return;
+      roomDetailMainImage.dataset.fallbackApplied = 'true';
+      roomDetailMainImage.src = IMAGE_FALLBACK;
+    };
+
+    roomDetailThumbs.innerHTML = images.map((src,index) => `<button type="button" class="room-detail-thumb${index===0 ? ' is-active' : ''}" aria-label="View room photo ${index+1}" data-room-detail-thumb data-index="${index}"><img src="${src || IMAGE_FALLBACK}" alt="" loading="lazy"></button>`).join('');
+
+    roomDetailThumbs.querySelectorAll('img').forEach(img => {
+      img.onerror = () => {
+        if (img.dataset.fallbackApplied === 'true') return;
+        img.dataset.fallbackApplied = 'true';
+        img.src = IMAGE_FALLBACK;
+      };
+    });
     roomDetailThumbs.querySelectorAll('[data-room-detail-thumb]').forEach(btn => {
       btn.addEventListener('click', () => renderMain(Number(btn.dataset.index)));
     });
