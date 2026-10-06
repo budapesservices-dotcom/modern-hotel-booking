@@ -2,6 +2,7 @@
 
 (() => {
   const BYPASS_LOGIN = true;
+  const BYPASS_ADMIN_CANCELLATION = true;
   const LOGIN_URL = 'login.html';
   const MODAL_ID = 'still-booking-confirmation';
 
@@ -98,7 +99,34 @@
       if(!Number.isNaN(checkin.getTime())&&checkin<today)return{ok:false,reason:'stay-started',booking};
     }
     const requestId=`${booking.bookingToken}-CXL-${Date.now().toString(36).toUpperCase()}`;
-    const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationRequestId:requestId,cancellationRequestedAt:new Date().toISOString()};
+    const requestedAt=new Date().toISOString();
+
+    if(BYPASS_ADMIN_CANCELLATION){
+      const updated={
+        ...booking,
+        status:STATUS.CANCELLED,
+        cancellationRequestId:requestId,
+        cancellationRequestedAt:requestedAt,
+        cancellationConfirmedAt:requestedAt,
+        cancellationMode:'demo-bypass'
+      };
+      const next=[...bookings]; next[index]=updated;
+      if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
+
+      notifyAdmin({
+        type:'cancellation',
+        booking:updated,
+        requestId,
+        status:'auto-approved',
+        title:'Cancellation confirmed (demo)',
+        message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}. Demo mode auto-confirms the cancellation without waiting for admin action.`
+      });
+
+      emitBookingUpdate({reason:'cancellation-auto-approved',booking:updated});
+      return{ok:true,booking:updated};
+    }
+
+    const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationRequestId:requestId,cancellationRequestedAt:requestedAt};
     const next=[...bookings]; next[index]=updated;
     if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
     notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.`});
@@ -486,6 +514,7 @@
     status: STATUS,
     config: {
       bypassLogin: BYPASS_LOGIN,
+      bypassAdminCancellation: BYPASS_ADMIN_CANCELLATION,
       loginUrl: LOGIN_URL
     }
   };
