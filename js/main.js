@@ -432,7 +432,6 @@
     const nights = Math.round((end-start)/86400000);
     if (nights > 0) {
       roomDetailSummary.textContent = `${nights} night${nights === 1 ? '' : 's'} · ${roomDetailGuests?.value || '2'} guest${roomDetailGuests?.value === '1' ? '' : 's'}`;
-      if (roomDetailNights) roomDetailNights.textContent = `$ ${nights > 1 ? '' : ''}`.trim() ? '' : '';
       if (roomDetailNights) roomDetailNights.textContent = `${nights} NIGHT${nights === 1 ? '' : 'S'}`;
     } else {
       roomDetailSummary.textContent = 'Choose a later check-out date.';
