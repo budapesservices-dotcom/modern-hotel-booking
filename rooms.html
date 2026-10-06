@@ -430,19 +430,25 @@
           </div>
           <div class="room-booking-line">
             <span>Guests</span>
-            <label class="booking-value"><select data-room-detail-guests aria-label="Guests" data-room-detail-guest-select>
-              <option value="1">1</option>
-              <option value="2" selected>2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-            </select></label>
+            <label class="booking-value booking-select-field">
+              <select class="room-native-select" data-room-detail-guests aria-label="Guests" data-room-detail-guest-select aria-hidden="true" tabindex="-1">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+              <span class="room-custom-select" data-room-custom-select="guests">
+                <button class="room-custom-select-trigger" type="button" data-room-select-trigger aria-haspopup="listbox" aria-expanded="false">2</button>
+                <span class="room-custom-select-menu" data-room-select-menu role="listbox" aria-label="Guests"></span>
+              </span>
+            </label>
           </div>
           <div class="room-booking-line">
             <span>Nights</span>
-            <label class="booking-value">
-              <select data-room-detail-nights aria-label="Number of nights">
+            <label class="booking-value booking-select-field">
+              <select class="room-native-select" data-room-detail-nights aria-label="Number of nights" aria-hidden="true" tabindex="-1">
                 <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -474,6 +480,10 @@
                 <option value="29">29</option>
                 <option value="30">30</option>
               </select>
+              <span class="room-custom-select" data-room-custom-select="nights">
+                <button class="room-custom-select-trigger" type="button" data-room-select-trigger aria-haspopup="listbox" aria-expanded="false">1</button>
+                <span class="room-custom-select-menu" data-room-select-menu role="listbox" aria-label="Number of nights"></span>
+              </span>
             </label>
           </div>
           <div class="room-booking-line">
