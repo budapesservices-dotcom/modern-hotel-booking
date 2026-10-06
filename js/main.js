@@ -380,7 +380,10 @@
     'panorama-suite': ['King bed', 'Separate living space', 'Wide city views', 'Deep soaking tub', 'Dining area', 'Espresso station', 'Mini bar', 'Bathrobes & slippers', 'Premium bath amenities'],
     'residence-suite': ['King bed', 'Private lounge', 'Separate dining area', 'Deep soaking tub', 'Dedicated work desk', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown'],
     'gathering-suite': ['King bed', 'Expansive living room', 'Dining lounge', 'Deep soaking tub', 'Dedicated work desk', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
-    'sixfold-residence': ['Two king beds', 'Full living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers']
+    'sixfold-residence': ['Two king beds', 'Full living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
+    'courtyard-suite': ['Two king beds', 'Private terrace', 'Sheltered courtyard outlook', 'Deep soaking tub', 'Dining lounge', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Bathrobes & slippers', 'Evening turndown'],
+    'grand-residence': ['Two king beds', 'Expansive living room', 'Full dining area', 'Private lounge', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
+    'family-residence': ['Three king beds', 'Large living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers']
   };
 
   const renderRoomFacilities = roomId => {
@@ -514,6 +517,21 @@
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1800&q=88",
       "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=84",
       "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "courtyard-suite": [
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "grand-residence": [
+      "https://images.unsplash.com/photo-1600607688960-e095ff83135c?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "family-residence": [
+      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=84"
     ]
   };
 
