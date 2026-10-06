@@ -208,6 +208,50 @@
   </div>
 </aside>
 
+<script>
+(() => {
+  const root = document.querySelector('[data-story-architecture]');
+  if (!root) return;
+
+  const stages = [...root.querySelectorAll('[data-story-stage]')];
+  const stops = [...document.querySelectorAll('[data-architecture-scene]')];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0;
+  let timer = 0;
+
+  const show = (index, restart = true) => {
+    current = (index + stages.length) % stages.length;
+
+    stages.forEach((stage, i) => {
+      stage.style.setProperty('--story-stage-image', "url('" + stage.dataset.storyImage + "')");
+      stage.classList.toggle('is-active', i === current);
+      stage.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+    });
+
+    stops.forEach((stop, i) => {
+      const active = i === current;
+      stop.classList.toggle('is-active', active);
+      stop.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    window.clearTimeout(timer);
+    if (restart && !reduce && !document.hidden) {
+      timer = window.setTimeout(() => show(current + 1, false), 4200);
+    }
+  };
+
+  show(0, true);
+
+  stops.forEach(stop => {
+    stop.addEventListener('click', () => show(Number(stop.dataset.architectureScene)));
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) show(current, true);
+    else window.clearTimeout(timer);
+  });
+})();
+</script>
 <script src="js/hero-config.js" defer></script>
 <script src="js/main.js" defer></script>
 </body>
