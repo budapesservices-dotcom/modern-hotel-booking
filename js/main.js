@@ -552,7 +552,214 @@
 
     if (roomDetailNights) roomDetailNights.value = String(nights);
     if (roomDetailTotal) {
-      roomDetailTotal.textContent = `${(price * nights).toLocaleString('en-US')}`;
+      roomDetailTotal.textContent = '
+    }
+
+    if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName || '—';
+    if (roomDetailSummaryType && roomDetailKicker?.textContent) {
+      roomDetailSummaryType.textContent = roomDetailKicker.textContent.split(' · ')[0] || '—';
+    }
+  };
+
+
+  const renderRoomDetailGallery = (item, roomId) => {
+    if (!roomDetailMainImage || !roomDetailThumbs) return;
+    const first = item.querySelector('.room-dir-image img')?.src || '';
+    const images = roomGallery[roomId]?.length ? roomGallery[roomId] : [first, first, first];
+    let activeImage = 0;
+
+    const renderMain = index => {
+      activeImage = index;
+      roomDetailMainImage.src = images[index];
+      roomDetailMainImage.alt = item.querySelector('.room-dir-image img')?.alt || activeRoomName;
+      if (roomDetailImageCurrent) roomDetailImageCurrent.textContent = String(index+1).padStart(2,'0');
+      [...roomDetailThumbs.querySelectorAll('button')].forEach((btn,i) => btn.classList.toggle('is-active', i===index));
+    };
+
+    roomDetailThumbs.innerHTML = images.map((src,index) => `<button type="button" class="room-detail-thumb${index===0 ? ' is-active' : ''}" aria-label="View room photo ${index+1}" data-room-detail-thumb data-index="${index}"><img src="${src}" alt="" loading="lazy"></button>`).join('');
+    roomDetailThumbs.querySelectorAll('[data-room-detail-thumb]').forEach(btn => {
+      btn.addEventListener('click', () => renderMain(Number(btn.dataset.index)));
+    });
+    renderMain(0);
+  };
+
+  const openRoomDetail = item => {
+    if (!roomDetailDrawer) return;
+    activeRoomName = item.querySelector('.room-dir-main h3')?.textContent || '';
+    const roomId = item.id;
+    const description = item.querySelector('.room-dir-main p')?.textContent || '';
+    const type = item.querySelector('.room-dir-class span')?.textContent || '';
+    const size = item.querySelector('.room-dir-class i')?.textContent || '';
+    const availability = item.querySelector('.room-dir-availability')?.textContent || '';
+    const price = item.querySelector('[data-room-price-current]')?.textContent || '';
+    const specs = [...item.querySelectorAll('.room-dir-main>div span')].map(el => el.textContent.trim());
+
+    if (roomDetailTitle) roomDetailTitle.textContent = activeRoomName;
+    if (roomDetailKicker) roomDetailKicker.textContent = `${type} · ${size}`;
+    if (roomDetailDescription) roomDetailDescription.textContent = description;
+    if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
+    if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
+    if (roomDetailPrice) roomDetailPrice.textContent = price;
+    if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
+    if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
+    if (roomDetailNumber) roomDetailNumber.textContent = '';
+    initRoomCustomSelects();
+    configureRoomDetailGuests(item);
+    setRoomDetailDateMinimums();
+    setRoomDetailNights(1);
+    syncRoomDetailCheckoutFromNights();
+    updateRoomDetailSummary();
+    renderRoomDetailGallery(item, roomId);
+
+    roomDetailDrawer.classList.add('open');
+    roomDetailDrawer.setAttribute('aria-hidden', 'false');
+    body.classList.add('no-scroll');
+  };
+
+  const closeRoomDetail = () => {
+    if (!roomDetailDrawer) return;
+    roomDetailDrawer.classList.remove('open');
+    roomDetailDrawer.setAttribute('aria-hidden', 'true');
+    body.classList.remove('no-scroll');
+  };
+
+  document.querySelectorAll('[data-room-detail]').forEach(btn => {
+    btn.addEventListener('click', () => openRoomDetail(btn.closest('[data-room-item]')));
+  });
+  document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
+
+  roomDetailCheckin?.addEventListener('change', () => {
+    setRoomDetailNights(roomDetailNights?.value || 1);
+    syncRoomDetailCheckoutFromNights();
+    updateRoomDetailSummary();
+  });
+  roomDetailCheckout?.addEventListener('change', () => {
+    syncRoomDetailNightsFromCheckout();
+    updateRoomDetailSummary();
+  });
+  roomDetailNights?.addEventListener('change', () => {
+    syncRoomDetailCheckoutFromNights();
+    updateRoomDetailSummary();
+  });
+  roomDetailGuests?.addEventListener('change', updateRoomDetailSummary);
+
+  // ---------- Booking ----------
+  const setBookingMinDate = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const iso = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+    if (checkin && !checkin.min) checkin.min = iso;
+    if (checkout && !checkout.min) checkout.min = iso;
+  };
+  setBookingMinDate();
+
+  const updateSummary = () => {
+    if (!summary) return;
+    if (!checkin?.value || !checkout?.value) {
+      summary.textContent = 'Choose your dates.';
+      return;
+    }
+    const start = new Date(`${checkin.value}T12:00:00`);
+    const end = new Date(`${checkout.value}T12:00:00`);
+    const nights = Math.max(0, Math.round((end - start) / 86400000));
+    summary.textContent = nights > 0
+      ? `${nights} night${nights === 1 ? '' : 's'} / ${guests?.value || '2'} guests`
+      : 'Choose a later check-out date.';
+  };
+  checkin?.addEventListener('change', () => {
+    if (checkout) checkout.min = checkin.value || checkout.min;
+    updateSummary();
+  });
+  checkout?.addEventListener('change', updateSummary);
+  guests?.addEventListener('change', updateSummary);
+
+  const openBooking = () => {
+    if (!drawer) return;
+    closeRoomDetail();
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    body.classList.add('no-scroll');
+    checkin?.focus();
+  };
+  const closeBooking = () => {
+    if (!drawer) return;
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    body.classList.remove('no-scroll');
+  };
+  document.querySelectorAll('[data-booking-open]').forEach(btn => btn.addEventListener('click', openBooking));
+  document.querySelectorAll('[data-booking-close]').forEach(btn => btn.addEventListener('click', closeBooking));
+
+  document.querySelectorAll('[data-book-now]').forEach(btn => btn.addEventListener('click', () => {
+    const guestCount = guests?.value || '2';
+    const message = checkin?.value && checkout?.value
+      ? `Hello, I'd like to check availability at The Still Hotel from ${checkin.value} to ${checkout.value} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`
+      : `Hello, I'd like to ask about booking a room at The Still Hotel for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
+    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+  }));
+
+  // ---------- Reveal / parallax ----------
+  const reveal = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    }), { threshold: 0.1 });
+    reveal.forEach(el => revealObserver.observe(el));
+  } else {
+    reveal.forEach(el => el.classList.add('is-visible'));
+  }
+
+  if (!reduceMotion && window.matchMedia('(min-width: 901px)').matches) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        document.querySelectorAll('[data-parallax]').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const speed = Number(el.dataset.parallax || 0.03);
+          const shift = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * speed;
+          el.style.transform = `translateY(${shift}px)`;
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
+  // ---------- Gallery lightbox ----------
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    if (lightboxImage) {
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+    }
+  };
+  document.querySelectorAll('[data-lightbox-item]').forEach(item => item.addEventListener('click', () => {
+    if (!lightbox || !lightboxImage) return;
+    const image = item.querySelector('img');
+    const caption = item.querySelector('figcaption')?.textContent || '';
+    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.alt = image.alt;
+    if (lightboxCaption) lightboxCaption.textContent = caption;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+  }));
+  document.querySelectorAll('[data-lightbox-close]').forEach(btn => btn.addEventListener('click', closeLightbox));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeBooking();
+      closeLightbox();
+      closeRoomDetail();
+    }
+  });
+})();
+// Room booking controls refined.
+ + (price * nights).toLocaleString('en-US');
     }
 
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName || '—';
