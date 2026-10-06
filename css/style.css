@@ -8137,12 +8137,12 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 /* Moments mobile — tighter vertical rhythm */
 @media(max-width:560px){
   .page-gallery .moments-grid{
-    row-gap:16px;
+    row-gap:8px;
     column-gap:0;
   }
 
   .page-gallery .moments-item figcaption{
-    padding-top:8px;
+    padding-top:6px;
   }
 
   .page-gallery .moments-item figcaption span{
