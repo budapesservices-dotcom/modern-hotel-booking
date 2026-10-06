@@ -3252,3 +3252,127 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-rooms .room-directory-row:last-child{
   margin-bottom:0;
 }
+
+
+/* =========================================================
+   ROOM ATLAS CARDS + BOOKING CONTROLS — FINAL REFINEMENT
+   ========================================================= */
+
+/* Room Atlas cards use the same deep tone as Booking Summary. */
+.page-rooms .room-directory-row{
+  background:linear-gradient(150deg,#24211c 0%,#171512 100%) !important;
+  border-color:#3e3830;
+  color:#eee7d8;
+}
+.page-rooms .room-directory-row:nth-child(even){
+  background:linear-gradient(150deg,#24211c 0%,#171512 100%) !important;
+}
+.page-rooms .room-directory-row:hover{
+  background:linear-gradient(150deg,#2b2721 0%,#1b1916 100%) !important;
+}
+.page-rooms .room-dir-number,
+.page-rooms .room-dir-main p,
+.page-rooms .room-dir-main>div span,
+.page-rooms .room-dir-class i{
+  color:#948b7d;
+}
+.page-rooms .room-dir-main h3{
+  color:#f4eee1;
+}
+.page-rooms .room-dir-class span,
+.page-rooms .room-directory-suite .room-dir-class span{
+  color:#d6b36a;
+}
+.page-rooms .room-dir-availability{
+  color:#9f9689;
+}
+.page-rooms .room-dir-action{
+  color:#eee7d8;
+  border-left-color:#3e3830;
+}
+.page-rooms .room-dir-price s{
+  color:#777067;
+  text-decoration-color:#5d574f;
+}
+.page-rooms .room-dir-price strong{
+  color:#d6b36a;
+}
+.page-rooms .room-dir-price span{
+  color:#8f877a;
+}
+.page-rooms .room-dir-detail{
+  color:#eee7d8;
+}
+.page-rooms .room-dir-detail:hover{
+  color:#d6b36a;
+}
+.page-rooms .room-dir-detail:after{
+  background:#d6b36a;
+}
+
+/* Numeric selectors stay compact. */
+.room-booking-line .booking-value select{
+  width:auto;
+  min-width:56px;
+  max-width:64px;
+  padding:4px 3px;
+  color:#eee7d8;
+  background:transparent;
+  border:0;
+  text-align:right;
+}
+.room-booking-line .booking-value select[data-room-detail-guests]{
+  min-width:48px;
+  max-width:52px;
+}
+.room-booking-line .booking-value select[data-room-detail-nights]{
+  min-width:56px;
+  max-width:60px;
+}
+.room-booking-line .booking-value select option{
+  color:#292720;
+  background:#f4f0e8;
+}
+.room-booking-line .booking-value input{
+  width:min(100%,220px);
+  margin-left:auto;
+}
+
+/* Name field: no browser-blue focus/autofill treatment. */
+.room-booking-line .booking-value input[type="text"]{
+  color:#eee7d8;
+  caret-color:#d6b36a;
+}
+.room-booking-line .booking-value input[type="text"]:focus{
+  outline:none;
+  box-shadow:none;
+  border:0;
+}
+.room-booking-line .booking-value input[type="text"]::selection{
+  background:#d6b36a;
+  color:#292720;
+}
+.room-booking-line .booking-value input[type="text"]:-webkit-autofill,
+.room-booking-line .booking-value input[type="text"]:-webkit-autofill:hover,
+.room-booking-line .booking-value input[type="text"]:-webkit-autofill:focus{
+  -webkit-text-fill-color:#eee7d8;
+  -webkit-box-shadow:0 0 0 1000px #1b1916 inset;
+  box-shadow:0 0 0 1000px #1b1916 inset;
+  caret-color:#d6b36a;
+}
+
+/* Discreet detail-panel scrollbar. */
+.room-detail-info{
+  scrollbar-width:thin;
+  scrollbar-color:#756a5d transparent;
+}
+.room-detail-info::-webkit-scrollbar{
+  width:5px;
+}
+.room-detail-info::-webkit-scrollbar-track{
+  background:transparent;
+}
+.room-detail-info::-webkit-scrollbar-thumb{
+  background:#756a5d;
+  border-radius:999px;
+}
