@@ -18,7 +18,8 @@
  * Client hand-off later:
  *   1. Set BYPASS_LOGIN to false.
  *   2. Connect hasSession() to the real authentication layer.
- *   3. Replace proceedToBooking() with the client's real booking endpoint.
+ *   3. Replace the local success state with the client's real booking endpoint
+ *      when a real reservation service is connected.
  *
  * No credentials, passwords, or personal contact data belong in this file.
  */
