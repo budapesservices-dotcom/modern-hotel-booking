@@ -96,27 +96,52 @@
     }, 260);
   };
 
-  const generateBookingId = () => {
+  const generateBookingIdPair = () => {
     const now = new Date();
     const datePart =
       String(now.getFullYear()) +
       String(now.getMonth() + 1).padStart(2, '0') +
       String(now.getDate()).padStart(2, '0');
 
-    const randomPart = window.crypto?.getRandomValues
-      ? Array.from(window.crypto.getRandomValues(new Uint8Array(3)))
+    const makeToken = () => {
+      if (window.crypto?.randomUUID) {
+        return window.crypto.randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase();
+      }
+
+      if (window.crypto?.getRandomValues) {
+        return Array.from(window.crypto.getRandomValues(new Uint8Array(4)))
           .map(value => value.toString(16).padStart(2, '0'))
           .join('')
-          .toUpperCase()
-      : Math.random().toString(36).slice(2, 8).toUpperCase();
+          .toUpperCase();
+      }
 
-    return `STL-${datePart}-${randomPart}`;
+      return Math.random().toString(36).slice(2, 10).toUpperCase();
+    };
+
+    let token = makeToken();
+
+    // Avoid local collisions when multiple demo bookings are created
+    // in the same browser.
+    try {
+      const existing = JSON.parse(localStorage.getItem('stillHotelBookings') || '[]');
+      const usedTokens = new Set(existing.map(item => item?.bookingToken).filter(Boolean));
+
+      while (usedTokens.has(token)) token = makeToken();
+    } catch {
+      // Keep the generated token when storage is unavailable.
+    }
+
+    return {
+      token,
+      customerId: `STL-C-${datePart}-${token}`,
+      adminId: `STL-A-${datePart}-${token}`
+    };
   };
 
   const showBookingSuccess = (modal, bookingData) => {
     if (!modal) return;
 
-    const bookingId = generateBookingId();
+    const bookingIds = generateBookingIdPair();
     const scheduledDate = bookingData.checkin
       ? new Date(bookingData.checkin + 'T12:00:00')
       : null;
@@ -129,11 +154,25 @@
       : 'your scheduled check-in date';
 
     try {
-      sessionStorage.setItem('stillHotelBookingId', bookingId);
-      sessionStorage.setItem(
-        'stillHotelBooking',
-        JSON.stringify({ ...bookingData, bookingId })
+      const bookingRecord = {
+        ...bookingData,
+        bookingToken: bookingIds.token,
+        customerBookingId: bookingIds.customerId,
+        adminBookingId: bookingIds.adminId,
+        status: 'confirmed',
+        createdAt: new Date().toISOString()
+      };
+
+      const existingBookings = JSON.parse(
+        localStorage.getItem('stillHotelBookings') || '[]'
       );
+
+      localStorage.setItem(
+        'stillHotelBookings',
+        JSON.stringify([bookingRecord, ...existingBookings].slice(0, 25))
+      );
+
+      localStorage.setItem('stillHotelCurrentBookingId', bookingIds.customerId);
     } catch {
       // Session storage is optional for this front-end demo.
     }
@@ -165,7 +204,7 @@
 
         <div class="still-booking-id-block">
           <span>BOOKING ID</span>
-          <strong>${escapeHtml(bookingId)}</strong>
+          <strong>${escapeHtml(bookingIds.customerId)}</strong>
         </div>
 
         <div class="still-booking-success-note">
@@ -192,7 +231,11 @@
       () => {
         closeConfirmation();
         window.dispatchEvent(new CustomEvent('still:booking-confirmed', {
-          detail: { ...bookingData, bookingId }
+          detail: {
+            ...bookingData,
+            customerBookingId: bookingIds.customerId,
+            adminBookingId: bookingIds.adminId
+          }
         }));
       }
     );
