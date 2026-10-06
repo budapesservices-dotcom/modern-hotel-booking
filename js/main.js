@@ -405,6 +405,7 @@
 
   const openBooking = () => {
     if (!drawer) return;
+    closeRoomDetail();
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden', 'false');
     body.classList.add('no-scroll');
