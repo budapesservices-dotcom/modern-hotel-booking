@@ -354,6 +354,78 @@
   const roomDetailNights = document.querySelector('[data-room-detail-nights]');
   let activeRoomName = '';
 
+  // ---------- Custom room-summary dropdowns ----------
+  const closeRoomCustomSelects = except => {
+    document.querySelectorAll('[data-room-custom-select].is-open').forEach(select => {
+      if (select !== except) {
+        select.classList.remove('is-open');
+        select.querySelector('[data-room-select-trigger]')?.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
+
+  const refreshRoomCustomSelect = nativeSelect => {
+    if (!nativeSelect) return;
+    const root = nativeSelect.parentElement?.querySelector('[data-room-custom-select]');
+    if (!root) return;
+
+    const trigger = root.querySelector('[data-room-select-trigger]');
+    const menu = root.querySelector('[data-room-select-menu]');
+    const options = [...nativeSelect.options];
+
+    if (!trigger || !menu) return;
+
+    const selected = options.find(option => option.value === nativeSelect.value) || options[0];
+    trigger.textContent = selected?.textContent?.trim() || nativeSelect.value || '—';
+    menu.innerHTML = options.map(option => (
+      `<button type="button" class="room-custom-option${option.selected ? ' is-selected' : ''}" role="option" aria-selected="${option.selected ? 'true' : 'false'}" data-room-custom-value="${option.value}">${option.textContent}</button>`
+    )).join('');
+  };
+
+  const setupRoomCustomSelect = nativeSelect => {
+    const root = nativeSelect?.parentElement?.querySelector('[data-room-custom-select]');
+    if (!nativeSelect || !root || root.dataset.ready === 'true') return;
+
+    const trigger = root.querySelector('[data-room-select-trigger]');
+    const menu = root.querySelector('[data-room-select-menu]');
+    if (!trigger || !menu) return;
+
+    trigger.addEventListener('click', event => {
+      event.stopPropagation();
+      const willOpen = !root.classList.contains('is-open');
+      closeRoomCustomSelects(root);
+      root.classList.toggle('is-open', willOpen);
+      trigger.setAttribute('aria-expanded', String(willOpen));
+    });
+
+    menu.addEventListener('click', event => {
+      const option = event.target.closest('[data-room-custom-value]');
+      if (!option) return;
+
+      nativeSelect.value = option.dataset.roomCustomValue || nativeSelect.value;
+      nativeSelect.dispatchEvent(new Event('change', { bubbles:true }));
+      root.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      refreshRoomCustomSelect(nativeSelect);
+    });
+
+    root.dataset.ready = 'true';
+    refreshRoomCustomSelect(nativeSelect);
+  };
+
+  const initRoomCustomSelects = () => {
+    setupRoomCustomSelect(roomDetailGuests);
+    setupRoomCustomSelect(roomDetailNights);
+  };
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('[data-room-custom-select]')) closeRoomCustomSelects();
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeRoomCustomSelects();
+  });
+
   const roomGallery = {
     "quiet-room": [
       "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1800&q=88",
@@ -438,12 +510,14 @@
       const value = index + 1;
       return '<option value="' + value + '"' + (value === current ? ' selected' : '') + '>' + value + '</option>';
     }).join('');
+    refreshRoomCustomSelect(roomDetailGuests);
   };
 
   const setRoomDetailNights = nights => {
     if (!roomDetailNights) return;
     const value = Math.min(30, Math.max(1, Number(nights) || 1));
     roomDetailNights.value = String(value);
+    refreshRoomCustomSelect(roomDetailNights);
   };
 
   const syncRoomDetailCheckoutFromNights = () => {
@@ -529,6 +603,7 @@
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
     if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
     if (roomDetailNumber) roomDetailNumber.textContent = '';
+    initRoomCustomSelects();
     configureRoomDetailGuests(item);
     setRoomDetailDateMinimums();
     setRoomDetailNights(1);
