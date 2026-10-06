@@ -35,7 +35,6 @@
   const stops = [...document.querySelectorAll('[data-scene-target]')];
   const sceneCount = document.querySelector('[data-scene-count]');
   const sceneLabel = document.querySelector('[data-live-label]');
-  const nextScene = document.querySelector('[data-next-scene]');
   const hero = document.querySelector('[data-hero]');
   const sceneData = [
     { time: '06:42', label: 'MORNING' },
@@ -66,7 +65,6 @@
 
   if (scenes.length) {
     stops.forEach(stop => stop.addEventListener('click', () => setScene(Number(stop.dataset.sceneTarget))));
-    nextScene?.addEventListener('click', () => setScene(activeScene + 1));
     hero?.addEventListener('mouseenter', () => window.clearTimeout(timer));
     hero?.addEventListener('mouseleave', startTimer);
     setScene(0, true);
@@ -129,7 +127,6 @@
   if (storyTime) {
     setStory(0);
     stops.forEach(stop => stop.addEventListener('click', () => setStory(Number(stop.dataset.sceneTarget))));
-    nextScene?.addEventListener('click', () => setStory((activeScene + 1) % storyData.length));
     if (!reduceMotion) {
       const storySection = document.querySelector('.time-story');
       const observer = new IntersectionObserver(entries => {
