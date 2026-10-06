@@ -18,8 +18,12 @@
  * Client hand-off later:
  *   1. Set BYPASS_LOGIN to false.
  *   2. Connect hasSession() to the real authentication layer.
- *   3. Replace the local success state with the client's real booking endpoint
- *      when a real reservation service is connected.
+ *   3. Replace the local success state with the client's real reservation service.
+ *
+ * Each booking receives one shared token and two paired IDs:
+ *   customerBookingId -> shown to the guest.
+ *   adminBookingId    -> kept for the admin booking desk.
+ * Both IDs are generated together from the same booking token.
  *
  * No credentials, passwords, or personal contact data belong in this file.
  */
@@ -203,7 +207,7 @@
         </div>
 
         <div class="still-booking-id-block">
-          <span>BOOKING ID</span>
+          <span>CUSTOMER BOOKING ID</span>
           <strong>${escapeHtml(bookingIds.customerId)}</strong>
         </div>
 
