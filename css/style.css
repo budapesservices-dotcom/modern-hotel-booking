@@ -3894,3 +3894,15 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     font-size:9px;
   }
 }
+
+
+/* Room facilities — stronger readable text. */
+.page-rooms .room-detail-facilities li{
+  color:#171512 !important;
+}
+.page-rooms .room-detail-facilities-head{
+  color:#292720;
+}
+.page-rooms .room-detail-facilities-head small{
+  color:#5d574f;
+}
