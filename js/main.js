@@ -992,12 +992,7 @@
     'main .call-contact-item',
     'main .contact-form-field',
     'main .booking-empty-state',
-    'main .your-booking-card',
-    'footer .footer-logo',
-    'footer .footer-motto',
-    'footer .footer-socials a',
-    'footer .footer-column',
-    'footer .footer-bottom'
+    'main .your-booking-card'
   ].join(',');
 
   const sheenSelectors = [
@@ -1049,7 +1044,9 @@
     '.still-booking-modal',
     '.still-booking-modal *',
     '.lightbox',
-    '.lightbox *'
+    '.lightbox *',
+    '.site-footer',
+    '.site-footer *'
   ].join(',');
 
   const prepared = new WeakSet();
