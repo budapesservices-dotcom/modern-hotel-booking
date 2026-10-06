@@ -222,7 +222,7 @@
             class="button button-dark still-booking-continue"
             type="button"
             data-booking-confirm-continue>
-            Continue <span>→</span>
+            Continue
           </button>
         </div>
       </section>
