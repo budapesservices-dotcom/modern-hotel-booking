@@ -164,7 +164,7 @@
       kicker: 'Goodnight',
       title: 'Stay a<br>little<br><em>longer.</em>',
       body: 'Lights low. Curtains closed. Nothing left to do except enjoy the room you chose.',
-      image: 'https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1800&q=84'
+      image: 'https://images.unsplash.com/photo-1717395136137-f09470257088?auto=format&fit=crop&w=1800&q=84'
     }
   ];
 
@@ -517,7 +517,7 @@
       "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=84"
     ],
     "panorama-suite": [
-      "https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1800&q=88",
       "https://images.unsplash.com/photo-1600607688960-e095ff83135c?auto=format&fit=crop&w=1200&q=84",
       "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=84"
     ],
