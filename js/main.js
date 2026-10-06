@@ -46,8 +46,8 @@
     if (!heroScenes || !timeTrack || !heroTimeline.length) return;
 
     heroScenes.innerHTML = heroTimeline.map((item, index) => {
-      const image = item.image.replace(/"/g, '&quot;');
-      return `<div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}" style="background-image:url("${image}")"></div>`;
+      const image = String(item.image || '').replace(/"/g, '&quot;');
+      return `<div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}" style="--hero-image:url('${image}')"></div>`;
     }).join('');
 
     timeTrack.innerHTML = heroTimeline.map((item, index) =>
@@ -63,11 +63,13 @@
   const setScene = (index, restart = true) => {
     if (!scenes.length) return;
     activeScene = (index + scenes.length) % scenes.length;
+
     scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === activeScene));
     stops.forEach((stop, i) => stop.classList.toggle('is-active', i === activeScene));
 
     const meta = heroTimeline[activeScene];
     if (hero) hero.dataset.tone = meta.tone;
+    if (header) header.dataset.tone = meta.tone;
     if (heroMood) heroMood.dataset.tone = meta.tone;
     if (sceneLabel) sceneLabel.textContent = meta.label;
 
