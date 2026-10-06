@@ -128,6 +128,20 @@
   font-size:14px;
   line-height:1.65;
 }
+.find-room-note .text-link{
+  color:var(--ink);
+  transition:color .3s ease;
+}
+.find-room-note .text-link span{
+  transition:color .3s ease,transform .3s var(--ease);
+}
+.find-room-note .text-link:hover{
+  color:var(--accent);
+}
+.find-room-note .text-link:hover span{
+  color:var(--accent);
+  transform:translateX(4px);
+}
 .suite-carousel{position:relative}
 .suite-viewport{
   width:100%;
