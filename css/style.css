@@ -6802,3 +6802,111 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     font-size:9px;
   }
 }
+
+
+/* =========================================================
+   LOGIN — HERO ACTIONS + MOBILE NATURAL SCROLL
+   ========================================================= */
+.page-login .login-hero-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:22px;
+}
+
+.page-login .login-home-button,
+.page-login .login-contact-button{
+  position:static;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:10px 18px;
+  border:1px solid rgba(247,243,234,.52);
+  border-radius:999px;
+  background:rgba(20,19,17,.18);
+  color:#f7f3ea;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  font-size:9px;
+  line-height:1;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  transition:background .3s ease,color .3s ease,border-color .3s ease,transform .3s var(--ease);
+}
+
+.page-login .login-home-button:hover,
+.page-login .login-contact-button:hover{
+  background:#d6b36a;
+  border-color:#d6b36a;
+  color:#292720;
+  transform:translateY(-2px);
+}
+
+.page-login .login-home-button span{
+  display:none;
+}
+
+/* Keep the desktop/tablet composition intact; mobile becomes a normal
+   document flow so the image and hero copy scroll away naturally. */
+@media(max-width:560px){
+  .page-login{
+    height:auto;
+    min-height:100svh;
+    max-height:none;
+    overflow:visible;
+  }
+
+  .page-login .login-page{
+    height:auto;
+    min-height:100svh;
+    overflow:visible;
+  }
+
+  .page-login .login-layout{
+    height:auto;
+    min-height:100svh;
+    grid-template-rows:auto auto;
+    overflow:visible;
+  }
+
+  .page-login .login-image{
+    height:44svh;
+    min-height:300px;
+    max-height:none;
+    overflow:hidden;
+  }
+
+  .page-login .login-image-overlay{
+    bottom:22px;
+  }
+
+  .page-login .login-hero-actions{
+    gap:8px;
+    margin-top:16px;
+  }
+
+  .page-login .login-home-button,
+  .page-login .login-contact-button{
+    min-height:36px;
+    padding:9px 14px;
+    font-size:8px;
+  }
+
+  .page-login .login-card{
+    height:auto;
+    max-height:none;
+    overflow:visible;
+  }
+}
+
+@media(max-width:380px){
+  .page-login .login-image{
+    height:40svh;
+    min-height:270px;
+  }
+
+  .page-login .login-hero-actions{
+    margin-top:12px;
+  }
+}
