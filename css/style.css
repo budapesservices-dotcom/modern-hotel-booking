@@ -1190,9 +1190,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .story-pane-3{left:calc(2 * ((100% - 24px) / 5 + 6px))}
   .story-pane-4{left:calc(3 * ((100% - 24px) / 5 + 6px))}
   .story-quote{
-    width:min(58%,220px);
-    padding:12px 11px 11px;
-    margin-top:-2px;
+    display:none;
   }
   .story-quote-mark{
     font-size:24px;
