@@ -341,37 +341,185 @@
   const roomDetailSpecs = document.querySelector('[data-room-detail-specs]');
   const roomDetailAvailability = document.querySelector('[data-room-detail-availability]');
   const roomDetailPrice = document.querySelector('[data-room-detail-price]');
+  const roomDetailOldPrice = document.querySelector('[data-room-detail-old-price]');
+  const roomDetailNumber = document.querySelector('[data-room-detail-number]');
+  const roomDetailMainImage = document.querySelector('[data-room-detail-main-image]');
+  const roomDetailThumbs = document.querySelector('[data-room-detail-thumbs]');
+  const roomDetailImageCurrent = document.querySelector('[data-room-detail-image-current]');
+  const roomDetailCheckin = document.querySelector('[data-room-detail-checkin]');
+  const roomDetailCheckout = document.querySelector('[data-room-detail-checkout]');
+  const roomDetailGuests = document.querySelector('[data-room-detail-guests]');
+  const roomDetailSummary = document.querySelector('[data-room-detail-summary]');
+  const roomDetailNights = document.querySelector('[data-room-detail-nights]');
+  const roomDetailReserve = document.querySelector('[data-room-detail-reserve]');
+  let activeRoomName = '';
+
+  const roomGallery = {
+    "quiet-room": [
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "city-room": [
+      "https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "garden-room": [
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "long-room": [
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "corner-room": [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "light-room": [
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "still-suite": [
+      "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "panorama-suite": [
+      "https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600607688960-e095ff83135c?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "residence-suite": [
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600607688960-e095ff83135c?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "gathering-suite": [
+      "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "sixfold-residence": [
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=84"
+    ]
+  };
+
+  const setRoomDetailDateMinimums = () => {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const iso = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+    if (roomDetailCheckin && !roomDetailCheckin.min) roomDetailCheckin.min = iso;
+    if (roomDetailCheckout && !roomDetailCheckout.min) roomDetailCheckout.min = iso;
+  };
+
+  const updateRoomDetailSummary = () => {
+    if (!roomDetailSummary || !roomDetailCheckin || !roomDetailCheckout) return;
+    if (!roomDetailCheckin.value || !roomDetailCheckout.value) {
+      roomDetailSummary.textContent = 'Choose your dates.';
+      if (roomDetailNights) roomDetailNights.textContent = '—';
+      return;
+    }
+    const start = new Date(`${roomDetailCheckin.value}T12:00:00`);
+    const end = new Date(`${roomDetailCheckout.value}T12:00:00`);
+    const nights = Math.round((end-start)/86400000);
+    if (nights > 0) {
+      roomDetailSummary.textContent = `${nights} night${nights === 1 ? '' : 's'} · ${roomDetailGuests?.value || '2'} guest${roomDetailGuests?.value === '1' ? '' : 's'}`;
+      if (roomDetailNights) roomDetailNights.textContent = `$ ${nights > 1 ? '' : ''}`.trim() ? '' : '';
+      if (roomDetailNights) roomDetailNights.textContent = `${nights} NIGHT${nights === 1 ? '' : 'S'}`;
+    } else {
+      roomDetailSummary.textContent = 'Choose a later check-out date.';
+      if (roomDetailNights) roomDetailNights.textContent = '—';
+    }
+  };
+
+  const renderRoomDetailGallery = (item, roomId) => {
+    if (!roomDetailMainImage || !roomDetailThumbs) return;
+    const first = item.querySelector('.room-dir-image img')?.src || '';
+    const images = roomGallery[roomId]?.length ? roomGallery[roomId] : [first, first, first];
+    let activeImage = 0;
+
+    const renderMain = index => {
+      activeImage = index;
+      roomDetailMainImage.src = images[index];
+      roomDetailMainImage.alt = item.querySelector('.room-dir-image img')?.alt || activeRoomName;
+      if (roomDetailImageCurrent) roomDetailImageCurrent.textContent = String(index+1).padStart(2,'0');
+      [...roomDetailThumbs.querySelectorAll('button')].forEach((btn,i) => btn.classList.toggle('is-active', i===index));
+    };
+
+    roomDetailThumbs.innerHTML = images.map((src,index) => `<button type="button" class="room-detail-thumb${index===0 ? ' is-active' : ''}" aria-label="View room photo ${index+1}" data-room-detail-thumb data-index="${index}"><img src="${src}" alt="" loading="lazy"></button>`).join('');
+    roomDetailThumbs.querySelectorAll('[data-room-detail-thumb]').forEach(btn => {
+      btn.addEventListener('click', () => renderMain(Number(btn.dataset.index)));
+    });
+    renderMain(0);
+  };
+
   const openRoomDetail = item => {
     if (!roomDetailDrawer) return;
-    const title = item.querySelector('.room-dir-main h3')?.textContent || '';
+    activeRoomName = item.querySelector('.room-dir-main h3')?.textContent || '';
+    const roomId = item.id;
     const description = item.querySelector('.room-dir-main p')?.textContent || '';
     const type = item.querySelector('.room-dir-class span')?.textContent || '';
     const size = item.querySelector('.room-dir-class i')?.textContent || '';
     const availability = item.querySelector('.room-dir-availability')?.textContent || '';
     const price = item.querySelector('[data-room-price-current]')?.textContent || '';
+    const oldPrice = item.querySelector('.room-dir-price s')?.textContent || '';
     const specs = [...item.querySelectorAll('.room-dir-main>div span')].map(el => el.textContent.trim());
 
-    if (roomDetailTitle) roomDetailTitle.textContent = title;
+    if (roomDetailTitle) roomDetailTitle.textContent = activeRoomName;
     if (roomDetailKicker) roomDetailKicker.textContent = `${type} · ${size}`;
     if (roomDetailDescription) roomDetailDescription.textContent = description;
     if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
     if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
     if (roomDetailPrice) roomDetailPrice.textContent = price;
+    if (roomDetailOldPrice) roomDetailOldPrice.textContent = oldPrice;
+    if (roomDetailNumber) roomDetailNumber.textContent = item.querySelector('.room-dir-number')?.textContent || '01';
+
+    setRoomDetailDateMinimums();
+    updateRoomDetailSummary();
+    renderRoomDetailGallery(item, roomId);
 
     roomDetailDrawer.classList.add('open');
     roomDetailDrawer.setAttribute('aria-hidden', 'false');
     body.classList.add('no-scroll');
   };
+
   const closeRoomDetail = () => {
     if (!roomDetailDrawer) return;
     roomDetailDrawer.classList.remove('open');
     roomDetailDrawer.setAttribute('aria-hidden', 'true');
     body.classList.remove('no-scroll');
   };
+
   document.querySelectorAll('[data-room-detail]').forEach(btn => {
     btn.addEventListener('click', () => openRoomDetail(btn.closest('[data-room-item]')));
   });
   document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
+
+  roomDetailCheckin?.addEventListener('change', () => {
+    if (roomDetailCheckout) roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
+    updateRoomDetailSummary();
+  });
+  roomDetailCheckout?.addEventListener('change', updateRoomDetailSummary);
+  roomDetailGuests?.addEventListener('change', updateRoomDetailSummary);
+
+  roomDetailReserve?.addEventListener('click', () => {
+    if (!activeRoomName) return;
+    const guestCount = roomDetailGuests?.value || '2';
+    const start = roomDetailCheckin?.value || '';
+    const end = roomDetailCheckout?.value || '';
+    const message = start && end
+      ? `Hello, I'd like to reserve ${activeRoomName} at The Still Hotel from ${start} to ${end} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`
+      : `Hello, I'd like to ask about availability for ${activeRoomName} at The Still Hotel for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
+    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+  });
 
   // ---------- Booking ----------
   const setBookingMinDate = () => {
