@@ -8012,3 +8012,42 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     min-height:42px;
   }
 }
+
+
+/* ---------- Room detail gallery: desktop thumbnail access ---------- */
+@media(min-width:600px){
+  .room-detail-gallery{
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+    scrollbar-color:#6f695f transparent;
+  }
+
+  .room-detail-hero-image{
+    flex:0 0 auto;
+    width:100%;
+    height:min(48vh,520px);
+    min-height:260px;
+    aspect-ratio:auto;
+  }
+
+  .room-detail-thumbs{
+    flex:0 0 auto;
+    padding-bottom:2px;
+  }
+
+  .room-detail-thumb{
+    flex:0 0 auto;
+  }
+}
+
+@media(max-height:680px) and (min-width:600px){
+  .room-detail-hero-image{
+    height:clamp(250px,42vh,360px);
+  }
+
+  .room-detail-thumb{
+    height:62px;
+  }
+}
