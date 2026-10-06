@@ -262,7 +262,25 @@
   text-transform:uppercase;
 }
 .story-hours .story-hour.is-active strong{
-  color:var(--accent);
+  color:var(--story-time-color);
+}
+.story-hour{
+  --story-time-color:#8A7355;
+}
+.story-hour[data-moment="morning"]{--story-time-color:#B08A4B}
+.story-hour[data-moment="afternoon"]{--story-time-color:#A46852}
+.story-hour[data-moment="blue-hour"]{--story-time-color:#697A96}
+.story-hour.is-active{
+  position:relative;
+}
+.story-hour.is-active:after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:26px;
+  height:1px;
+  background:var(--story-time-color);
 }
 .story-architecture-figure{
   position:relative;
@@ -309,41 +327,47 @@
   background-size:500% 100%;
   filter:saturate(.88) contrast(1.02);
   box-shadow:none;
+  --panel-parallax:0px;
   transition:transform 1.1s var(--ease),filter 1.1s ease;
 }
 .story-pane-1{
+  --panel-base:18px;
   left:0;
   background-position:left center;
-  transform:translateY(18px);
+  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
 }
 .story-pane-2{
+  --panel-base:0px;
   left:calc((100% - 32px) / 5 + 8px);
   background-position:25% center;
-  transform:translateY(0);
+  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
 }
 .story-pane-3{
+  --panel-base:30px;
   left:calc(2 * ((100% - 32px) / 5 + 8px));
   background-position:50% center;
-  transform:translateY(30px);
+  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
 }
 .story-pane-4{
+  --panel-base:9px;
   left:calc(3 * ((100% - 32px) / 5 + 8px));
   background-position:75% center;
-  transform:translateY(9px);
+  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
 }
 .story-pane-5{
+  --panel-base:24px;
   right:0;
   background-position:right center;
-  transform:translateY(24px);
+  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
 }
 .story-architecture-figure:hover .story-pane{
   filter:saturate(.94) contrast(1.03);
 }
-.story-architecture-figure:hover .story-pane-1{transform:translateY(14px)}
-.story-architecture-figure:hover .story-pane-2{transform:translateY(-3px)}
-.story-architecture-figure:hover .story-pane-3{transform:translateY(26px)}
-.story-architecture-figure:hover .story-pane-4{transform:translateY(6px)}
-.story-architecture-figure:hover .story-pane-5{transform:translateY(20px)}
+.story-architecture-figure:hover .story-pane-1{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
+.story-architecture-figure:hover .story-pane-2{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 3px),0)}
+.story-architecture-figure:hover .story-pane-3{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
+.story-architecture-figure:hover .story-pane-4{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 3px),0)}
+.story-architecture-figure:hover .story-pane-5{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
 .story-image-index{
   position:absolute;
   z-index:2;
@@ -1127,4 +1151,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     padding:18px 16px 17px;
     margin-top:-4px;
   }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .story-triptych-stage{transition:none}
+  .story-pane{transition:none}
 }
