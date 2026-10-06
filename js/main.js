@@ -840,6 +840,80 @@
     }, { passive: true });
   }
 
+  // ---------- Moments hero timeline ----------
+  const momentsLiveTime = document.querySelector('[data-moments-live-time]');
+  const momentsLiveKicker = document.querySelector('[data-moments-live-kicker]');
+  const momentsLiveDescription = document.querySelector('[data-moments-live-description]');
+  const momentsTimeStops = [...document.querySelectorAll('[data-moments-time]')];
+
+  const momentsTimeline = [
+    {
+      time: '06:42',
+      kicker: 'First light',
+      description: 'Soft light enters before the city becomes loud. Coffee waits by the window, and the day has nowhere to be yet.'
+    },
+    {
+      time: '12:30',
+      kicker: 'Nowhere to be',
+      description: 'Close the door for a while. Let the afternoon stretch out slowly, with nothing scheduled but the hours ahead.'
+    },
+    {
+      time: '18:47',
+      kicker: 'Blue hour',
+      description: 'The windows turn gold as the city changes colour. Come downstairs, stay for dinner, and take the long way back.'
+    },
+    {
+      time: '22:16',
+      kicker: 'Goodnight',
+      description: 'Lights low. Curtains closed. The day is finished. Stay a little longer inside the room you chose.'
+    }
+  ];
+
+  if (momentsLiveTime && momentsLiveKicker && momentsLiveDescription && momentsTimeStops.length) {
+    let momentsActive = 0;
+    let momentsTimer = null;
+
+    const showMoment = (index, animate = true) => {
+      momentsActive = (index + momentsTimeline.length) % momentsTimeline.length;
+      const item = momentsTimeline[momentsActive];
+
+      if (animate) {
+        momentsLiveDescription.classList.add('is-changing');
+      }
+
+      momentsTimeStops.forEach(stop => {
+        stop.classList.toggle('is-active', stop.dataset.momentsTime === item.time);
+      });
+
+      momentsLiveTime.textContent = item.time;
+      momentsLiveKicker.textContent = item.kicker;
+
+      window.setTimeout(() => {
+        momentsLiveDescription.textContent = item.description;
+        momentsLiveDescription.classList.remove('is-changing');
+      }, animate ? 220 : 0);
+    };
+
+    const startMomentsLoop = () => {
+      if (reduceMotion) return;
+      window.clearInterval(momentsTimer);
+      momentsTimer = window.setInterval(() => showMoment(momentsActive + 1), 4200);
+    };
+
+    showMoment(0, false);
+    startMomentsLoop();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        window.clearInterval(momentsTimer);
+        momentsTimer = null;
+      } else {
+        showMoment(momentsActive, false);
+        startMomentsLoop();
+      }
+    });
+  }
+
   // ---------- Moments gallery filter ----------
   const momentsFilter = document.querySelector('[data-moments-filter]');
   if (momentsFilter) {
