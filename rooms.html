@@ -373,21 +373,70 @@
 
 <aside class="room-detail-drawer" aria-hidden="true" data-room-detail-drawer>
   <div class="room-detail-backdrop" data-room-detail-close></div>
-  <div class="room-detail-panel" role="dialog" aria-modal="true" aria-labelledby="room-detail-title">
-    <div class="booking-head">
-      <p class="eyebrow">Room detail</p>
-      <button class="close-button" type="button" aria-label="Close room detail" data-room-detail-close>×</button>
+  <div class="room-detail-shell" role="dialog" aria-modal="true" aria-labelledby="room-detail-title">
+    <div class="room-detail-gallery">
+      <div class="room-detail-gallery-head">
+        <p class="eyebrow">The room / <span data-room-detail-number>01</span></p>
+        <button class="close-button room-detail-close" type="button" aria-label="Close room detail" data-room-detail-close>×</button>
+      </div>
+      <div class="room-detail-hero-image">
+        <img src="" alt="" data-room-detail-main-image>
+        <span class="room-detail-image-index"><b data-room-detail-image-current>01</b> / 03</span>
+      </div>
+      <div class="room-detail-thumbs" data-room-detail-thumbs></div>
     </div>
-    <p class="room-detail-kicker" data-room-detail-kicker>Essential · 28.4 m²</p>
-    <h2 id="room-detail-title" data-room-detail-title>The Quiet Room</h2>
-    <p class="room-detail-description" data-room-detail-description></p>
-    <div class="room-detail-specs" data-room-detail-specs></div>
-    <div class="room-detail-rate">
-      <span data-room-detail-availability>24 / 30 available</span>
-      <strong data-room-detail-price>$180</strong>
-      <small>/ NIGHT</small>
+
+    <div class="room-detail-info">
+      <div class="room-detail-intro">
+        <p class="room-detail-kicker" data-room-detail-kicker>Essential · 28.4 m²</p>
+        <h2 id="room-detail-title" data-room-detail-title>The Quiet Room</h2>
+        <p class="room-detail-description" data-room-detail-description></p>
+      </div>
+
+      <div class="room-detail-specs" data-room-detail-specs></div>
+
+      <div class="room-detail-availability-row">
+        <span>Availability</span>
+        <strong data-room-detail-availability>24 / 30 available</strong>
+      </div>
+
+      <div class="room-booking-card">
+        <div class="room-booking-card-head">
+          <div>
+            <span>Direct booking</span>
+            <strong>Make this room yours.</strong>
+          </div>
+          <div class="room-detail-price">
+            <s data-room-detail-old-price>$210</s>
+            <strong data-room-detail-price>$180</strong>
+            <small>/ NIGHT</small>
+          </div>
+        </div>
+
+        <div class="room-booking-fields">
+          <label>Check-in<input type="date" data-room-detail-checkin></label>
+          <label>Check-out<input type="date" data-room-detail-checkout></label>
+          <label>Guests<select data-room-detail-guests>
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select></label>
+        </div>
+
+        <div class="room-booking-summary">
+          <span data-room-detail-summary>Choose your dates.</span>
+          <strong data-room-detail-nights>—</strong>
+        </div>
+
+        <button class="button button-dark button-full" type="button" data-room-detail-reserve>
+          Reserve via WhatsApp <span>→</span>
+        </button>
+        <p class="room-booking-note">No payment here. We confirm the room and final rate with you directly.</p>
+      </div>
     </div>
-    <button class="button button-dark button-full" type="button" data-booking-open>Check availability <span>→</span></button>
   </div>
 </aside>
 
