@@ -36,6 +36,9 @@ Replace the demo WhatsApp number and email address before submission.
 
 The foundation currently references Unsplash-hosted images remotely for speed during development. Before final contest submission, download a consistent set of legally reusable images, optimise them locally (WebP/AVIF where appropriate), store them under `assets/images/`, and record source URLs/licensing information.
 
+
+- `index.html` Our Story exterior image: Unsplash photo by Suryaman Shrestha, “Modern hotel building at dusk with illuminated entrance and cars,” available under the Unsplash License. citeturn515281view0
+
 ## Updating content
 
 1. Open the relevant HTML file.
