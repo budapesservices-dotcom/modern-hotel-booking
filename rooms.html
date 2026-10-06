@@ -401,40 +401,55 @@
       </div>
 
       <div class="room-booking-card">
-        <div class="room-booking-card-head">
-          <div>
-            <span>Direct booking</span>
-            <strong>Make this room yours.</strong>
+        <div class="room-booking-title">Booking Summary</div>
+
+        <div class="room-booking-summary-list">
+          <div class="room-booking-line room-booking-room">
+            <span>Room</span>
+            <strong data-room-detail-summary-room>—</strong>
           </div>
-          <div class="room-detail-price">
-            <s data-room-detail-old-price>$210</s>
-            <strong data-room-detail-price>$180</strong>
-            <small>/ NIGHT</small>
+          <div class="room-booking-line">
+            <span>Room Type</span>
+            <strong data-room-detail-summary-type>—</strong>
+          </div>
+          <div class="room-booking-line">
+            <span>Check In</span>
+            <label class="booking-value"><input type="date" data-room-detail-checkin aria-label="Check in"></label>
+          </div>
+          <div class="room-booking-line">
+            <span>Check Out</span>
+            <label class="booking-value"><input type="date" data-room-detail-checkout aria-label="Check out"></label>
+          </div>
+          <div class="room-booking-line">
+            <span>Guests</span>
+            <label class="booking-value"><select data-room-detail-guests aria-label="Guests">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select></label>
+          </div>
+          <div class="room-booking-line">
+            <span>Nights</span>
+            <strong data-room-detail-nights>—</strong>
+          </div>
+          <div class="room-booking-line">
+            <span>Price Per Night</span>
+            <strong data-room-detail-price>$0</strong>
+          </div>
+          <div class="room-booking-total">
+            <span>Total Amount</span>
+            <strong data-room-detail-total>$0</strong>
           </div>
         </div>
 
-        <div class="room-booking-fields">
-          <label>Check-in<input type="date" data-room-detail-checkin></label>
-          <label>Check-out<input type="date" data-room-detail-checkout></label>
-          <label>Guests<select data-room-detail-guests>
-            <option value="1">1</option>
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-          </select></label>
+        <div class="room-booking-actions">
+          <button class="room-booking-cancel" type="button" data-room-detail-close>Cancel</button>
+          <span aria-hidden="true">—</span>
+          <button class="button button-dark room-booking-now" type="button" data-room-detail-booking-now>Booking now</button>
         </div>
-
-        <div class="room-booking-summary">
-          <span data-room-detail-summary>Choose your dates.</span>
-          <strong data-room-detail-nights>—</strong>
-        </div>
-
-        <button class="button button-dark button-full" type="button" data-room-detail-reserve>
-          Reserve via WhatsApp <span>→</span>
-        </button>
-        <p class="room-booking-note">No payment here. We confirm the room and final rate with you directly.</p>
       </div>
     </div>
   </div>
