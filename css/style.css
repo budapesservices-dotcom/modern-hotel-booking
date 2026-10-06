@@ -6910,3 +6910,43 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     margin-top:12px;
   }
 }
+
+
+/* Login desktop: keep hero copy clear of the actions, with both links
+   sitting directly beneath the description as one matched button group. */
+@media(min-width:561px){
+  .page-login .login-image-overlay{
+    bottom:clamp(86px,8vw,128px);
+  }
+
+  .page-login .login-image-overlay h1{
+    margin-bottom:20px;
+  }
+
+  .page-login .login-image-overlay>p:last-of-type{
+    margin-bottom:0;
+  }
+
+  .page-login .login-hero-actions{
+    position:static;
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+  }
+
+  .page-login .login-home-button,
+  .page-login .login-contact-button{
+    position:static;
+    flex:0 0 auto;
+    min-width:94px;
+    min-height:40px;
+    padding:10px 18px;
+    border:1px solid rgba(247,243,234,.52);
+    border-radius:999px;
+    background:rgba(20,19,17,.18);
+    color:#f7f3ea;
+    box-sizing:border-box;
+  }
+}
