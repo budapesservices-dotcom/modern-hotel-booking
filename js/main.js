@@ -4,7 +4,6 @@
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const nav = document.querySelector('[data-nav]');
   const drawer = document.querySelector('[data-booking-drawer]');
-  const liveTime = document.querySelector('[data-live-time]');
   const summary = document.querySelector('[data-booking-summary]');
   const checkin = document.querySelector('[data-booking-checkin]');
   const checkout = document.querySelector('[data-booking-checkout]');
