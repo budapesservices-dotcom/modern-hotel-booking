@@ -341,17 +341,17 @@
   const roomDetailSpecs = document.querySelector('[data-room-detail-specs]');
   const roomDetailAvailability = document.querySelector('[data-room-detail-availability]');
   const roomDetailPrice = document.querySelector('[data-room-detail-price]');
-  const roomDetailOldPrice = document.querySelector('[data-room-detail-old-price]');
+  const roomDetailTotal = document.querySelector('[data-room-detail-total]');
   const roomDetailNumber = document.querySelector('[data-room-detail-number]');
+  const roomDetailSummaryRoom = document.querySelector('[data-room-detail-summary-room]');
+  const roomDetailSummaryType = document.querySelector('[data-room-detail-summary-type]');
   const roomDetailMainImage = document.querySelector('[data-room-detail-main-image]');
   const roomDetailThumbs = document.querySelector('[data-room-detail-thumbs]');
   const roomDetailImageCurrent = document.querySelector('[data-room-detail-image-current]');
   const roomDetailCheckin = document.querySelector('[data-room-detail-checkin]');
   const roomDetailCheckout = document.querySelector('[data-room-detail-checkout]');
   const roomDetailGuests = document.querySelector('[data-room-detail-guests]');
-  const roomDetailSummary = document.querySelector('[data-room-detail-summary]');
   const roomDetailNights = document.querySelector('[data-room-detail-nights]');
-  const roomDetailReserve = document.querySelector('[data-room-detail-reserve]');
   let activeRoomName = '';
 
   const roomGallery = {
@@ -416,8 +416,17 @@
     const today = new Date();
     today.setHours(0,0,0,0);
     const iso = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
-    if (roomDetailCheckin && !roomDetailCheckin.min) roomDetailCheckin.min = iso;
-    if (roomDetailCheckout && !roomDetailCheckout.min) roomDetailCheckout.min = iso;
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowIso = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth()+1)}-${pad(tomorrow.getDate())}`;
+    if (roomDetailCheckin) {
+      roomDetailCheckin.min = iso;
+      if (!roomDetailCheckin.value) roomDetailCheckin.value = iso;
+    }
+    if (roomDetailCheckout) {
+      roomDetailCheckout.min = iso;
+      if (!roomDetailCheckout.value) roomDetailCheckout.value = tomorrowIso;
+    }
   };
 
   const updateRoomDetailSummary = () => {
@@ -470,7 +479,6 @@
     const size = item.querySelector('.room-dir-class i')?.textContent || '';
     const availability = item.querySelector('.room-dir-availability')?.textContent || '';
     const price = item.querySelector('[data-room-price-current]')?.textContent || '';
-    const oldPrice = item.querySelector('.room-dir-price s')?.textContent || '';
     const specs = [...item.querySelectorAll('.room-dir-main>div span')].map(el => el.textContent.trim());
 
     if (roomDetailTitle) roomDetailTitle.textContent = activeRoomName;
@@ -504,7 +512,14 @@
   document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
 
   roomDetailCheckin?.addEventListener('change', () => {
-    if (roomDetailCheckout) roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
+    if (roomDetailCheckout) {
+      roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
+      if (roomDetailCheckout.value && roomDetailCheckin.value && roomDetailCheckout.value <= roomDetailCheckin.value) {
+        const next = new Date(`${roomDetailCheckin.value}T12:00:00`);
+        next.setDate(next.getDate() + 1);
+        roomDetailCheckout.value = `${next.getFullYear()}-${pad(next.getMonth()+1)}-${pad(next.getDate())}`;
+      }
+    }
     updateRoomDetailSummary();
   });
   roomDetailCheckout?.addEventListener('change', updateRoomDetailSummary);
