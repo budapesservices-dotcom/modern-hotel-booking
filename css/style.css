@@ -3395,3 +3395,147 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   ROOM BOOKING — CUSTOM DROPDOWNS
+   The native HTML select stays as a hidden data source;
+   the visible control is a compact luxury dropdown.
+   ========================================================= */
+.room-booking-line .booking-select-field{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  min-width:0;
+  overflow:visible;
+}
+.room-booking-line .room-native-select{
+  display:none !important;
+}
+.room-custom-select{
+  position:relative;
+  display:inline-flex;
+  justify-content:flex-end;
+  width:auto;
+}
+.room-custom-select-trigger{
+  position:relative;
+  width:64px;
+  min-width:64px;
+  height:30px;
+  padding:0 20px 0 7px;
+  border:1px solid #3e3830;
+  border-radius:3px;
+  background:#211e1a;
+  color:#eee7d8;
+  font-size:12px;
+  font-weight:400;
+  line-height:1;
+  text-align:right;
+  cursor:pointer;
+  transition:background .25s ease,border-color .25s ease,color .25s ease;
+}
+.room-custom-select-trigger:after{
+  content:"";
+  position:absolute;
+  right:7px;
+  top:50%;
+  width:5px;
+  height:5px;
+  border-right:1px solid #8f877a;
+  border-bottom:1px solid #8f877a;
+  transform:translateY(-65%) rotate(45deg);
+  transition:transform .25s ease,border-color .25s ease;
+}
+.room-custom-select.is-open .room-custom-select-trigger{
+  border-color:#806b4f;
+  background:#29251f;
+  color:#d6b36a;
+}
+.room-custom-select.is-open .room-custom-select-trigger:after{
+  border-color:#d6b36a;
+  transform:translateY(-30%) rotate(225deg);
+}
+.room-custom-select-menu{
+  position:absolute;
+  right:0;
+  top:calc(100% + 7px);
+  z-index:80;
+  display:grid;
+  width:72px;
+  max-height:166px;
+  padding:5px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:none;
+  border:1px solid #40392f;
+  border-radius:4px;
+  background:#171512;
+  box-shadow:0 18px 40px rgba(0,0,0,.34);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(-5px);
+  transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s;
+}
+.room-custom-select-menu::-webkit-scrollbar{
+  width:0;
+  height:0;
+  display:none;
+}
+.room-custom-select.is-open .room-custom-select-menu{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+  transition:opacity .2s ease,transform .2s ease,visibility 0s linear 0s;
+}
+.room-custom-option{
+  display:block;
+  width:100%;
+  min-height:30px;
+  padding:6px 8px;
+  border:0;
+  border-radius:2px;
+  background:transparent;
+  color:#bcb3a6;
+  font-size:11px;
+  font-weight:400;
+  line-height:1;
+  text-align:right;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.room-custom-option:hover,
+.room-custom-option.is-selected{
+  background:#2b2721;
+  color:#f0e8da;
+}
+.room-custom-option.is-selected{
+  color:#d6b36a;
+}
+.room-custom-select[data-room-custom-select="guests"] .room-custom-select-trigger{
+  width:54px;
+  min-width:54px;
+}
+.room-custom-select[data-room-custom-select="guests"] .room-custom-select-menu{
+  width:62px;
+}
+.room-custom-select[data-room-custom-select="nights"] .room-custom-select-trigger{
+  width:64px;
+  min-width:64px;
+}
+.room-custom-select[data-room-custom-select="nights"] .room-custom-select-menu{
+  width:68px;
+}
+@media(max-width:599px){
+  .room-custom-select-trigger{
+    width:60px;
+    min-width:60px;
+  }
+  .room-custom-select[data-room-custom-select="guests"] .room-custom-select-trigger{
+    width:52px;
+    min-width:52px;
+  }
+}
