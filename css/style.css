@@ -3211,3 +3211,21 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   }
   .room-booking-now{padding-inline:16px}
 }
+
+
+/* =========================================================
+   ROOMS / CALL US — ONE BUTTON STATE
+   Keep the header CTA identical before and after scroll.
+   ========================================================= */
+.page-rooms .signature-header .nav-book{
+  background:#292720;
+  color:#fffdf9;
+  border-color:#292720;
+  text-shadow:none;
+}
+.page-rooms .signature-header .nav-book:hover{
+  background:#d6b36a;
+  color:#292720;
+  border-color:#d6b36a;
+  transform:translateY(-1px);
+}
