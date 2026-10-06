@@ -202,6 +202,43 @@
 .signature-header:not(.scrolled) .menu-toggle{color:var(--header-theme);text-shadow:0 1px 9px rgba(0,0,0,.28)}
 @keyframes headerRuleIn{from{transform:scaleX(.12);opacity:0}22%{opacity:1}to{transform:scaleX(1);opacity:1}}
 .signature-header .nav-book{border-color:currentColor}
+/* Internal pages use a light canvas, so keep the persistent header readable. */
+.page-rooms .signature-header:not(.scrolled),
+.page-gallery .signature-header:not(.scrolled),
+.page-contact .signature-header:not(.scrolled){
+  color:var(--ink);
+  background:rgba(247,244,238,.94);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.page-rooms .signature-header:not(.scrolled) .brand,
+.page-rooms .signature-header:not(.scrolled) .site-nav a,
+.page-rooms .signature-header:not(.scrolled) .menu-toggle,
+.page-gallery .signature-header:not(.scrolled) .brand,
+.page-gallery .signature-header:not(.scrolled) .site-nav a,
+.page-gallery .signature-header:not(.scrolled) .menu-toggle,
+.page-contact .signature-header:not(.scrolled) .brand,
+.page-contact .signature-header:not(.scrolled) .site-nav a,
+.page-contact .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--ink);
+  text-shadow:none;
+}
+.page-rooms .signature-header:not(.scrolled) .nav-book,
+.page-gallery .signature-header:not(.scrolled) .nav-book,
+.page-contact .signature-header:not(.scrolled) .nav-book{
+  background:var(--ink);
+  color:var(--white);
+  border-color:var(--ink);
+  text-shadow:none;
+}
+.page-rooms .signature-header:not(.scrolled) .nav-book:hover,
+.page-gallery .signature-header:not(.scrolled) .nav-book:hover,
+.page-contact .signature-header:not(.scrolled) .nav-book:hover{
+  background:var(--accent);
+  color:var(--ink);
+  border-color:var(--accent);
+}
+
 
 .signature-hero{position:relative;height:100dvh;min-height:100svh;overflow:hidden;background:#24231e;color:var(--hero-fg);--hero-theme:#d6b36a;--hero-secondary:#183a59;--hero-fg:#fffdf8;--hero-button-bg:#d6b36a;--hero-button-fg:#183a59}
 .signature-hero[data-tone="morning"]{--hero-theme:#d6b36a;--hero-secondary:#183a59;--hero-button-bg:#d6b36a;--hero-button-fg:#183a59}
