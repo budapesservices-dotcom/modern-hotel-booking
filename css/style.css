@@ -5708,23 +5708,48 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     font-size:22px;
   }
   .about-gallery .section-heading-row{
-    margin-bottom:44px;
+    margin-bottom:38px;
+  }
+  .about-gallery .section-heading-row>p{
+    margin:0;
+    font-size:14px;
   }
   .about-image-grid{
     grid-template-columns:1fr;
-    gap:8px;
+    gap:10px;
+    width:100%;
+  }
+  .about-image{
+    width:100%;
+    min-width:0;
+    margin:0;
   }
   .about-image-tall,
   .about-image-wide,
   .about-image-night{
+    grid-column:auto;
     grid-row:auto;
-    margin-bottom:0;
-    aspect-ratio:4/3;
+    margin:0;
+    width:100%;
+    aspect-ratio:16/10;
   }
   .about-image-tall{
-    aspect-ratio:4/5;
+    aspect-ratio:16/11;
+  }
+  .about-image-wide{
+    aspect-ratio:16/10;
   }
   .about-image-night{
-    aspect-ratio:4/5;
+    aspect-ratio:16/11;
+  }
+  .about-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .about-image figcaption{
+    left:14px;
+    bottom:12px;
+    font-size:8px;
   }
 }
