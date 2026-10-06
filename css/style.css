@@ -3376,3 +3376,22 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   background:#756a5d;
   border-radius:999px;
 }
+
+
+/* ROOM ATLAS — remove the left-side sequence numbers and reclaim the column. */
+.page-rooms .room-dir-number{
+  display:none;
+}
+.page-rooms .room-directory-row{
+  grid-template-columns:220px 110px minmax(280px,1fr) 150px;
+}
+@media(max-width:1000px){
+  .page-rooms .room-directory-row{
+    grid-template-columns:180px 90px minmax(240px,1fr) 130px;
+  }
+}
+@media(max-width:599px){
+  .page-rooms .room-directory-row{
+    grid-template-columns:1fr;
+  }
+}
