@@ -7962,3 +7962,53 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     grid-column:2;
   }
 }
+
+
+/* Your Booking — cancellation state and action */
+.your-booking-card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:18px;
+}
+.your-booking-card-footer .your-booking-note{margin:0}
+.your-booking-cancel{
+  flex:0 0 auto;
+  min-height:38px;
+  padding:9px 15px;
+  border:1px solid #b9afa2;
+  border-radius:999px;
+  background:transparent;
+  color:#746d64;
+  font-size:8px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  transition:background .25s ease,color .25s ease,border-color .25s ease,transform .25s var(--ease);
+}
+.your-booking-cancel:hover{
+  border-color:#9a7447;
+  background:#9a7447;
+  color:#fff;
+  transform:translateY(-1px);
+}
+.your-booking-card.is-cancelled{
+  opacity:.72;
+  border-color:#c9c0b3;
+}
+.your-booking-card.is-cancelled .your-booking-status{
+  border-color:#c9c0b3;
+  color:#81776b;
+}
+.your-booking-status.status-cancelled{background:#eee9df}
+@media(max-width:700px){
+  .your-booking-card-footer{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:14px;
+  }
+  .your-booking-cancel{
+    width:100%;
+    min-height:42px;
+  }
+}
