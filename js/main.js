@@ -278,38 +278,59 @@
     }
   }
 
-  // ---------- Room Atlas filter ----------
+  // ---------- Room Atlas filters ----------
   const roomFilter = document.querySelector('[data-room-filter]');
   if (roomFilter) {
     const roomItems = [...document.querySelectorAll('[data-room-item]')];
-    const roomTabs = [...roomFilter.querySelectorAll('[data-room-category]')];
+    const categoryTabs = [...roomFilter.querySelectorAll('[data-room-category]')];
+    const capacityTabs = [...roomFilter.querySelectorAll('[data-room-capacity]')];
     const roomCount = roomFilter.querySelector('[data-room-result-count]');
+    let activeCategory = 'all';
+    let activeCapacity = 'all';
 
-    const applyRoomFilter = category => {
-      const visible = roomItems.filter(item => category === 'all' || item.dataset.category === category);
+    const applyRoomFilters = () => {
+      const visible = roomItems.filter(item => {
+        const matchesCategory = activeCategory === 'all' || item.dataset.category === activeCategory;
+        const matchesCapacity = activeCapacity === 'all' || item.dataset.maxGuests === activeCapacity;
+        return matchesCategory && matchesCapacity;
+      });
 
       roomItems.forEach(item => {
-        const show = category === 'all' || item.dataset.category === category;
+        const show = visible.includes(item);
         item.classList.toggle('is-filter-hidden', !show);
         item.setAttribute('aria-hidden', show ? 'false' : 'true');
       });
 
-      roomTabs.forEach(tab => {
-        const active = tab.dataset.roomCategory === category;
+      categoryTabs.forEach(tab => {
+        const active = tab.dataset.roomCategory === activeCategory;
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
       });
 
-      if (roomCount) {
-        roomCount.textContent = String(visible.length).padStart(2, '0');
-      }
+      capacityTabs.forEach(tab => {
+        const active = tab.dataset.roomCapacity === activeCapacity;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      if (roomCount) roomCount.textContent = String(visible.length).padStart(2, '0');
     };
 
-    roomTabs.forEach(tab => {
-      tab.addEventListener('click', () => applyRoomFilter(tab.dataset.roomCategory));
+    categoryTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        activeCategory = tab.dataset.roomCategory;
+        applyRoomFilters();
+      });
     });
 
-    applyRoomFilter('all');
+    capacityTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        activeCapacity = tab.dataset.roomCapacity;
+        applyRoomFilters();
+      });
+    });
+
+    applyRoomFilters();
   }
 
   // ---------- Booking ----------
