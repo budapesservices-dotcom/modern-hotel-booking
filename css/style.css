@@ -4698,3 +4698,35 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     transform:none;
   }
 }
+
+
+/* =========================================================
+   MOMENTS — USE THE HOMEPAGE HEADER/WEIGHTING 1:1
+   The Gallery page keeps its own content below the hero,
+   but the header behaves exactly like the homepage header.
+   ========================================================= */
+.page-gallery .signature-header:not(.scrolled){
+  color:#fff;
+  background:transparent;
+  backdrop-filter:none;
+  box-shadow:none;
+}
+.page-gallery .signature-header:not(.scrolled) .brand,
+.page-gallery .signature-header:not(.scrolled) .site-nav a,
+.page-gallery .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--header-theme);
+  text-shadow:0 1px 9px rgba(0,0,0,.28);
+}
+.page-gallery .signature-header:not(.scrolled) .nav-book{
+  background:transparent;
+  color:var(--header-theme);
+  border-color:currentColor;
+}
+.page-gallery .signature-header:not(.scrolled) .nav-book:hover{
+  background:var(--header-theme);
+  color:var(--header-secondary);
+  border-color:var(--header-theme);
+}
+.moments-signature-hero .hero-lede{
+  transition:color .8s ease,opacity .35s ease,transform .45s var(--ease);
+}
