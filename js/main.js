@@ -810,7 +810,7 @@
     const message = checkin?.value && checkout?.value
       ? `Hello, I'd like to check availability at The Still Hotel from ${checkin.value} to ${checkout.value} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`
       : `Hello, I'd like to ask about booking a room at The Still Hotel for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
-    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    window.open(`https://wa.me/620000000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
   }));
 
   // ---------- Reveal / parallax ----------
