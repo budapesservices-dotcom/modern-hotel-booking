@@ -159,6 +159,8 @@
   aspect-ratio:16/9;
   max-height:425px;
   background:#e7e2d8;
+  border-radius:10px;
+  isolation:isolate;
 }
 .suite-image:after{
   content:"";
