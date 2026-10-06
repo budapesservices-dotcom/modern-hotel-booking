@@ -805,6 +805,11 @@
   document.querySelectorAll('[data-booking-open]').forEach(btn => btn.addEventListener('click', openBooking));
   document.querySelectorAll('[data-booking-close]').forEach(btn => btn.addEventListener('click', closeBooking));
 
+  window.addEventListener('still:booking-confirmed', () => {
+    closeBooking();
+    closeRoomDetail();
+  });
+
   document.querySelectorAll('[data-book-now]').forEach(btn => btn.addEventListener('click', () => {
     window.TheStillBooking?.start({
       checkin: checkin?.value || '',
@@ -814,11 +819,13 @@
   }));
 
   document.querySelectorAll('[data-room-detail-booking-now]').forEach(btn => btn.addEventListener('click', () => {
+    const price = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '';
     window.TheStillBooking?.start({
       room: activeRoomName || '',
       checkin: roomDetailCheckin?.value || '',
       checkout: roomDetailCheckout?.value || '',
-      guests: roomDetailGuests?.value || '2'
+      guests: roomDetailGuests?.value || '2',
+      price
     });
   }));
 
