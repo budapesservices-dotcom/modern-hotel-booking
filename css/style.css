@@ -1097,27 +1097,29 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .story-architecture-grid{
     min-height:0;
     grid-template-columns:1fr;
-    row-gap:30px;
+    row-gap:26px;
     padding-top:30px;
     padding-bottom:34px;
   }
-  .story-architecture-copy{padding:20px 0 0}
-  .story-architecture-figure{
-    width:min(100%,720px);
-    margin-left:auto;
+  .story-architecture-copy{
+    display:contents;
   }
-  .story-architecture-image{
-    width:100%;
-    margin-right:0;
+  .story-label{
+    order:1;
+    margin-top:20px;
   }
-  .story-triptych{aspect-ratio:16/9}
+  .story-title{
+    order:2;
+  }
   .story-hours{
+    order:3;
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
     gap:10px;
     width:100%;
     max-width:100%;
-    margin-top:8px;
+    margin-top:-8px;
+    padding-top:14px;
   }
   .story-hours .story-hour{
     min-width:0;
@@ -1129,21 +1131,33 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     font-size:7px;
     white-space:nowrap;
   }
+  .story-architecture-figure{
+    order:4;
+    width:min(100%,720px);
+    margin-left:auto;
+  }
+  .story-architecture-image{
+    width:100%;
+    margin-right:0;
+  }
+  .story-triptych{aspect-ratio:16/9}
+  .story-datum{
+    order:5;
+    width:82%;
+    margin:0;
+  }
+  .story-lede{
+    order:6;
+  }
+  .story-text{
+    order:7;
+  }
+  .story-link{
+    order:8;
+    margin-bottom:0;
+  }
   .story-quote{
-    position:relative;
-    right:auto;
-    bottom:auto;
-    width:min(62%,250px);
-    margin:-4px 0 0 auto;
-    padding:14px 13px 13px;
-  }
-  .story-quote-mark{
-    font-size:27px;
-    margin-bottom:9px;
-  }
-  .story-quote p{
-    font-size:15px;
-    line-height:1.18;
+    display:none;
   }
 }
 @media (max-width:599px){
