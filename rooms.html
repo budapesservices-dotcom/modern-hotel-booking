@@ -17,7 +17,7 @@
     <a href="rooms.html" aria-current="page">Rooms</a>
     <a href="gallery.html">Moments</a>
     <a href="contact.html">Contact</a>
-    <button class="nav-book" type="button" data-booking-open>Plan your stay</button>
+    <a class="nav-book" href="call-us.html">Call us</a>
   </nav>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation" aria-controls="site-nav" data-menu-toggle>
     <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -29,7 +29,7 @@
   <section class="rooms-hero section">
     <div class="page-wrap rooms-hero-grid">
       <div class="rooms-hero-copy">
-        <p class="eyebrow">Rooms &amp; Suites / 03 spaces</p>
+        <p class="eyebrow">Rooms &amp; Suites / 11 spaces</p>
         <h1>Choose the room<br>that keeps <em>time</em> your way.</h1>
         <p class="rooms-hero-lede">Three different spaces, one shared idea: a quieter place to wake, work, wander and come back to.</p>
         <div class="rooms-hero-actions">
@@ -56,24 +56,38 @@
     <div class="page-wrap">
       <div class="room-atlas-head">
         <div>
-          <p class="eyebrow">The room atlas / 09 spaces</p>
+          <p class="eyebrow">The room atlas / 11 spaces</p>
           <h2 id="room-atlas-heading">Find your<br><em>kind of stay.</em></h2>
         </div>
         <p>Move through the hotel by class. From quietly essential rooms to larger suites, each space is made for a different way of spending the day.</p>
       </div>
 
       <div class="room-filter-bar" data-room-filter>
-        <div class="room-filter-tabs" role="tablist" aria-label="Filter rooms by class">
-          <button class="room-filter is-active" type="button" data-room-category="all" role="tab" aria-selected="true">All <span>09</span></button>
-          <button class="room-filter" type="button" data-room-category="essential" role="tab" aria-selected="false">Essential <span>03</span></button>
-          <button class="room-filter" type="button" data-room-category="signature" role="tab" aria-selected="false">Signature <span>03</span></button>
-          <button class="room-filter" type="button" data-room-category="suites" role="tab" aria-selected="false">Suites <span>03</span></button>
+        <div class="room-filter-group">
+          <span class="room-filter-label">Type</span>
+          <div class="room-filter-tabs" role="tablist" aria-label="Filter rooms by class">
+            <button class="room-filter is-active" type="button" data-room-category="all" role="tab" aria-selected="true">All <span>11</span></button>
+            <button class="room-filter" type="button" data-room-category="essential" role="tab" aria-selected="false">Essential <span>03</span></button>
+            <button class="room-filter" type="button" data-room-category="signature" role="tab" aria-selected="false">Signature <span>03</span></button>
+            <button class="room-filter" type="button" data-room-category="suites" role="tab" aria-selected="false">Suites <span>05</span></button>
+          </div>
         </div>
-        <span class="room-filter-result"><b data-room-result-count>09</b> rooms</span>
+        <div class="room-filter-group">
+          <span class="room-filter-label">Guests</span>
+          <div class="room-filter-tabs" role="tablist" aria-label="Filter rooms by guest capacity">
+            <button class="room-filter is-active" type="button" data-room-capacity="all" role="tab" aria-selected="true">All</button>
+            <button class="room-filter" type="button" data-room-capacity="2" role="tab" aria-selected="false">2 people</button>
+            <button class="room-filter" type="button" data-room-capacity="3" role="tab" aria-selected="false">3 people</button>
+            <button class="room-filter" type="button" data-room-capacity="4" role="tab" aria-selected="false">4 people</button>
+            <button class="room-filter" type="button" data-room-capacity="5" role="tab" aria-selected="false">5 people</button>
+            <button class="room-filter" type="button" data-room-capacity="6" role="tab" aria-selected="false">6 people</button>
+          </div>
+        </div>
+        <span class="room-filter-result"><b data-room-result-count>11</b> rooms</span>
       </div>
 
       <div class="room-directory" data-room-directory>
-        <article class="room-directory-row" id="quiet-room" data-room-item data-category="essential">
+        <article class="room-directory-row" id="quiet-room" data-room-item data-category="essential" data-max-guests="2">
           <span class="room-dir-number">01</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=84" alt="The Quiet Room with king bed and natural light" loading="lazy"></div>
           <div class="room-dir-class"><span>Essential</span><i>28.4 m²</i></div>
@@ -81,7 +95,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row" id="city-room" data-room-item data-category="essential">
+        <article class="room-directory-row" id="city-room" data-room-item data-category="essential" data-max-guests="2">
           <span class="room-dir-number">02</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1200&q=84" alt="City Room with contemporary hotel interior" loading="lazy"></div>
           <div class="room-dir-class"><span>Essential</span><i>30.1 m²</i></div>
@@ -89,7 +103,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row" id="garden-room" data-room-item data-category="essential">
+        <article class="room-directory-row" id="garden-room" data-room-item data-category="essential" data-max-guests="2">
           <span class="room-dir-number">03</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=84" alt="Quiet hotel lounge and garden-facing interior" loading="lazy"></div>
           <div class="room-dir-class"><span>Essential</span><i>32.6 m²</i></div>
@@ -97,7 +111,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row" id="long-room" data-room-item data-category="signature">
+        <article class="room-directory-row" id="long-room" data-room-item data-category="signature" data-max-guests="3">
           <span class="room-dir-number">04</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=84" alt="The Long Room with generous space and lounge seating" loading="lazy"></div>
           <div class="room-dir-class"><span>Signature</span><i>41.2 m²</i></div>
@@ -105,7 +119,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row" id="corner-room" data-room-item data-category="signature">
+        <article class="room-directory-row" id="corner-room" data-room-item data-category="signature" data-max-guests="3">
           <span class="room-dir-number">05</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=84" alt="Corner Room with a broad hotel view" loading="lazy"></div>
           <div class="room-dir-class"><span>Signature</span><i>44.8 m²</i></div>
@@ -113,7 +127,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row" id="light-room" data-room-item data-category="signature">
+        <article class="room-directory-row" id="light-room" data-room-item data-category="signature" data-max-guests="3">
           <span class="room-dir-number">06</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=84" alt="Light Room with warm contemporary hotel interior" loading="lazy"></div>
           <div class="room-dir-class"><span>Signature</span><i>46.5 m²</i></div>
@@ -121,7 +135,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row room-directory-suite" id="still-suite" data-room-item data-category="suites">
+        <article class="room-directory-row room-directory-suite" id="still-suite" data-room-item data-category="suites" data-max-guests="4">
           <span class="room-dir-number">07</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=84" alt="The Still Suite with elegant contemporary interiors" loading="lazy"></div>
           <div class="room-dir-class"><span>Suite</span><i>56.8 m²</i></div>
@@ -129,7 +143,7 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row room-directory-suite" id="panorama-suite" data-room-item data-category="suites">
+        <article class="room-directory-row room-directory-suite" id="panorama-suite" data-room-item data-category="suites" data-max-guests="4">
           <span class="room-dir-number">08</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1200&q=84" alt="Panorama Suite with evening city atmosphere" loading="lazy"></div>
           <div class="room-dir-class"><span>Suite</span><i>68.4 m²</i></div>
@@ -137,12 +151,28 @@
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article class="room-directory-row room-directory-suite" id="residence-suite" data-room-item data-category="suites">
+        <article class="room-directory-row room-directory-suite" id="residence-suite" data-room-item data-category="suites" data-max-guests="4">
           <span class="room-dir-number">09</span>
           <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=84" alt="Residence Suite with spacious modern interior" loading="lazy"></div>
           <div class="room-dir-class"><span>Suite</span><i>82.7 m²</i></div>
           <div class="room-dir-main"><h3>The Residence Suite</h3><p>The most generous setting for longer stays, shared mornings and slow returns.</p><div><span>2–4 guests</span><span>King bed</span><span>Dining space</span></div></div>
           <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        <article class="room-directory-row room-directory-suite" id="gathering-suite" data-room-item data-category="suites" data-max-guests="5">
+          <span class="room-dir-number">10</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=84" alt="The Gathering Suite with generous lounge and dining space" loading="lazy"></div>
+          <div class="room-dir-class"><span>Suite</span><i>96.2 m²</i></div>
+          <div class="room-dir-main"><h3>The Gathering Suite</h3><p>A generous private setting for shared mornings, long dinners and unhurried evenings.</p><div><span>4–5 guests</span><span>King bed</span><span>Dining lounge</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row room-directory-suite" id="sixfold-residence" data-room-item data-category="suites" data-max-guests="6">
+          <span class="room-dir-number">11</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=84" alt="The Sixfold Residence with spacious luxury hotel interior" loading="lazy"></div>
+          <div class="room-dir-class"><span>Suite</span><i>118.6 m²</i></div>
+          <div class="room-dir-main"><h3>The Sixfold Residence</h3><p>The largest stay in the house, made for families and groups who want room to gather.</p><div><span>4–6 guests</span><span>2 king beds</span><span>Full living room</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
         </article>
       </div>
     </div>
