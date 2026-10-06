@@ -211,7 +211,7 @@
       let position = 0;
       let loopWidth = 0;
       let cardStep = 0;
-      const speed = () => window.matchMedia('(max-width:599px)').matches ? 23 : 30;
+      const speed = () => window.matchMedia('(max-width:599px)').matches ? 45 : 50;
 
       const measure = () => {
         const gap = parseFloat(getComputedStyle(track).gap) || 0;
