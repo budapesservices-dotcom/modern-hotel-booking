@@ -33,7 +33,6 @@
   // ---------- Signature hero: time is the interface ----------
   const hero = document.querySelector('[data-hero]');
   const heroScenes = document.querySelector('[data-hero-scenes]');
-  const heroMood = document.querySelector('[data-hero-mood]');
   const timeTrack = document.querySelector('[data-time-track]');
   const sceneLabel = document.querySelector('[data-live-label]');
   const heroTimeline = Array.isArray(window.HERO_TIMELINE) ? window.HERO_TIMELINE : [];
@@ -70,7 +69,6 @@
     const meta = heroTimeline[activeScene];
     if (hero) hero.dataset.tone = meta.tone;
     if (header) header.dataset.tone = meta.tone;
-    if (heroMood) heroMood.dataset.tone = meta.tone;
     if (sceneLabel) sceneLabel.textContent = meta.label;
 
     if (restart) startTimer();
@@ -79,7 +77,7 @@
   const startTimer = () => {
     if (!scenes.length || reduceMotion) return;
     window.clearTimeout(timer);
-    timer = window.setTimeout(() => setScene(activeScene + 1), 5600);
+    timer = window.setTimeout(() => setScene(activeScene + 1), 3600);
   };
 
   renderHeroTimeline();
