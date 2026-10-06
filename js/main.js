@@ -547,35 +547,57 @@
 
   const syncRoomDetailCheckoutFromNights = () => {
     if (!roomDetailCheckin || !roomDetailCheckout || !roomDetailNights) return;
+
     const nights = Math.min(30, Math.max(1, Number(roomDetailNights.value) || 1));
     const next = new Date(roomDetailCheckin.value + 'T12:00:00');
     next.setDate(next.getDate() + nights);
+
     roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
     roomDetailCheckout.value = next.toISOString().slice(0, 10);
   };
 
-  const syncRoomDetailNightsFromCheckout = () => {
+  const syncRoomDetailNightsFromDates = () => {
     if (!roomDetailCheckin || !roomDetailCheckout || !roomDetailNights) return;
+
     const startDate = new Date(roomDetailCheckin.value + 'T12:00:00');
     const endDate = new Date(roomDetailCheckout.value + 'T12:00:00');
     const diff = Math.round((endDate - startDate) / 86400000);
+
     if (diff >= 1 && diff <= 30) {
-      setRoomDetailNights(diff);
-    } else {
-      setRoomDetailNights(diff < 1 ? 1 : 30);
-      syncRoomDetailCheckoutFromNights();
+      roomDetailNights.value = String(diff);
+      refreshRoomCustomSelect(roomDetailNights);
+      return;
     }
+
+    // Keep the user's selected dates. Only correct the minimum invalid case.
+    if (diff < 1) {
+      const next = new Date(startDate);
+      next.setDate(next.getDate() + 1);
+      roomDetailCheckout.value = next.toISOString().slice(0, 10);
+      roomDetailNights.value = '1';
+    } else {
+      roomDetailNights.value = '30';
+    }
+
+    refreshRoomCustomSelect(roomDetailNights);
   };
 
   const updateRoomDetailSummary = () => {
     if (!roomDetailCheckin || !roomDetailCheckout) return;
-    const nights = Math.min(30, Math.max(1, Number(roomDetailNights?.value) || 1));
-    syncRoomDetailCheckoutFromNights();
+
+    const startDate = new Date(roomDetailCheckin.value + 'T12:00:00');
+    const endDate = new Date(roomDetailCheckout.value + 'T12:00:00');
+    const dateNights = Math.round((endDate - startDate) / 86400000);
+    const nights = Math.min(30, Math.max(1, dateNights || Number(roomDetailNights?.value) || 1));
 
     const priceText = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '0';
     const price = Number(priceText) || 0;
 
-    if (roomDetailNights) roomDetailNights.value = String(nights);
+    if (roomDetailNights) {
+      roomDetailNights.value = String(nights);
+      refreshRoomCustomSelect(roomDetailNights);
+    }
+
     if (roomDetailTotal) {
       roomDetailTotal.textContent = String.fromCharCode(36) + (price * nights).toLocaleString('en-US');
     }
@@ -585,7 +607,6 @@
       roomDetailSummaryType.textContent = roomDetailKicker.textContent.split(' · ')[0] || '—';
     }
   };
-
 
   const renderRoomDetailGallery = (item, roomId) => {
     if (!roomDetailMainImage || !roomDetailThumbs) return;
@@ -655,21 +676,42 @@
   document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
 
   roomDetailCheckin?.addEventListener('change', () => {
-    setRoomDetailNights(roomDetailNights?.value || 1);
-    syncRoomDetailCheckoutFromNights();
-    refreshRoomCustomSelect(roomDetailNights);
+    if (roomDetailCheckout) {
+      roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
+
+      const checkinDate = new Date(roomDetailCheckin.value + 'T12:00:00');
+      const checkoutDate = new Date(roomDetailCheckout.value + 'T12:00:00');
+
+      // Do not rewrite a valid checkout just because check-in changed.
+      // Only move it to the next day when the existing checkout becomes invalid.
+      if (!roomDetailCheckout.value || checkoutDate <= checkinDate) {
+        const next = new Date(checkinDate);
+        next.setDate(next.getDate() + 1);
+        roomDetailCheckout.value = next.toISOString().slice(0, 10);
+      }
+    }
+
+    syncRoomDetailNightsFromDates();
     updateRoomDetailSummary();
   });
+
   roomDetailCheckout?.addEventListener('change', () => {
-    syncRoomDetailNightsFromCheckout();
-    refreshRoomCustomSelect(roomDetailNights);
+    if (roomDetailCheckin && roomDetailCheckout.value <= roomDetailCheckin.value) {
+      const next = new Date(roomDetailCheckin.value + 'T12:00:00');
+      next.setDate(next.getDate() + 1);
+      roomDetailCheckout.value = next.toISOString().slice(0, 10);
+    }
+
+    syncRoomDetailNightsFromDates();
     updateRoomDetailSummary();
   });
+
   roomDetailNights?.addEventListener('change', () => {
     syncRoomDetailCheckoutFromNights();
     refreshRoomCustomSelect(roomDetailNights);
     updateRoomDetailSummary();
   });
+
   roomDetailGuests?.addEventListener('change', () => {
     refreshRoomCustomSelect(roomDetailGuests);
     updateRoomDetailSummary();
