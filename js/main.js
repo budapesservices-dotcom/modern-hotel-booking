@@ -164,7 +164,7 @@
       kicker: 'Goodnight',
       title: 'Stay a<br>little<br><em>longer.</em>',
       body: 'Lights low. Curtains closed. Nothing left to do except enjoy the room you chose.',
-      image: 'https://images.unsplash.com/photo-1717395136137-f09470257088?auto=format&fit=crop&w=1800&q=84'
+      image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1800&q=84'
     }
   ];
 
