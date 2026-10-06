@@ -466,6 +466,7 @@
       () => {
         const contact = window.STILL_CONTACT || {};
         const number = String(contact.whatsappNumber || '').replace(/\D/g, '');
+        const currency = String.fromCharCode(36);
         const summary = [
           'Hello The Still Hotel,',
           '',
@@ -474,7 +475,17 @@
           bookingData.guests ? 'Guests: ' + bookingData.guests : null,
           bookingData.checkin ? 'Check-in: ' + formatDate(bookingData.checkin) : null,
           bookingData.checkout ? 'Check-out: ' + formatDate(bookingData.checkout) : null,
-          bookingData.price ? 'Nightly rate: 
+          bookingData.price ? 'Nightly rate: ' + currency + bookingData.price : null
+        ].filter(Boolean).join('\\n');
+
+        if (number) {
+          const whatsappUrl = 'https://wa.me/' + number + '?text=' + encodeURIComponent(summary);
+          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        showBookingSuccess(modal, bookingData);
+      }
+    );
 
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('open');
