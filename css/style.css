@@ -4680,7 +4680,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   display:grid;
   align-items:end;
   padding-top:170px;
-  padding-bottom:110px;
+  padding-bottom:clamp(132px,9.5vh,158px);
   background:
     radial-gradient(circle at 78% 24%,rgba(214,179,106,.10),transparent 27%),
     radial-gradient(circle at 18% 78%,rgba(63,91,84,.18),transparent 32%),
@@ -5289,7 +5289,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     min-height:100svh;
     max-height:100dvh;
     padding-top:clamp(108px,18vh,142px);
-    padding-bottom:clamp(46px,8vh,80px);
+    padding-bottom:clamp(92px,14.5vh,126px);
     align-items:end;
   }
   .page-about .page-hero{
