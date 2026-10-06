@@ -223,6 +223,18 @@
 }
 .story-link{
   margin-bottom:48px;
+  color:var(--ink);
+  transition:color .3s ease;
+}
+.story-link span{
+  transition:transform .3s var(--ease),color .3s ease;
+}
+.story-link:hover{
+  color:var(--accent);
+}
+.story-link:hover span{
+  color:var(--accent);
+  transform:translateX(4px);
 }
 .story-hours{
   display:flex;
