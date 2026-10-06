@@ -70,6 +70,16 @@
     setScene(0, true);
   }
 
+  // Re-trigger the hero hairline whenever the hero section re-enters the viewport.
+  if (hero && header && 'IntersectionObserver' in window) {
+    const heroVisibility = new IntersectionObserver(([entry]) => {
+      header.classList.toggle('hero-visible', entry.isIntersecting);
+    }, { threshold: 0.12 });
+    heroVisibility.observe(hero);
+  } else {
+    header?.classList.add('hero-visible');
+  }
+
   // ---------- Time story ----------
   const storyTime = document.querySelector('[data-story-time]');
   const storyKicker = document.querySelector('[data-story-kicker]');
