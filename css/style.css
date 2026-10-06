@@ -1974,6 +1974,43 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
    ROOMS PAGE — STILL HOTEL ROOM ATLAS
    ========================================================= */
 .page-rooms{background:var(--white)}
+
+/* Rooms hero — darker, quiet-luxury treatment. */
+.page-rooms .rooms-hero{
+  background:#1b1a18;
+  color:#f4f0e7;
+}
+.page-rooms .rooms-hero-copy .eyebrow{
+  color:#b8b1a5;
+}
+.page-rooms .rooms-hero-copy h1{
+  color:#f8f4eb;
+}
+.page-rooms .rooms-hero-copy h1 em{
+  color:#d6b36a;
+}
+.page-rooms .rooms-hero-lede{
+  color:#b9b2a7;
+}
+.page-rooms .rooms-hero .button-dark{
+  background:#f4f0e7;
+  color:#292720;
+  border-color:#f4f0e7;
+}
+.page-rooms .rooms-hero .button-dark:hover{
+  background:#d6b36a;
+  color:#292720;
+  border-color:#d6b36a;
+}
+.page-rooms .rooms-hero-stamp{
+  color:#9e978c;
+}
+
+/* Section 2 starts a little lower to give the page a calmer transition. */
+.page-rooms .room-atlas-section{
+  padding-top:clamp(120px,15vw,210px);
+}
+
 .rooms-hero{
   position:relative;
   padding-top:150px;
