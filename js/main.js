@@ -80,6 +80,11 @@
     if (header) header.dataset.tone = meta.tone;
     if (sceneLabel) sceneLabel.textContent = meta.label;
 
+    const finalCall = document.querySelector('[data-final-call]');
+    if (finalCall) {
+      finalCall.style.setProperty('--final-image', `url('${meta.image}')`);
+    }
+
     if (restart) startTimer();
   };
 
