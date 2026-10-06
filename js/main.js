@@ -357,7 +357,30 @@
   const roomDetailCheckout = document.querySelector('[data-room-detail-checkout]');
   const roomDetailGuests = document.querySelector('[data-room-detail-guests]');
   const roomDetailNights = document.querySelector('[data-room-detail-nights]');
+  const roomDetailFacilities = document.querySelector('[data-room-detail-facilities]');
+  const roomDetailFacilityCount = document.querySelector('[data-room-detail-facility-count]');
   let activeRoomName = '';
+
+  const roomFacilities = {
+    'quiet-room': ['King bed', 'Rain shower', 'Fast Wi-Fi', 'Smart TV', 'Climate control', 'Blackout curtains'],
+    'city-room': ['King bed', 'City view', 'Rain shower', 'Fast Wi-Fi', 'Work desk', 'Espresso station', 'Smart TV'],
+    'garden-room': ['King bed', 'Garden outlook', 'Rain shower', 'Fast Wi-Fi', 'Lounge chair', 'Espresso station', 'Premium bath amenities'],
+    'long-room': ['King bed', 'Private lounge', 'Rain shower', 'Dedicated work nook', 'Espresso station', 'Mini bar', 'Fast Wi-Fi'],
+    'corner-room': ['King bed', 'Panoramic outlook', 'Private lounge', 'Rain shower', 'Espresso station', 'Mini bar', 'Premium bath amenities'],
+    'light-room': ['King bed', 'Floor-to-ceiling windows', 'Work nook', 'Rain shower', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Fast Wi-Fi'],
+    'still-suite': ['King bed', 'Separate living space', 'Deep soaking tub', 'Dining nook', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Bathrobes & slippers'],
+    'panorama-suite': ['King bed', 'Separate living space', 'Wide city views', 'Deep soaking tub', 'Dining area', 'Espresso station', 'Mini bar', 'Bathrobes & slippers', 'Premium bath amenities'],
+    'residence-suite': ['King bed', 'Private lounge', 'Separate dining area', 'Deep soaking tub', 'Dedicated work desk', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown'],
+    'gathering-suite': ['King bed', 'Expansive living room', 'Dining lounge', 'Deep soaking tub', 'Dedicated work desk', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
+    'sixfold-residence': ['Two king beds', 'Full living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers']
+  };
+
+  const renderRoomFacilities = roomId => {
+    if (!roomDetailFacilities) return;
+    const facilities = roomFacilities[roomId] || [];
+    roomDetailFacilities.innerHTML = facilities.map(item => '<li>' + item + '</li>').join('');
+    if (roomDetailFacilityCount) roomDetailFacilityCount.textContent = String(facilities.length).padStart(2, '0');
+  };
 
   // ---------- Custom room-summary dropdowns ----------
   const closeRoomCustomSelects = () => {
@@ -602,6 +625,7 @@
     if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
     if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
     if (roomDetailPrice) roomDetailPrice.textContent = price;
+    renderRoomFacilities(roomId);
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
     if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
     if (roomDetailNumber) roomDetailNumber.textContent = '';
