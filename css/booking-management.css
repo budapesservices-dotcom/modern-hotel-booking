@@ -341,3 +341,33 @@
     grid-template-columns:1fr;
   }
 }
+
+
+/* Your Booking navbar follows the same signature DNA as Amenities. */
+.page-your-booking .signature-header{
+  --header-theme:#d6b36a;
+  --header-secondary:#183a59;
+}
+
+.page-your-booking .signature-header:not(.scrolled){
+  color:var(--header-theme);
+}
+
+.page-your-booking .signature-header:not(.scrolled) .brand,
+.page-your-booking .signature-header:not(.scrolled) .site-nav a,
+.page-your-booking .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--header-theme);
+  text-shadow:0 1px 9px rgba(0,0,0,.28);
+}
+
+.page-your-booking .signature-header:not(.scrolled) .nav-book{
+  background:transparent;
+  color:var(--header-theme);
+  border-color:var(--header-theme);
+}
+
+.page-your-booking .signature-header:not(.scrolled) .nav-book:hover{
+  background:var(--header-theme);
+  color:#292720;
+  border-color:var(--header-theme);
+}
