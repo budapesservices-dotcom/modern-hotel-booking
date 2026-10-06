@@ -174,6 +174,7 @@
             <p class="still-booking-receipt-label">Before you continue</p>
             <p>Booking requests are subject to room availability. Any rate, tax, deposit, cancellation policy, and special-request conditions will be confirmed before the reservation is finalized.</p>
             <p>Continuing sends this booking request to the hotel's next booking step. No payment is taken at this stage.</p>
+            <p>By selecting Continue, you acknowledge that final availability, rates, taxes, deposits, and cancellation terms must be confirmed before the stay is finalized.</p>
           </div>
         </div>
 
