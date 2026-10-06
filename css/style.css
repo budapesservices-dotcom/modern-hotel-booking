@@ -7466,3 +7466,499 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     min-height:44px;
   }
 }
+
+
+/* =========================================================
+   YOUR BOOKING — GUEST RESERVATION VIEW
+   ========================================================= */
+.page-your-booking{
+  background:#f7f4ed;
+  color:#292720;
+}
+
+.your-booking-hero{
+  padding-top:170px;
+  padding-bottom:86px;
+  background:#f7f4ed;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-hero h1{
+  margin-bottom:24px;
+}
+
+.your-booking-section{
+  background:#ece7dd;
+}
+
+.your-booking-list{
+  width:min(900px,100%);
+  margin:0 auto;
+}
+
+.booking-empty-state{
+  padding:clamp(50px,9vw,100px) clamp(24px,5vw,70px);
+  background:#f7f4ed;
+  border:1px solid #d4ccbe;
+  text-align:center;
+}
+
+.booking-empty-state h2{
+  margin:16px 0 22px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(48px,7vw,80px);
+  line-height:.9;
+  letter-spacing:-.05em;
+  font-weight:400;
+}
+
+.booking-empty-state h2 em{
+  color:#9a7447;
+}
+
+.booking-empty-state>p:not(.eyebrow){
+  max-width:430px;
+  margin:0 auto 28px;
+  color:#746d64;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.your-booking-card{
+  margin-bottom:18px;
+  padding:28px;
+  background:#f7f4ed;
+  border:1px solid #d4ccbe;
+  box-shadow:0 14px 40px rgba(41,39,32,.06);
+}
+
+.your-booking-card.is-current{
+  border-color:#b9a078;
+}
+
+.your-booking-card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:flex-start;
+  padding-bottom:22px;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-card-head h2{
+  margin:10px 0 0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(30px,4vw,48px);
+  line-height:.95;
+  font-weight:400;
+  letter-spacing:-.035em;
+}
+
+.your-booking-status{
+  padding:7px 10px;
+  border:1px solid #cdbb93;
+  border-radius:999px;
+  color:#876a3d;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.your-booking-id{
+  margin-top:22px;
+  padding:17px 18px;
+  background:#eee9df;
+  border:1px dashed #c9c0b3;
+}
+
+.your-booking-id span{
+  display:block;
+  margin-bottom:7px;
+  color:#8b8276;
+  font-size:8px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.your-booking-id strong{
+  display:block;
+  color:#292720;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:.05em;
+}
+
+.your-booking-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  margin-top:18px;
+  border-top:1px solid #d8d0c3;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-grid>div{
+  padding:16px 14px 16px 0;
+  border-right:1px solid #d8d0c3;
+}
+
+.your-booking-grid>div+div{
+  padding-left:14px;
+}
+
+.your-booking-grid>div:last-child{
+  border-right:0;
+}
+
+.your-booking-grid span{
+  display:block;
+  margin-bottom:7px;
+  color:#8b8276;
+  font-size:8px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.your-booking-grid strong{
+  color:#292720;
+  font-size:12px;
+  font-weight:500;
+}
+
+.your-booking-note{
+  margin:18px 0 0;
+  color:#746d64;
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* =========================================================
+   ADMIN BOOKING DESK — FRONT-END DEMO
+   ========================================================= */
+.page-admin-bookings{
+  background:#1b1916;
+  color:#f4f0e7;
+}
+
+.admin-booking-page{
+  width:min(1320px,100%);
+  margin:0 auto;
+  padding:28px clamp(20px,4vw,52px) 70px;
+}
+
+.admin-booking-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding-bottom:24px;
+  border-bottom:1px solid rgba(214,179,106,.18);
+}
+
+.admin-booking-brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  color:#f4f0e7;
+}
+
+.admin-booking-brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.admin-booking-brand span{
+  color:#a99f91;
+  font-size:8px;
+  letter-spacing:.16em;
+}
+
+.admin-booking-home{
+  color:#d6b36a;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.admin-booking-intro{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:70px;
+  align-items:end;
+  padding:86px 0 74px;
+}
+
+.admin-booking-intro h1{
+  margin:0;
+  color:#f4f0e7;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(70px,9vw,130px);
+  line-height:.86;
+  letter-spacing:-.055em;
+  font-weight:400;
+}
+
+.admin-booking-intro h1 em{
+  color:#d6b36a;
+}
+
+.admin-booking-intro>div:last-child{
+  max-width:480px;
+}
+
+.admin-booking-intro>div:last-child>p{
+  margin:0 0 16px;
+  color:#a99f91;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.admin-demo-warning{
+  padding:13px 14px;
+  border-left:2px solid #d6b36a;
+  background:rgba(214,179,106,.06);
+  color:#81776a !important;
+  font-size:9px !important;
+}
+
+.admin-booking-table-section{
+  border-top:1px solid rgba(214,179,106,.18);
+}
+
+.admin-booking-stats{
+  display:grid;
+  grid-template-columns:repeat(2,220px);
+  gap:1px;
+  margin-bottom:18px;
+  background:#332e28;
+}
+
+.admin-booking-stats>div{
+  padding:17px 18px;
+  background:#211f1b;
+}
+
+.admin-booking-stats span{
+  display:block;
+  margin-bottom:8px;
+  color:#837a6d;
+  font-size:8px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.admin-booking-stats strong{
+  color:#f0e8da;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:30px;
+  font-weight:400;
+}
+
+.admin-booking-row{
+  margin-bottom:10px;
+  padding:20px;
+  background:#211f1b;
+  border:1px solid #342f28;
+}
+
+.admin-booking-row-top{
+  display:grid;
+  grid-template-columns:50px 1fr auto;
+  gap:18px;
+  align-items:center;
+  padding-bottom:16px;
+  border-bottom:1px solid #342f28;
+}
+
+.admin-booking-row-top>span{
+  color:#6f665a;
+  font-size:8px;
+  letter-spacing:.13em;
+}
+
+.admin-booking-row-top strong{
+  color:#f4eee1;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:21px;
+  font-weight:400;
+}
+
+.admin-booking-row-top em{
+  color:#d6b36a;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-style:normal;
+}
+
+.admin-booking-ids{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:16px;
+}
+
+.admin-booking-ids>div{
+  padding:14px;
+  background:#28251f;
+  border:1px dashed #454037;
+}
+
+.admin-booking-ids span,
+.admin-booking-meta span{
+  display:block;
+  margin-bottom:7px;
+  color:#837a6d;
+  font-size:7px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.admin-booking-ids strong{
+  color:#e9e1d3;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.04em;
+}
+
+.admin-booking-meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  margin-top:16px;
+  border-top:1px solid #342f28;
+  border-bottom:1px solid #342f28;
+}
+
+.admin-booking-meta>div{
+  padding:14px 14px 14px 0;
+  border-right:1px solid #342f28;
+}
+
+.admin-booking-meta>div+div{
+  padding-left:14px;
+}
+
+.admin-booking-meta>div:last-child{
+  border-right:0;
+}
+
+.admin-booking-meta strong{
+  color:#e9e1d3;
+  font-size:10px;
+  font-weight:400;
+}
+
+.admin-booking-empty{
+  padding:70px 30px;
+  background:#211f1b;
+  border:1px solid #342f28;
+  text-align:center;
+}
+
+.admin-booking-empty h2{
+  margin:12px 0 18px;
+  color:#f4f0e7;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(46px,6vw,80px);
+  line-height:.88;
+  font-weight:400;
+}
+
+.admin-booking-empty h2 em{
+  color:#d6b36a;
+}
+
+.admin-booking-empty>p:last-child{
+  color:#80776b;
+  font-size:10px;
+}
+
+@media(max-width:700px){
+  .your-booking-hero{
+    padding-top:130px;
+  }
+
+  .your-booking-card{
+    padding:20px;
+  }
+
+  .your-booking-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .your-booking-grid>div:nth-child(2){
+    border-right:0;
+  }
+
+  .your-booking-grid>div:nth-child(n+3){
+    border-top:1px solid #d8d0c3;
+  }
+
+  .admin-booking-intro{
+    grid-template-columns:1fr;
+    gap:30px;
+    padding:62px 0 52px;
+  }
+
+  .admin-booking-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .admin-booking-ids{
+    grid-template-columns:1fr;
+  }
+
+  .admin-booking-meta{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .admin-booking-meta>div:nth-child(2){
+    border-right:0;
+  }
+
+  .admin-booking-meta>div:nth-child(n+3){
+    border-top:1px solid #342f28;
+  }
+}
+
+@media(max-width:480px){
+  .your-booking-card-head{
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .your-booking-id strong{
+    font-size:18px;
+  }
+
+  .your-booking-grid>div,
+  .your-booking-grid>div+div{
+    padding:14px 10px;
+  }
+
+  .admin-booking-page{
+    padding-inline:16px;
+  }
+
+  .admin-booking-header{
+    align-items:flex-start;
+  }
+
+  .admin-booking-brand span{
+    max-width:150px;
+    line-height:1.4;
+  }
+
+  .admin-booking-row{
+    padding:16px;
+  }
+
+  .admin-booking-row-top{
+    grid-template-columns:35px 1fr;
+  }
+
+  .admin-booking-row-top em{
+    grid-column:2;
+  }
+}
