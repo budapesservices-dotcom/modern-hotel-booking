@@ -946,11 +946,16 @@
 // Room booking controls refined.
 
 
+
 /* =========================================================
    STILL HOTEL / AMBIENT MOTION FX
-   Subtle staggered reveal + scroll parallax.
-   Existing motion systems are protected to avoid transform
-   collisions and double-animation.
+   Performance-tuned version:
+   - no animated blur/filter
+   - no blanket will-change layers
+   - staggered reveal remains
+   - parallax is limited to larger visual/content blocks
+   - scroll work uses cached geometry instead of
+     getBoundingClientRect() on every frame
    ========================================================= */
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1004,6 +1009,27 @@
     'main .contact-location-visual'
   ].join(',');
 
+  // Only larger elements receive the extra scroll drift. Text/form elements
+  // still get staggered entrance timing without adding continuous work.
+  const parallaxSelectors = [
+    'main h1',
+    'main h2',
+    'main figure',
+    'main .room-image',
+    'main .image-frame',
+    'main .gallery-item',
+    'main .call-hero-visual',
+    'main .login-image',
+    'main .contact-location-visual',
+    'main .amenity-grid > div',
+    'main .stat-grid > div',
+    'main .price-box',
+    'main .contact-card',
+    'main .call-contact-item',
+    'main .booking-empty-state',
+    'main .your-booking-card'
+  ].join(',');
+
   const protectedSelectors = [
     '.reveal',
     '[data-parallax]',
@@ -1026,6 +1052,22 @@
     '.lightbox *'
   ].join(',');
 
+  const prepared = new WeakSet();
+  const parallaxElements = new Set();
+  const geometry = new Map();
+
+  const typeSettings = {
+    'heading-major': { y:24, duration:980, delay:60 },
+    'heading':       { y:21, duration:900, delay:35 },
+    'copy':          { y:14, duration:780, delay:95 },
+    'action':        { y:11, duration:690, delay:150 },
+    'image':         { y:22, duration:930, delay:55 },
+    'list':          { y:13, duration:740, delay:120 },
+    'form':          { y:12, duration:700, delay:140 },
+    'stat':          { y:17, duration:820, delay:80 },
+    'block':         { y:17, duration:820, delay:75 }
+  };
+
   const isProtected = element => {
     if (!element || !(element instanceof Element)) return true;
     if (element.matches(protectedSelectors)) return true;
@@ -1033,9 +1075,7 @@
     if (element.hasAttribute('hidden')) return true;
 
     const style = window.getComputedStyle(element);
-    if (style.display === 'none' || style.visibility === 'hidden') return true;
-
-    return false;
+    return style.display === 'none' || style.visibility === 'hidden';
   };
 
   const getMotionType = element => {
@@ -1051,140 +1091,227 @@
     return 'block';
   };
 
-  const typeSettings = {
-    'heading-major': { speed:.018, y:30, duration:1040, delay:90 },
-    'heading':       { speed:.016, y:26, duration:920,  delay:40 },
-    'copy':          { speed:.010, y:18, duration:820,  delay:130 },
-    'action':        { speed:.007, y:14, duration:700,  delay:220 },
-    'image':         { speed:.020, y:28, duration:980,  delay:70 },
-    'list':          { speed:.012, y:16, duration:760,  delay:150 },
-    'form':          { speed:.008, y:15, duration:720,  delay:180 },
-    'stat':          { speed:.014, y:22, duration:860,  delay:110 },
-    'block':         { speed:.012, y:22, duration:840,  delay:100 }
-  };
-
-  const activeForParallax = new Set();
-  const prepared = new WeakSet();
-  let revealIndex = 0;
-  let raf = 0;
-
   const prepareElement = element => {
     if (prepared.has(element) || isProtected(element)) return;
+
     prepared.add(element);
 
     const type = getMotionType(element);
     const config = typeSettings[type] || typeSettings.block;
-    const i = revealIndex++;
+    const index = prepared.size || 0;
 
-    // Every item receives its own deterministic timing rather than a
-    // single global delay, keeping the motion layered but controlled.
-    const delay = config.delay + ((i * 67) % 620);
-    const duration = config.duration + ((i * 43) % 280);
-    const y = config.y + ((i * 5) % 11);
-    const xPattern = i % 4;
-    const x = xPattern === 1 ? -12 : (xPattern === 3 ? 12 : 0);
+    const delay = config.delay + ((index * 47) % 360);
+    const duration = config.duration + ((index * 29) % 220);
+    const y = config.y + ((index * 3) % 7);
+    const x = index % 3 === 1 ? -6 : (index % 3 === 2 ? 6 : 0);
 
     element.classList.add('fx-motion');
     element.style.setProperty('--fx-delay', delay + 'ms');
     element.style.setProperty('--fx-duration', duration + 'ms');
     element.style.setProperty('--fx-reveal-y', y + 'px');
     element.style.setProperty('--fx-x', x + 'px');
-    element.style.setProperty('--fx-speed', String(config.speed));
 
     if (element.matches(sheenSelectors)) {
       element.classList.add('fx-sheen');
     }
+
+    if (element.matches(parallaxSelectors)) {
+      element.style.setProperty('--fx-speed', '0.006');
+      parallaxElements.add(element);
+    }
   };
 
-  const collect = () => {
-    document.querySelectorAll(motionSelectors).forEach(prepareElement);
+  const prepareWithin = root => {
+    if (!(root instanceof Element)) return;
+    if (root.matches(motionSelectors)) prepareElement(root);
+    root.querySelectorAll(motionSelectors).forEach(prepareElement);
   };
 
-  collect();
+  prepareWithin(document.documentElement);
 
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.fx-motion').forEach(element => element.classList.add('fx-visible'));
-    return;
-  }
+  } else {
+    const active = new Set();
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const element = entry.target;
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const element = entry.target;
 
-      if (entry.isIntersecting) {
-        element.classList.add('fx-visible');
-        activeForParallax.add(element);
-      } else {
-        activeForParallax.delete(element);
-      }
+        if (entry.isIntersecting) {
+          element.classList.add('fx-visible');
+          active.add(element);
+        } else {
+          active.delete(element);
+        }
+      });
+    }, {
+      threshold:0.02,
+      rootMargin:'14% 0px 14% 0px'
     });
-  }, {
-    threshold:0.04,
-    rootMargin:'12% 0px 10% 0px'
-  });
 
-  document.querySelectorAll('.fx-motion').forEach(element => observer.observe(element));
+    document.querySelectorAll('.fx-motion').forEach(element => revealObserver.observe(element));
 
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    // Parallax candidates use the same viewport gating, but only a much
+    // smaller visual subset is updated during scrolling.
+    const parallaxActive = new Set();
 
-  const updateParallax = () => {
-    raf = 0;
-
-    if (document.hidden) return;
-
-    const viewportCenter = window.innerHeight * 0.5;
-    const mobileFactor = window.innerWidth < 701 ? 0.45 : 1;
-
-    activeForParallax.forEach(element => {
-      if (!element.classList.contains('fx-visible')) return;
-
-      // Fixed navigation gets staggered entrance timing but never scrolls.
-      if (element.closest('.site-header')) return;
-
-      const rect = element.getBoundingClientRect();
-      if (rect.bottom < -120 || rect.top > window.innerHeight + 120) return;
-
-      const speed = Number(element.style.getPropertyValue('--fx-speed')) || 0.012;
-      const center = rect.top + rect.height * 0.5;
-      const shift = clamp((viewportCenter - center) * speed * mobileFactor, -12 * mobileFactor, 12 * mobileFactor);
-
-      element.style.setProperty('--fx-parallax', shift.toFixed(2) + 'px');
+    const parallaxObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const element = entry.target;
+        if (entry.isIntersecting) {
+          parallaxActive.add(element);
+        } else {
+          parallaxActive.delete(element);
+        }
+      });
+    }, {
+      threshold:0,
+      rootMargin:'18% 0px 18% 0px'
     });
-  };
 
-  const scheduleParallax = () => {
-    if (raf) return;
-    raf = window.requestAnimationFrame(updateParallax);
-  };
+    parallaxElements.forEach(element => parallaxObserver.observe(element));
 
-  window.addEventListener('scroll', scheduleParallax, { passive:true });
-  window.addEventListener('resize', scheduleParallax, { passive:true });
-  window.addEventListener('load', scheduleParallax, { passive:true });
-  document.addEventListener('visibilitychange', scheduleParallax);
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-  scheduleParallax();
+    let raf = 0;
+    let lastScrollY = window.scrollY;
+    let metricsDirty = true;
 
-  // Covers content that is rendered later (for example booking history
-  // cards or filtered collections) without touching protected modals.
-  if ('MutationObserver' in window) {
-    let mutationTimer = 0;
-    const mutationObserver = new MutationObserver(() => {
-      window.clearTimeout(mutationTimer);
-      mutationTimer = window.setTimeout(() => {
-        collect();
-        document.querySelectorAll('.fx-motion:not(.fx-observed)').forEach(element => {
-          element.classList.add('fx-observed');
-          observer.observe(element);
+    const refreshGeometry = () => {
+      geometry.clear();
+
+      parallaxElements.forEach(element => {
+        if (!element.isConnected) return;
+
+        const rect = element.getBoundingClientRect();
+        geometry.set(element, {
+          top: rect.top + window.scrollY,
+          height: rect.height,
+          current: 0,
+          target: 0
         });
+      });
+
+      metricsDirty = false;
+    };
+
+    const updateParallax = () => {
+      raf = 0;
+
+      if (document.hidden) return;
+
+      if (metricsDirty) refreshGeometry();
+
+      const scrollY = window.scrollY;
+      const viewportCenter = scrollY + (window.innerHeight * 0.5);
+      const viewportTop = scrollY - 180;
+      const viewportBottom = scrollY + window.innerHeight + 180;
+
+      let stillMoving = false;
+
+      parallaxActive.forEach(element => {
+        const item = geometry.get(element);
+        if (!item || !element.classList.contains('fx-visible')) return;
+
+        const itemBottom = item.top + item.height;
+        if (itemBottom < viewportTop || item.top > viewportBottom) return;
+
+        const center = item.top + (item.height * 0.5);
+        const target = clamp((viewportCenter - center) * 0.006, -5, 5);
+
+        // A tiny low-pass interpolation makes large wheel/touch deltas feel
+        // organic rather than snapping each element to the new scroll value.
+        item.target = target;
+        item.current += (target - item.current) * 0.13;
+
+        if (Math.abs(target - item.current) > 0.025) stillMoving = true;
+
+        element.style.setProperty('--fx-parallax', item.current.toFixed(2) + 'px');
+      });
+
+      lastScrollY = scrollY;
+
+      if (stillMoving) {
+        raf = window.requestAnimationFrame(updateParallax);
+      }
+    };
+
+    const scheduleParallax = () => {
+      if (metricsDirty) refreshGeometry();
+      if (!raf) raf = window.requestAnimationFrame(updateParallax);
+    };
+
+    window.addEventListener('scroll', scheduleParallax, { passive:true });
+
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      metricsDirty = true;
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        refreshGeometry();
         scheduleParallax();
-      }, 80);
+      }, 120);
+    }, { passive:true });
+
+    window.addEventListener('load', () => {
+      metricsDirty = true;
+      refreshGeometry();
+      scheduleParallax();
+    }, { passive:true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (raf) window.cancelAnimationFrame(raf);
+        raf = 0;
+        return;
+      }
+
+      metricsDirty = true;
+      refreshGeometry();
+      scheduleParallax();
     });
 
-    const observeTargets = [document.querySelector('main'), document.querySelector('footer')].filter(Boolean);
-    observeTargets.forEach(target => mutationObserver.observe(target, { childList:true, subtree:true }));
-  }
+    refreshGeometry();
+    scheduleParallax();
 
-  // Mark already prepared elements so dynamically inserted elements are not
-  // observed more than once.
-  document.querySelectorAll('.fx-motion').forEach(element => element.classList.add('fx-observed'));
+    // Dynamic booking/history/filter content is prepared locally instead of
+    // rescanning the entire document after every mutation.
+    if ('MutationObserver' in window) {
+      let mutationTimer = 0;
+
+      const mutationObserver = new MutationObserver(records => {
+        const added = [];
+
+        records.forEach(record => {
+          record.addedNodes.forEach(node => {
+            if (node.nodeType === 1) added.push(node);
+          });
+        });
+
+        if (!added.length) return;
+
+        window.clearTimeout(mutationTimer);
+        mutationTimer = window.setTimeout(() => {
+          added.forEach(prepareWithin);
+
+          document.querySelectorAll('.fx-motion:not(.fx-observed)').forEach(element => {
+            element.classList.add('fx-observed');
+            revealObserver.observe(element);
+          });
+
+          parallaxElements.forEach(element => {
+            if (!geometry.has(element)) parallaxObserver.observe(element);
+          });
+
+          metricsDirty = true;
+          scheduleParallax();
+        }, 60);
+      });
+
+      [document.querySelector('main'), document.querySelector('footer')]
+        .filter(Boolean)
+        .forEach(target => mutationObserver.observe(target, { childList:true, subtree:true }));
+    }
+  }
 })();
