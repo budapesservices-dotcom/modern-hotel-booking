@@ -15,7 +15,16 @@ A modern, lightweight hotel booking concept built with semantic HTML5, CSS and v
 
 **THE STILL HOTEL — A hotel for slower hours.**
 
-The experience is organised around moments of the day instead of a generic hotel-template sequence. Time becomes part of the visual identity: morning, afternoon, evening and night.
+The experience is organised around moments of the day instead of a generic hotel-template sequence. Time becomes part of the visual identity: morning, afternoon, blue hour and night. The hero is a looping timeline: imagery, mood color and time rail move together.
+
+
+## Hero timeline
+
+The homepage hero is controlled from `js/hero-config.js`. This is the only file a client needs to touch for the hero image sequence.
+
+Each item contains `time`, `label`, `caption`, `tone` and `image`. Add or replace an item in that array and the hero automatically creates the corresponding image scene and time-rail control. The sequence loops continuously and accepts any number of scenes.
+
+For the final handoff, store approved images under `assets/images/hero/` and replace the remote image URL in the config with the local path. No HTML restructuring is required.
 
 ## Booking flow
 
