@@ -2,7 +2,7 @@
  * The Still Hotel — Your Booking
  * Front-end guest booking viewer for the contest/demo build.
  *
- * Reads the booking records created by booking-flow.js from localStorage.
+ * Reads booking records from localStorage.
  * A real production site must replace this with authenticated server data.
  */
 
@@ -29,13 +29,69 @@
     }).format(date);
   };
 
+  const getNights = booking => {
+    if (!booking.checkin || !booking.checkout) return 0;
+
+    const start = new Date(booking.checkin + 'T12:00:00');
+    const end = new Date(booking.checkout + 'T12:00:00');
+    return Math.max(0, Math.round((end - start) / 86400000));
+  };
+
   const getBookings = () => {
     try {
-      const records = JSON.parse(localStorage.getItem('stillHotelBookings') || '[]');
+      const records = JSON.parse(
+        localStorage.getItem('stillHotelBookings') || '[]'
+      );
       return Array.isArray(records) ? records : [];
     } catch {
       return [];
     }
+  };
+
+  const saveBookings = bookings => {
+    try {
+      localStorage.setItem('stillHotelBookings', JSON.stringify(bookings));
+    } catch {
+      return false;
+    }
+    return true;
+  };
+
+  const isCancellable = booking => {
+    if (booking.status !== 'confirmed') return false;
+    if (!booking.checkin) return true;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkin = new Date(booking.checkin + 'T00:00:00');
+    return checkin >= today;
+  };
+
+  const cancelBooking = index => {
+    const bookings = getBookings();
+    const booking = bookings[index];
+    if (!booking || !isCancellable(booking)) return;
+
+    const confirmed = window.confirm(
+      'Cancel this booking? This demo will mark the reservation as cancelled.'
+    );
+
+    if (!confirmed) return;
+
+    bookings[index] = {
+      ...booking,
+      status: 'cancelled',
+      cancelledAt: new Date().toISOString()
+    };
+
+    saveBookings(bookings);
+    render();
+
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'stillHotelBookings',
+      newValue: JSON.stringify(bookings)
+    }));
   };
 
   const render = () => {
@@ -54,24 +110,26 @@
     }
 
     list.innerHTML = bookings.map((booking, index) => {
-      const nights = booking.checkin && booking.checkout
-        ? Math.max(
-            0,
-            Math.round(
-              (new Date(booking.checkout + 'T12:00:00') -
-               new Date(booking.checkin + 'T12:00:00')) / 86400000
-            )
-          )
-        : 0;
+      const nights = getNights(booking);
+      const status = String(booking.status || 'confirmed').toLowerCase();
+      const cancellable = isCancellable(booking);
 
       return `
-        <article class="your-booking-card${index === 0 ? ' is-current' : ''}">
+        <article class="your-booking-card${index === 0 && status === 'confirmed' ? ' is-current' : ''}${status === 'cancelled' ? ' is-cancelled' : ''}">
           <div class="your-booking-card-head">
             <div>
-              <p class="eyebrow">${index === 0 ? 'Current booking' : 'Booking history'}</p>
+              <p class="eyebrow">
+                ${status === 'cancelled'
+                  ? 'Booking history / Cancelled'
+                  : index === 0
+                    ? 'Current booking'
+                    : 'Booking history'}
+              </p>
               <h2>${escapeHtml(booking.room || 'Room selection')}</h2>
             </div>
-            <span class="your-booking-status">${escapeHtml(booking.status || 'confirmed')}</span>
+            <span class="your-booking-status status-${escapeHtml(status)}">
+              ${escapeHtml(status)}
+            </span>
           </div>
 
           <div class="your-booking-id">
@@ -86,12 +144,34 @@
             <div><span>Nights</span><strong>${nights || '—'}</strong></div>
           </div>
 
-          <p class="your-booking-note">
-            Please bring this Customer Booking ID and show it to reception when you arrive.
-          </p>
+          <div class="your-booking-card-footer">
+            <p class="your-booking-note">
+              ${status === 'cancelled'
+                ? 'This booking has been cancelled and kept in your booking history.'
+                : 'Please bring this Customer Booking ID and show it to reception when you arrive.'}
+            </p>
+
+            ${cancellable
+              ? `
+                <button
+                  class="your-booking-cancel"
+                  type="button"
+                  data-cancel-booking
+                  data-booking-index="${index}">
+                  Cancel booking
+                </button>
+              `
+              : ''}
+          </div>
         </article>
       `;
     }).join('');
+
+    list.querySelectorAll('[data-cancel-booking]').forEach(button => {
+      button.addEventListener('click', () => {
+        cancelBooking(Number(button.dataset.bookingIndex));
+      });
+    });
   };
 
   render();
