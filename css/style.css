@@ -4781,6 +4781,145 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-about .amenity-grid h3{
   margin-top:16px;
 }
+/* =========================================================
+   AMENITIES CARDS — ELEGANT PALETTE + SMALL WATER RIPPLE
+   ========================================================= */
+.page-amenities .amenity-grid.amenities-full-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  border-top:0;
+}
+.page-amenities .amenities-full-grid>div{
+  --card-bg:#27312f;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:218px;
+  padding:30px 28px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:var(--card-bg);
+  color:#f5f1e8;
+  box-shadow:0 8px 26px rgba(41,39,32,.08);
+  transform:translateZ(0);
+  transition:transform .45s var(--ease),box-shadow .45s ease;
+}
+.page-amenities .amenities-full-grid>div:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 32px rgba(41,39,32,.14);
+}
+.page-amenities .amenities-full-grid>div:before,
+.page-amenities .amenities-full-grid>div:after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:64px;
+  height:34px;
+  border:1px solid rgba(245,241,232,.16);
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%) scale(.45);
+  opacity:0;
+  animation:amenityWaterRipple 5.8s ease-out infinite;
+}
+.page-amenities .amenities-full-grid>div:before{
+  left:78%;
+  top:78%;
+}
+.page-amenities .amenities-full-grid>div:after{
+  left:78%;
+  top:78%;
+  animation-delay:2.9s;
+}
+.page-amenities .amenities-full-grid>div:nth-child(3n+1){--card-bg:#2c3734}
+.page-amenities .amenities-full-grid>div:nth-child(3n+2){--card-bg:#343b47}
+.page-amenities .amenities-full-grid>div:nth-child(3n+3){--card-bg:#403b35}
+.page-amenities .amenities-full-grid>div:nth-child(4n+1){--card-bg:#2f3935}
+.page-amenities .amenities-full-grid>div:nth-child(4n+2){--card-bg:#313847}
+.page-amenities .amenities-full-grid>div:nth-child(4n+3){--card-bg:#4a4038}
+.page-amenities .amenities-full-grid>div:nth-child(4n){--card-bg:#39443f}
+
+.page-amenities .amenities-full-grid>div:nth-child(3n+2),
+.page-amenities .amenities-full-grid>div:nth-child(3n+3){
+  padding-left:28px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+.page-amenities .amenities-full-grid>div span{
+  position:relative;
+  z-index:1;
+  margin-bottom:26px;
+  color:#d6b36a;
+  font-size:9px;
+  letter-spacing:.18em;
+}
+.page-amenities .amenities-full-grid>div strong{
+  position:relative;
+  z-index:1;
+  color:rgba(246,242,233,.66);
+  font-size:9px;
+  letter-spacing:.16em;
+}
+.page-amenities .amenities-full-grid>div h3{
+  position:relative;
+  z-index:1;
+  margin:18px 0 8px;
+  color:#fffaf0;
+  font-size:25px;
+  font-weight:400;
+  letter-spacing:-.02em;
+}
+.page-amenities .amenities-full-grid>div p{
+  position:relative;
+  z-index:1;
+  max-width:300px;
+  margin:0;
+  color:rgba(246,242,233,.70);
+  font-size:13px;
+  line-height:1.62;
+}
+@keyframes amenityWaterRipple{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.45);
+  }
+  18%{
+    opacity:.34;
+  }
+  72%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(1.55);
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(1.55);
+  }
+}
+@media(max-width:900px){
+  .page-amenities .amenity-grid.amenities-full-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .page-amenities .amenities-full-grid>div,
+  .page-amenities .amenities-full-grid>div:nth-child(3n+2),
+  .page-amenities .amenities-full-grid>div:nth-child(3n+3){
+    padding:26px 22px;
+    border-left:0;
+  }
+}
+@media(max-width:560px){
+  .page-amenities .amenity-grid.amenities-full-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .page-amenities .amenities-full-grid>div,
+  .page-amenities .amenities-full-grid>div:nth-child(3n+2),
+  .page-amenities .amenities-full-grid>div:nth-child(3n+3){
+    min-height:190px;
+    padding:26px 22px;
+  }
+}
+
 .page-amenities .contact-cta{
   background:#e6e1d8;
 }
