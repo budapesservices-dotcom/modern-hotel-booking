@@ -45,16 +45,16 @@
   const renderHeroTimeline = () => {
     if (!heroScenes || !timeTrack || !heroTimeline.length) return;
 
-    heroScenes.innerHTML = heroTimeline.map((item, index) => `
-      <div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}"
-        style="background-image:url("${item.image}")"></div>
-    `).join('');
+    heroScenes.innerHTML = heroTimeline.map((item, index) => {
+      const image = item.image.replace(/"/g, '&quot;');
+      return `<div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}" style="background-image:url("${image}")"></div>`;
+    }).join('');
 
-    timeTrack.innerHTML = heroTimeline.map((item, index) => `
-      <button class="time-stop${index === 0 ? ' is-active' : ''}" type="button" data-scene-target="${index}" aria-label="${item.time} — ${item.caption}">
+    timeTrack.innerHTML = heroTimeline.map((item, index) =>
+      `<button class="time-stop${index === 0 ? ' is-active' : ''}" type="button" data-scene-target="${index}" aria-label="${item.time} — ${item.caption}">
         <span>${item.time}</span><small>${item.caption}</small>
-      </button>
-    `).join('');
+      </button>`
+    ).join('');
 
     scenes = [...heroScenes.querySelectorAll('[data-scene]')];
     stops = [...timeTrack.querySelectorAll('[data-scene-target]')];
@@ -68,6 +68,7 @@
 
     const meta = heroTimeline[activeScene];
     if (hero) hero.dataset.tone = meta.tone;
+    if (heroMood) heroMood.dataset.tone = meta.tone;
     if (sceneLabel) sceneLabel.textContent = meta.label;
 
     if (restart) startTimer();
