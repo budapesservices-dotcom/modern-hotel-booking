@@ -143,12 +143,6 @@
         aria-modal="true"
         aria-labelledby="still-booking-receipt-title">
 
-        <button
-          class="still-booking-receipt-close"
-          type="button"
-          aria-label="Close booking confirmation"
-          data-booking-confirm-cancel>×</button>
-
         <div class="still-booking-receipt-head">
           <p class="eyebrow">The Still Hotel / Booking review</p>
           <span>PRE-CONFIRMATION</span>
