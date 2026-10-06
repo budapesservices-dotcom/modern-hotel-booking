@@ -7265,3 +7265,22 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     min-height:44px;
   }
 }
+
+
+/* Booking receipt desktop spacing: keep the terms content comfortably
+   separated from the receipt's dashed trim lines. */
+@media(min-width:600px){
+  .still-booking-receipt{
+    padding:36px 34px 44px;
+  }
+
+  .still-booking-terms{
+    padding-top:21px;
+    padding-bottom:10px;
+  }
+
+  .still-booking-receipt-actions{
+    margin-top:28px;
+    padding-top:20px;
+  }
+}
