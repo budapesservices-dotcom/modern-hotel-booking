@@ -20,14 +20,24 @@
   window.addEventListener('scroll', syncHeader, { passive: true });
   syncHeader();
 
+  const closeMenu = () => {
+    nav?.classList.remove('open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    header?.classList.remove('menu-open');
+    body.classList.remove('no-scroll');
+  };
+
   menuToggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     menuToggle.setAttribute('aria-expanded', String(open));
+    header?.classList.toggle('menu-open', open);
+    body.classList.toggle('no-scroll', open);
   });
-  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-  }));
+
+  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  window.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
 
   // ---------- Signature hero: time is the interface ----------
   const hero = document.querySelector('[data-hero]');
