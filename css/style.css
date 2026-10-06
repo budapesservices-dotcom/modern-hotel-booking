@@ -4646,32 +4646,54 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
    AMENITIES HEADER — MATCH MOMENTS
    ========================================================= */
 .page-amenities .signature-header{
-  --header-theme:#292720;
+  --header-theme:#d6b36a;
   --header-secondary:#183a59;
+  background:#1b1a18;
+  color:var(--header-theme);
+  box-shadow:none;
 }
 .page-amenities .signature-header:not(.scrolled){
   color:var(--header-theme);
-  background:transparent;
+  background:#1b1a18;
   backdrop-filter:none;
   box-shadow:none;
 }
-.page-amenities .signature-header:not(.scrolled) .nav-book{
+.page-amenities .signature-header:not(.scrolled) .brand,
+.page-amenities .signature-header:not(.scrolled) .site-nav a,
+.page-amenities .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--header-theme);
+  text-shadow:none;
+}
+.page-amenities .signature-header:not(.scrolled) .nav-book,
+.page-amenities .signature-header.scrolled .nav-book{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   min-height:38px;
   padding:10px 17px;
-  border:1px solid currentColor;
+  border:1px solid var(--header-theme);
   border-radius:9999px;
-  background:transparent;
-  color:var(--header-theme);
+  background:var(--header-theme);
+  color:#1b1a18;
   line-height:1;
   white-space:nowrap;
+  box-shadow:none;
 }
-.page-amenities .signature-header:not(.scrolled) .nav-book:hover{
-  background:var(--header-theme);
-  color:#fffdf9;
+.page-amenities .signature-header:not(.scrolled) .nav-book:hover,
+.page-amenities .signature-header.scrolled .nav-book:hover{
+  background:#1b1a18;
+  color:var(--header-theme);
   border-color:var(--header-theme);
+}
+.page-amenities .signature-header.scrolled{
+  background:#1b1a18;
+  color:var(--header-theme);
+}
+.page-amenities .signature-header.scrolled .brand,
+.page-amenities .signature-header.scrolled .site-nav a,
+.page-amenities .signature-header.scrolled .menu-toggle{
+  color:var(--header-theme);
+  text-shadow:none;
 }
 
 /* =========================================================
