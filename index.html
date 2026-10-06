@@ -25,13 +25,9 @@
 
 <main>
   <section class="signature-hero" aria-labelledby="hero-title" data-hero>
-    <div class="hero-scenes" aria-hidden="true">
-      <div class="hero-scene is-active" data-scene="0" style="background-image:url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=84')"></div>
-      <div class="hero-scene" data-scene="1" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=84')"></div>
-      <div class="hero-scene" data-scene="2" style="background-image:url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=2200&q=84')"></div>
-      <div class="hero-scene" data-scene="3" style="background-image:url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2200&q=84')"></div>
-    </div>
+    <div class="hero-scenes" aria-hidden="true" data-hero-scenes></div>
     <div class="hero-wash"></div>
+    <div class="hero-mood" aria-hidden="true" data-hero-mood></div>
     <div class="hero-grain" aria-hidden="true"></div>
 
     <div class="page-wrap signature-hero-inner">
@@ -49,12 +45,7 @@
 
       <div class="time-rail" aria-label="Hotel moments">
         <p>THE DAY, IN FOUR MOMENTS</p>
-        <div class="time-track">
-          <button class="time-stop is-active" type="button" data-scene-target="0"><span>06:42</span><small>FIRST LIGHT</small></button>
-          <button class="time-stop" type="button" data-scene-target="1"><span>12:30</span><small>NOWHERE TO BE</small></button>
-          <button class="time-stop" type="button" data-scene-target="2"><span>18:47</span><small>BLUE HOUR</small></button>
-          <button class="time-stop" type="button" data-scene-target="3"><span>22:16</span><small>GOODNIGHT</small></button>
-        </div>
+        <div class="time-track" data-time-track></div>
       </div>
     </div>
   </section>
@@ -163,6 +154,7 @@
   </div>
 </aside>
 
+<script src="js/hero-config.js" defer></script>
 <script src="js/main.js" defer></script>
 </body>
 </html>
