@@ -7,7 +7,7 @@ A modern, lightweight hotel booking concept built with semantic HTML5, CSS and v
 - `index.html` — cinematic home page, automatic background gallery, story-led sections and booking CTA.
 - `rooms.html` — individual room blocks, amenities and a future pricing area.
 - `gallery.html` — editorial masonry-style gallery with lightbox.
-- `contact.html` — direct email, WhatsApp and a map placeholder.
+- `contact.html` — contact form, WhatsApp, email and embedded Google Map.
 - `css/style.css` — responsive design system, typography, layout and motion.
 - `js/main.js` — navigation, scroll reveal, booking drawer, WhatsApp message generation and lightbox.
 
@@ -28,7 +28,8 @@ For the final handoff, store approved images under `assets/images/hero/` and rep
 
 ## Booking flow
 
-The site intentionally needs no backend. Guests can choose check-in, check-out and guest count in the booking drawer. The site then opens WhatsApp with a pre-filled availability message.
+Booking uses the existing client-side WhatsApp hand-off. Contact enquiries use a lightweight static form endpoint so the site remains a plain HTML/CSS/JS build without its own server.
+
 
 Replace the demo WhatsApp number and email address before submission.
 
