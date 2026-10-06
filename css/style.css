@@ -3906,3 +3906,73 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-rooms .room-detail-facilities-head small{
   color:#5d574f;
 }
+
+
+/* =========================================================
+   ROOMS HERO — MOBILE ORDER
+   On small screens the room image sits directly below the
+   headline, with no oversized empty side-column.
+   ========================================================= */
+@media(max-width:599px){
+  .page-rooms .rooms-hero-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    align-items:start;
+  }
+
+  .page-rooms .rooms-hero-copy{
+    display:contents;
+  }
+
+  .page-rooms .rooms-hero-copy .eyebrow{
+    order:1;
+  }
+
+  .page-rooms .rooms-hero-copy h1{
+    order:2;
+    margin-bottom:18px;
+  }
+
+  .page-rooms .rooms-hero-visual{
+    order:3;
+    width:100%;
+    min-height:220px;
+    margin:0 0 24px;
+  }
+
+  .page-rooms .rooms-hero-lede{
+    order:4;
+    margin-bottom:22px;
+  }
+
+  .page-rooms .rooms-hero-actions{
+    order:5;
+  }
+
+  .page-rooms .rooms-hero-panel-a{
+    left:0;
+    top:12%;
+    width:42%;
+    height:68%;
+  }
+
+  .page-rooms .rooms-hero-panel-b{
+    left:29%;
+    top:0;
+    width:43%;
+    height:76%;
+  }
+
+  .page-rooms .rooms-hero-panel-c{
+    right:0;
+    top:14%;
+    width:38%;
+    height:66%;
+  }
+
+  .page-rooms .rooms-hero-stamp{
+    left:29%;
+    bottom:2%;
+  }
+}
