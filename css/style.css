@@ -5836,3 +5836,28 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .close-button:hover{
   transform:translateY(-2px);
 }
+
+/* =========================================================
+   CTA / LOWER CONTENT HOVER — COMPLETE GOLD PASS
+   ========================================================= */
+
+/* Solid dark CTAs used throughout the lower sections. */
+.button-dark:hover{
+  background:var(--button-hover-gold,#d6b36a) !important;
+  color:#292720 !important;
+  border-color:var(--button-hover-gold,#d6b36a) !important;
+  transform:translateY(-2px);
+}
+
+/* Gallery category controls behave like bordered pills on hover. */
+.page-gallery .moments-filter-tab:hover{
+  background:var(--button-hover-gold,#d6b36a) !important;
+  color:#292720 !important;
+  border-color:var(--button-hover-gold,#d6b36a) !important;
+  transform:translateY(-1px);
+}
+
+/* Keep borderless gallery / content links text-only. */
+.page-gallery .moments-filter-tab{
+  transition:background .3s ease,color .3s ease,border-color .3s ease,transform .25s ease;
+}
