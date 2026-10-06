@@ -3807,3 +3807,24 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     max-width:none;
   }
 }
+
+
+/* ROOM BOOKING — identical dropdown dimensions */
+.room-custom-select[data-room-custom-select="guests"] .room-custom-select-trigger,
+.room-custom-select[data-room-custom-select="nights"] .room-custom-select-trigger{
+  width:64px !important;
+  min-width:64px !important;
+  max-width:64px;
+}
+.room-custom-select[data-room-custom-select="guests"] .room-custom-select-menu,
+.room-custom-select[data-room-custom-select="nights"] .room-custom-select-menu{
+  width:72px !important;
+}
+@media(max-width:599px){
+  .room-custom-select[data-room-custom-select="guests"] .room-custom-select-trigger,
+  .room-custom-select[data-room-custom-select="nights"] .room-custom-select-trigger{
+    width:64px !important;
+    min-width:64px !important;
+    max-width:64px;
+  }
+}
