@@ -183,63 +183,93 @@
   const experience = document.querySelector('[data-experience-carousel]');
   if (experience) {
     const track = experience.querySelector('[data-experience-track]');
-    const cards = [...experience.querySelectorAll('[data-experience-card]')];
+    const originals = [...experience.querySelectorAll('[data-experience-card]')];
     const current = experience.querySelector('[data-experience-current]');
     const reduce = reduceMotion;
-    let experienceIndex = 0;
-    let experienceTimer = 0;
-    let experienceStep = 0;
 
-    const getStep = () => {
-      const card = cards[0];
-      if (!card) return 0;
-      const gap = parseFloat(getComputedStyle(track).gap) || 0;
-      return card.getBoundingClientRect().width + gap;
-    };
+    let index = 0;
+    let timer = 0;
+    let step = 0;
+    const total = originals.length;
 
-    const update = (animate = true) => {
-      if (!track || !cards.length) return;
-      track.style.transition = animate ? 'transform .72s var(--ease)' : 'none';
-      track.style.transform = `translate3d(-${experienceIndex * experienceStep}px,0,0)`;
-      if (current) current.textContent = String((experienceIndex % cards.length) + 1).padStart(2, '0');
-      if (!animate) requestAnimationFrame(() => track.style.transition = '');
-    };
+    if (track && total > 1) {
+      originals.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.classList.add('experience-card-clone');
+        track.appendChild(clone);
+      });
 
-    const schedule = () => {
-      window.clearTimeout(experienceTimer);
-      if (!reduce && cards.length > 1 && !document.hidden) {
-        experienceTimer = window.setTimeout(() => {
-          experienceIndex += 1;
+      const cards = [...track.querySelectorAll('[data-experience-card]')];
 
-          if (experienceIndex >= cards.length) {
-            experienceIndex = 0;
-            update(false);
-          } else {
-            update(true);
-          }
+      const measure = () => {
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        step = cards[0].getBoundingClientRect().width + gap;
+      };
 
+      const render = (animate = true) => {
+        track.style.transition = animate ? 'transform .72s var(--ease)' : 'none';
+        track.style.transform = `translate3d(-${index * step}px,0,0)`;
+
+        if (current) {
+          current.textContent = String((index % total) + 1).padStart(2, '0');
+        }
+
+        if (!animate) {
+          requestAnimationFrame(() => {
+            track.style.transition = '';
+          });
+        }
+      };
+
+      const schedule = () => {
+        window.clearTimeout(timer);
+        if (!reduce && !document.hidden) {
+          timer = window.setTimeout(() => {
+            index += 1;
+
+            // The second copy of card 01 is visually identical to the first.
+            // Reset beneath it without a visible jump, then continue the loop.
+            if (index >= total * 2) {
+              index = total;
+              render(false);
+              requestAnimationFrame(() => {
+                index += 1;
+                render(true);
+                schedule();
+              });
+              return;
+            }
+
+            render(true);
+            schedule();
+          }, 2500);
+        }
+      };
+
+      const init = () => {
+        measure();
+        render(false);
+        schedule();
+      };
+
+      init();
+
+      window.addEventListener('resize', () => {
+        measure();
+        render(false);
+      }, { passive:true });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          window.clearTimeout(timer);
+        } else {
+          measure();
+          render(false);
           schedule();
-        }, 2700);
-      }
-    };
-
-    const init = () => {
-      experienceStep = getStep();
-      update(false);
-      schedule();
-    };
-
-    init();
-
-    window.addEventListener('resize', () => {
-      experienceStep = getStep();
-      update(false);
-    }, { passive:true });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) window.clearTimeout(experienceTimer);
-      else schedule();
-    });
+        }
+      });
+    }
   }
 
   // ---------- Booking ----------
