@@ -257,8 +257,8 @@
   width:calc(100% + clamp(40px,7vw,120px));
   margin-right:calc(clamp(40px,7vw,120px) * -1);
   overflow:hidden;
-  background:#d4cbbd;
-  box-shadow:0 22px 70px rgba(34,30,24,.10);
+  background:transparent;
+  box-shadow:none;
 }
 .story-triptych{
   position:relative;
