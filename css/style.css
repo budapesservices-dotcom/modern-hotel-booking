@@ -231,20 +231,38 @@
   border-top:1px solid var(--line);
   max-width:520px;
 }
-.story-hours span{
+.story-hours .story-hour{
+  appearance:none;
   display:grid;
   gap:4px;
+  min-width:86px;
+  padding:0;
+  margin:0;
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+  touch-action:manipulation;
 }
-.story-hours strong{
+.story-hours .story-hour:focus-visible{
+  outline:1px solid var(--accent);
+  outline-offset:6px;
+}
+.story-hours .story-hour strong{
+
   font-size:12px;
   letter-spacing:.08em;
   font-weight:500;
 }
-.story-hours small{
+.story-hours .story-hour small{
   font-size:8px;
   letter-spacing:.13em;
   color:var(--muted);
   text-transform:uppercase;
+}
+.story-hours .story-hour.is-active strong{
+  color:var(--accent);
 }
 .story-architecture-figure{
   position:relative;
@@ -266,6 +284,19 @@
   aspect-ratio:5/3;
   overflow:visible;
 }
+.story-triptych-stage{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .9s ease,visibility 0s linear .9s;
+}
+.story-triptych-stage.is-active{
+  opacity:1;
+  visibility:visible;
+  transition:opacity .9s ease,visibility 0s linear 0s;
+}
 .story-pane{
   position:absolute;
   top:0;
@@ -273,7 +304,7 @@
   overflow:hidden;
   width:calc((100% - 32px) / 5);
   height:76%;
-  background-image:var(--story-image);
+  background-image:var(--story-stage-image);
   background-repeat:no-repeat;
   background-size:500% 100%;
   filter:saturate(.88) contrast(1.02);
