@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#f7f4ed">
   <title>Your Booking — The Still Hotel</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/booking-management.css">
 </head>
 <body class="page-your-booking">
 <header class="site-header signature-header" data-header>
@@ -40,6 +41,22 @@
 
   <section class="your-booking-section section">
     <div class="page-wrap">
+      <div class="your-booking-history-head">
+        <div>
+          <p class="eyebrow">Reservations / History</p>
+          <p class="your-booking-history-copy">
+            Active bookings remain here until the checkout date passes or the admin confirms a cancellation.
+          </p>
+        </div>
+        <button
+          class="your-booking-delete-history"
+          type="button"
+          data-delete-booking-history
+          hidden>
+          Delete history
+        </button>
+      </div>
+
       <div class="your-booking-list" data-your-booking-list aria-live="polite"></div>
     </div>
   </section>
@@ -52,6 +69,7 @@
   </div>
 </footer>
 
+<script src="js/booking-flow.js" defer></script>
 <script src="js/main.js" defer></script>
 <script src="js/your-booking.js" defer></script>
 </body>
