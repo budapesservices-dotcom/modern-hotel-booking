@@ -552,7 +552,7 @@
 
     if (roomDetailNights) roomDetailNights.value = String(nights);
     if (roomDetailTotal) {
-      roomDetailTotal.textContent = '
+      roomDetailTotal.textContent = String.fromCharCode(36) + (price * nights).toLocaleString('en-US');
     }
 
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName || '—';
