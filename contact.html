@@ -102,7 +102,7 @@
         </div>
       </div>
 
-      <form class="contact-form" data-contact-form novalidate>
+      <form class="contact-form" action="https://formsubmit.co/blueboys55256@gmail.com" method="POST" data-contact-form novalidate>
         <div class="contact-form-field">
           <label for="contact-name">Full name</label>
           <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" required>
@@ -125,8 +125,10 @@
         </div>
         <div class="contact-form-honeypot" aria-hidden="true">
           <label for="contact-website">Website</label>
-          <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          <input id="contact-website" name="_honey" type="text" tabindex="-1" autocomplete="off">
         </div>
+        <input type="hidden" name="_subject" value="[The Still Hotel] New Guest Enquiry">
+        <input type="hidden" name="_template" value="table">
         <div class="contact-form-submit">
           <button class="button button-dark" type="submit" data-contact-submit>Send message <span>→</span></button>
           <p class="contact-form-status" data-contact-status role="status" aria-live="polite"></p>
