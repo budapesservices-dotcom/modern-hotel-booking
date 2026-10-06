@@ -8134,11 +8134,48 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 
-/* Moments mobile — tighter vertical rhythm */
+/* Moments mobile — locked compact stack.
+   Use a single-column flex flow so legacy grid row sizing cannot create
+   artificial vertical gaps between gallery images. */
 @media(max-width:560px){
   .page-gallery .moments-grid{
-    row-gap:8px;
-    column-gap:0;
+    display:flex;
+    flex-direction:column;
+    gap:0 !important;
+  }
+
+  .page-gallery .moments-item,
+  .page-gallery .moments-item-hero,
+  .page-gallery .moments-item-offset,
+  .page-gallery .moments-item-tall,
+  .page-gallery .moments-item-small,
+  .page-gallery .moments-item-wide,
+  .page-gallery .moments-item-medium,
+  .page-gallery .moments-item-low,
+  .page-gallery .moments-item-offset-2,
+  .page-gallery .moments-item-evening,
+  .page-gallery .moments-item-last,
+  .page-gallery .moments-item-night,
+  .page-gallery .moments-item-last-outside{
+    grid-column:auto !important;
+    grid-row:auto !important;
+    margin:0 0 16px !important;
+  }
+
+  .page-gallery .moments-image-wrap,
+  .page-gallery .moments-item-hero .moments-image-wrap,
+  .page-gallery .moments-item-wide .moments-image-wrap,
+  .page-gallery .moments-item-evening .moments-image-wrap,
+  .page-gallery .moments-item-tall .moments-image-wrap,
+  .page-gallery .moments-item-last .moments-image-wrap{
+    height:auto;
+    aspect-ratio:4 / 3;
+  }
+
+  .page-gallery .moments-item-hero .moments-image-wrap,
+  .page-gallery .moments-item-wide .moments-image-wrap,
+  .page-gallery .moments-item-evening .moments-image-wrap{
+    aspect-ratio:5 / 4;
   }
 
   .page-gallery .moments-item figcaption{
