@@ -3828,3 +3828,66 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     max-width:64px;
   }
 }
+
+
+/* =========================================================
+   ROOM BOOKING — ROOM-SPECIFIC FACILITIES
+   More premium rooms reveal a richer, still compact amenity set.
+   ========================================================= */
+.room-booking-facilities{
+  padding:18px 0 20px;
+  border-bottom:1px solid #302b25;
+}
+.room-booking-facilities-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+  color:#948b7d;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.room-booking-facilities-head small{
+  color:#6f665a;
+  font-size:8px;
+  letter-spacing:.1em;
+}
+.room-booking-facilities ul{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px 18px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.room-booking-facilities li{
+  position:relative;
+  padding-left:12px;
+  color:#c5bbae;
+  font-size:10px;
+  line-height:1.35;
+}
+.room-booking-facilities li:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.55em;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#d6b36a;
+}
+@media(max-width:599px){
+  .room-booking-facilities{
+    padding:16px 0 18px;
+  }
+  .room-booking-facilities ul{
+    grid-template-columns:1fr 1fr;
+    gap:7px 14px;
+  }
+  .room-booking-facilities li{
+    font-size:9px;
+  }
+}
