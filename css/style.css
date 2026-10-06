@@ -4673,7 +4673,10 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 /* The dark background belongs to the Amenities hero, not the header. */
 .page-amenities .page-hero{
   position:relative;
-  min-height:72svh;
+  width:100%;
+  height:100dvh;
+  min-height:100svh;
+  max-height:100dvh;
   display:grid;
   align-items:end;
   padding-top:170px;
@@ -5280,7 +5283,15 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .site-nav{
     gap:17px;
   }
-  .page-amenities .page-hero,
+  .page-amenities .page-hero{
+    width:100%;
+    height:100dvh;
+    min-height:100svh;
+    max-height:100dvh;
+    padding-top:clamp(108px,18vh,142px);
+    padding-bottom:clamp(46px,8vh,80px);
+    align-items:end;
+  }
   .page-about .page-hero{
     padding-top:142px;
   }
