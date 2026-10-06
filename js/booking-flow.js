@@ -464,6 +464,77 @@
     modal.querySelector('[data-booking-confirm-continue]')?.addEventListener(
       'click',
       () => {
+        const contact = window.STILL_CONTACT || {};
+        const number = String(contact.whatsappNumber || '').replace(/\D/g, '');
+        const summary = [
+          'Hello The Still Hotel,',
+          '',
+          'I would like to continue this booking request.',
+          bookingData.room ? 'Room: ' + bookingData.room : null,
+          bookingData.guests ? 'Guests: ' + bookingData.guests : null,
+          bookingData.checkin ? 'Check-in: ' + formatDate(bookingData.checkin) : null,
+          bookingData.checkout ? 'Check-out: ' + formatDate(bookingData.checkout) : null,
+          bookingData.price ? 'Nightly rate: 
+
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('open');
+
+    window.setTimeout(() => {
+      modal.querySelector('.still-booking-continue')?.focus();
+    }, 60);
+  };
+
+  const startBooking = bookingData => {
+    const data = {
+      room: bookingData?.room || '',
+      checkin: bookingData?.checkin || '',
+      checkout: bookingData?.checkout || '',
+      guests: bookingData?.guests || '2',
+      price: bookingData?.price || ''
+    };
+
+    
+    if (!BYPASS_LOGIN && !hasSession()) {
+      redirectToLogin(data);
+      return;
+    }
+
+    showConfirmation(data);
+  };
+
+  expireOverdueBookings();
+  window.setInterval(expireOverdueBookings, 60 * 1000);
+
+  window.addEventListener('storage', event => {
+    if (event.key === STORAGE.bookings || event.key === STORAGE.notifications) {
+      expireOverdueBookings();
+    }
+  });
+
+  window.TheStillBooking = {
+    start: startBooking,
+    getBookings: expireOverdueBookings,
+    getNotifications,
+    requestCancellation,
+    resolveCancellation,
+    deleteHistory,
+    expireOverdueBookings,
+    status: STATUS,
+    config: {
+      bypassLogin: BYPASS_LOGIN,
+      bypassAdminCancellation: BYPASS_ADMIN_CANCELLATION,
+      loginUrl: LOGIN_URL
+    }
+  };
+})();
+ + bookingData.price : null
+        ].filter(Boolean).join('\n');
+
+        if (number) {
+          const whatsappUrl = 'https://wa.me/' + number + '?text=' + encodeURIComponent(summary);
+          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
         showBookingSuccess(modal, bookingData);
       }
     );
