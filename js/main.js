@@ -179,6 +179,69 @@
     }
   }
 
+  // ---------- Hotel Experience carousel ----------
+  const experience = document.querySelector('[data-experience-carousel]');
+  if (experience) {
+    const track = experience.querySelector('[data-experience-track]');
+    const cards = [...experience.querySelectorAll('[data-experience-card]')];
+    const current = experience.querySelector('[data-experience-current]');
+    const reduce = reduceMotion;
+    let experienceIndex = 0;
+    let experienceTimer = 0;
+    let experienceStep = 0;
+
+    const getStep = () => {
+      const card = cards[0];
+      if (!card) return 0;
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const update = (animate = true) => {
+      if (!track || !cards.length) return;
+      track.style.transition = animate ? 'transform .72s var(--ease)' : 'none';
+      track.style.transform = `translate3d(-${experienceIndex * experienceStep}px,0,0)`;
+      if (current) current.textContent = String((experienceIndex % cards.length) + 1).padStart(2, '0');
+      if (!animate) requestAnimationFrame(() => track.style.transition = '');
+    };
+
+    const schedule = () => {
+      window.clearTimeout(experienceTimer);
+      if (!reduce && cards.length > 1 && !document.hidden) {
+        experienceTimer = window.setTimeout(() => {
+          experienceIndex += 1;
+
+          if (experienceIndex >= cards.length) {
+            experienceIndex = 0;
+            update(false);
+          } else {
+            update(true);
+          }
+
+          schedule();
+        }, 2700);
+      }
+    };
+
+    const init = () => {
+      experienceStep = getStep();
+      update(false);
+      schedule();
+    };
+
+    init();
+
+    window.addEventListener('resize', () => {
+      experienceStep = getStep();
+      update(false);
+    }, { passive:true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) window.clearTimeout(experienceTimer);
+      else schedule();
+    });
+  }
+
   // ---------- Booking ----------
   const setBookingMinDate = () => {
     const today = new Date();
