@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="The Still Hotel through different moments of the day."><title>Moments — The Still Hotel</title><link rel="stylesheet" href="css/style.css"></head>
-<body><header class="site-header" data-header><a class="brand" href="index.html" aria-label="The Still Hotel home">
-    <img class="brand-logo" src="assets/logo-still.svg" alt="">
-  </a><button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation" aria-controls="site-nav" data-menu-toggle>
-    <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
-  </button><nav id="site-nav" class="site-nav" data-nav><a href="rooms.html">Rooms</a><a href="gallery.html" aria-current="page">Moments</a><a href="contact.html">Contact</a><button class="nav-book" type="button" data-booking-open>Plan your stay</button></nav></header>
+<body>
 <main><section class="page-hero section"><div class="page-wrap narrow-hero"><p class="eyebrow">The moments</p><h1>The hotel,<br>from <em>06:42 to 22:16.</em></h1><p>Not a catalogue. A collection of small moments that make a stay feel longer.</p></div></section>
 <section class="gallery-section section"><div class="page-wrap gallery-grid">
 <figure class="gallery-item gallery-item-large" data-lightbox-item><img src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1500&q=82" alt="Hotel room with warm sunlight" loading="lazy"><figcaption>06:42 / First light</figcaption></figure>
@@ -14,5 +10,43 @@
 <figure class="gallery-item gallery-item-wide" data-lightbox-item><img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1500&q=82" alt="Elegant hotel lobby" loading="lazy"><figcaption>18:47 / Before dinner</figcaption></figure>
 <figure class="gallery-item" data-lightbox-item><img src="https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1000&q=82" alt="Hotel corridor at night" loading="lazy"><figcaption>22:16 / Goodnight</figcaption></figure>
 </div></section></main>
-<footer class="site-footer"><div class="page-wrap footer-grid"><div><a class="brand footer-brand" href="index.html">THE STILL <span>HOTEL</span></a><p>A hotel for slower hours.</p></div><div><span class="footer-label">Explore</span><a href="rooms.html">Rooms</a><a href="gallery.html">Moments</a><a href="contact.html">Contact</a></div><div><span class="footer-label">Say hello</span><a href="mailto:stay@thestillhotel.example">stay@thestillhotel.example</a><a href="https://wa.me/6281200000000" target="_blank" rel="noopener">WhatsApp</a></div><div><span class="footer-label">Location</span><p>Jl. Somewhere 01<br>Central City</p></div></div><div class="page-wrap footer-bottom"><span>© 2026 The Still Hotel</span><span>Designed for slower hours.</span></div></footer>
-<aside class="booking-drawer" aria-hidden="true" data-booking-drawer><div class="booking-backdrop" data-booking-close></div><div class="booking-panel" role="dialog" aria-modal="true" aria-labelledby="booking-title"><div class="booking-head"><p class="eyebrow">Your stay</p><button class="close-button" type="button" aria-label="Close booking" data-booking-close>×</button></div><h2 id="booking-title">Make time<br><em>for yourself.</em></h2><div class="booking-fields"><label>Check-in<input type="date" data-booking-checkin></label><label>Check-out<input type="date" data-booking-checkout></label><label>Guests<select data-booking-guests><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label></div><div class="booking-summary"><span data-booking-summary>Choose your dates.</span><strong>WhatsApp</strong></div><button class="button button-dark button-full" type="button" data-book-now>Continue to WhatsApp <span>→</span></button><p class="micro-copy">No payment is taken here. We’ll confirm availability with you directly.</p></div></aside><div class="lightbox" aria-hidden="true" data-lightbox><button class="close-button lightbox-close" type="button" aria-label="Close image" data-lightbox-close>×</button><img src="" alt="" data-lightbox-image><p data-lightbox-caption></p></div><script src="js/main.js" defer></script></body></html>
+<footer class="site-footer"><div class="page-wrap footer-grid"><div><a class="brand footer-brand" href="index.html">THE STILL <span>HOTEL</span></a><p>A hotel for slower hours.</p></div><div><span class="footer-label">Explore</span><a href="rooms.html">Rooms</a><a href="gallery.html">Moments</a><a href="contact.html">Contact</a></div><div><span class="footer-label">Say hello</span><a href="mailto:stay@thestillhotel.example">stay@thestillhotel.example</a><a href="https://wa.me/6281200000000" target="_blank" rel="noopener">WhatsApp</a></div><div><span class="footer-label">Location</span><p>Jl. Somewhere 01<br>Central City</p></div></div><div class="page-w<footer class="site-footer">
+  <div class="page-wrap footer-main">
+    <div class="footer-brand-col">
+      <a class="footer-logo" href="index.html" aria-label="The Still Hotel home">
+        <img src="assets/logo-still.svg" alt="">
+      </a>
+      <p class="footer-motto">A hotel for slower hours.<br>Stay a little longer.</p>
+      <div class="footer-socials" aria-label="Social links">
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="WhatsApp">wa</a>
+      </div>
+    </div>
+
+    <nav class="footer-column" aria-label="Explore">
+      <span class="footer-label">Explore</span>
+      <a href="rooms.html">Rooms &amp; Suites</a>
+      <a href="gallery.html">Moments</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <nav class="footer-column" aria-label="Stay">
+      <span class="footer-label">Stay</span>
+      <button type="button" class="footer-action" data-booking-open>Plan your stay</button>
+      <a href="rooms.html">Amenities</a>
+      <a href="contact.html">Guest enquiries</a>
+    </nav>
+
+    <div class="footer-column footer-reach">
+      <span class="footer-label">Reach us</span>
+      <a href="mailto:stay@thestillhotel.example">stay@thestillhotel.example</a>
+      <a href="https://wa.me/6281200000000" target="_blank" rel="noopener">+62 812 0000 0000</a>
+      <p>Somewhere in the city<br>Central City</p>
+    </div>
+  </div>
+
+  <div class="page-wrap footer-bottom">
+    <span>© 2026 The Still Hotel. All rights reserved.</span>
+    <span>CRAFTED FOR SLOWER HOURS</span>
+  </div>
+</footer>ion selected>2</option><option>3</option><option>4</option></select></label></div><div class="booking-summary"><span data-booking-summary>Choose your dates.</span><strong>WhatsApp</strong></div><button class="button button-dark button-full" type="button" data-book-now>Continue to WhatsApp <span>→</span></button><p class="micro-copy">No payment is taken here. We’ll confirm availability with you directly.</p></div></aside><div class="lightbox" aria-hidden="true" data-lightbox><button class="close-button lightbox-close" type="button" aria-label="Close image" data-lightbox-close>×</button><img src="" alt="" data-lightbox-image><p data-lightbox-caption></p></div><script src="js/main.js" defer></script></body></html>
