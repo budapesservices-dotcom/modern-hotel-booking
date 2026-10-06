@@ -123,7 +123,14 @@
   const reveal = () => {
     if (finished) return;
     finished = true;
+
+    // Release the visual curtain first, then let motion systems start on
+    // the next frame so their entrance states are actually visible.
     root.classList.remove('site-loading');
+
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('still:page-ready'));
+    });
   };
 
   waitForInitialReady()
@@ -983,17 +990,31 @@
   }));
 
   // ---------- Reveal / parallax ----------
-  const reveal = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    }), { threshold: 0.1 });
-    reveal.forEach(el => revealObserver.observe(el));
+  const reveal = [...document.querySelectorAll('.reveal')];
+
+  const startRevealSystem = () => {
+    reveal.forEach(el => el.classList.remove('is-visible'));
+
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      }), { threshold: 0.1 });
+
+      reveal.forEach(el => revealObserver.observe(el));
+    } else {
+      reveal.forEach(el => el.classList.add('is-visible'));
+    }
+  };
+
+  // The loader hides the document before deferred scripts finish. Restart
+  // legacy reveals only after the first visible frame is available.
+  if (document.documentElement.classList.contains('site-loading')) {
+    window.addEventListener('still:page-ready', startRevealSystem, { once:true });
   } else {
-    reveal.forEach(el => el.classList.add('is-visible'));
+    startRevealSystem();
   }
 
   if (!reduceMotion && window.matchMedia('(min-width: 901px)').matches) {
@@ -1263,6 +1284,34 @@
   };
 
   prepareWithin(document.documentElement);
+
+  const restartAmbientEntrance = () => {
+    document.querySelectorAll('.fx-motion.fx-visible').forEach(element => {
+      element.classList.remove('fx-visible');
+    });
+
+    // Re-enter only what is currently visible. Elements below the fold
+    // remain observed and will animate naturally when scrolled into view.
+    window.requestAnimationFrame(() => {
+      const viewportTop = -80;
+      const viewportBottom = window.innerHeight + 80;
+
+      document.querySelectorAll('.fx-motion').forEach(element => {
+        const rect = element.getBoundingClientRect();
+        if (rect.bottom >= viewportTop && rect.top <= viewportBottom) {
+          element.classList.add('fx-visible');
+        }
+      });
+
+      window.dispatchEvent(new Event('still:ambient-motion-ready'));
+    });
+  };
+
+  if (document.documentElement.classList.contains('site-loading')) {
+    window.addEventListener('still:page-ready', restartAmbientEntrance, { once:true });
+  } else {
+    restartAmbientEntrance();
+  }
 
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.fx-motion').forEach(element => element.classList.add('fx-visible'));
