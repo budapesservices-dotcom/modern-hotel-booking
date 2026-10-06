@@ -85,10 +85,13 @@
     stops.forEach(stop => {
       stop.addEventListener('click', () => setScene(Number(stop.dataset.sceneTarget)));
     });
-    hero?.addEventListener('mouseenter', () => window.clearTimeout(timer));
-    hero?.addEventListener('mouseleave', startTimer);
     setScene(0, true);
   }
+
+  // Keep the hero moving continuously; a pointer hovering the hero must never freeze the loop.
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) startTimer();
+  });
 
   // Re-trigger the hero hairline whenever the hero section re-enters the viewport.
   if (hero && header && 'IntersectionObserver' in window) {
