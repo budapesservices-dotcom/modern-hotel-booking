@@ -7284,3 +7284,34 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     padding-top:20px;
   }
 }
+
+
+/* Booking receipt mobile actions: equal, balanced controls. */
+@media(max-width:599px){
+  .still-booking-receipt-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .still-booking-cancel,
+  .still-booking-continue{
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    height:44px;
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin:0;
+  }
+
+  .still-booking-cancel{
+    padding:0 14px;
+  }
+
+  .still-booking-continue{
+    padding:0 14px;
+  }
+}
