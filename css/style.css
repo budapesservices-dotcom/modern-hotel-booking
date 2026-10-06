@@ -3237,3 +3237,18 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-rooms .room-directory-row{background:transparent;}
 .page-rooms .room-directory-row:nth-child(even){background:transparent;}
 .page-rooms .room-directory-row:hover{background:#ded7ca;}
+
+
+/* ROOM ATLAS — separated room cards */
+.page-rooms .room-directory{
+  border-top:0;
+}
+.page-rooms .room-directory-row{
+  margin-bottom:10px;
+  border:1px solid #cfc7ba;
+  border-radius:7px;
+  overflow:hidden;
+}
+.page-rooms .room-directory-row:last-child{
+  margin-bottom:0;
+}
