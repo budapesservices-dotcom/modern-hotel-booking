@@ -14,7 +14,7 @@ const escapeHtml = (value = "") =>
     .replace(/'/g, "&#039;");
 
 const cleanText = (value = "", max = 2000) =>
-  String(value).replace(/[\\r\\n]+/g, " ").trim().slice(0, max);
+  String(value).replace(/[\r\n]+/g, " ").trim().slice(0, max);
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
   const safeEmail = escapeHtml(email);
   const safePhone = escapeHtml(phone || "—");
   const safeSubject = escapeHtml(subject);
-  const safeMessage = escapeHtml(message).replace(/\\n/g, "<br>");
+  const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
 
   const html = [
     '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#292720">',
