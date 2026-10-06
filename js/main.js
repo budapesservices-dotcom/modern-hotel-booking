@@ -289,29 +289,37 @@
 
     const applyRoomFilters = () => {
       roomItems.forEach(item => {
+        const itemCategory = String(item.dataset.category || '').trim().toLowerCase();
+        const itemCapacity = String(item.dataset.maxGuests || '').trim();
+
         const matchesCategory =
           activeCategory === 'all' ||
-          String(item.dataset.category || '').toLowerCase() === activeCategory;
+          itemCategory === activeCategory;
 
         const matchesCapacity =
           activeCapacity === 'all' ||
-          String(item.dataset.maxGuests || '') === activeCapacity;
+          itemCapacity === activeCapacity;
 
         const show = matchesCategory && matchesCapacity;
 
+        // Use an explicit display state as well as the hidden attribute.
+        // This keeps the filter reliable across the responsive grid rules.
         item.hidden = !show;
+        item.style.display = show ? '' : 'none';
         item.classList.toggle('is-filter-hidden', !show);
         item.setAttribute('aria-hidden', show ? 'false' : 'true');
       });
 
       categoryTabs.forEach(tab => {
-        const active = tab.dataset.roomCategory === activeCategory;
+        const active =
+          String(tab.dataset.roomCategory || 'all').trim().toLowerCase() === activeCategory;
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
       });
 
       capacityTabs.forEach(tab => {
-        const active = tab.dataset.roomCapacity === activeCapacity;
+        const active =
+          String(tab.dataset.roomCapacity || 'all').trim() === activeCapacity;
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
       });
