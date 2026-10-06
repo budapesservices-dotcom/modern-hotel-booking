@@ -2279,56 +2279,105 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   ROOM PRICING + DETAIL
+   ROOM PRICING + DETAIL — QUIET LUXURY
    ========================================================= */
-.room-dir-class{min-width:0}
+.room-dir-class{
+  min-width:0;
+  align-self:stretch;
+  justify-content:center;
+}
 .room-dir-availability{
-  display:block;
-  margin-top:4px;
-  color:#9a9489;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:10px;
+  color:#8b857b;
   font-size:8px;
   font-weight:400;
-  letter-spacing:.08em;
+  letter-spacing:.105em;
   line-height:1.3;
   text-transform:uppercase;
+  white-space:nowrap;
+}
+.room-dir-availability:before{
+  content:"";
+  width:4px;
+  height:4px;
+  flex:0 0 4px;
+  border-radius:50%;
+  background:#a47b43;
+  box-shadow:0 0 0 3px rgba(164,123,67,.08);
 }
 .room-dir-action{
   display:flex;
   flex-direction:column;
   align-items:flex-end;
   justify-self:end;
-  gap:12px;
-  min-width:125px;
+  gap:14px;
+  min-width:142px;
+  padding-left:26px;
+  border-left:1px solid rgba(222,216,205,.8);
 }
 .room-dir-price{
   display:flex;
   flex-direction:column;
   align-items:flex-end;
+  text-align:right;
   line-height:1;
 }
 .room-dir-price s{
-  color:#a8a39b;
-  font-size:12px;
-  line-height:1;
+  color:#aaa49b;
+  font-size:11px;
+  line-height:1.1;
   text-decoration-thickness:1px;
+  text-decoration-color:#c4beb4;
 }
 .room-dir-price strong{
-  color:#9e1e1e;
-  font-size:28px;
-  font-weight:600;
-  letter-spacing:-.025em;
+  margin-top:3px;
+  color:#8f2430;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:31px;
+  font-weight:400;
+  letter-spacing:-.035em;
   line-height:.98;
 }
 .room-dir-price span{
-  margin-top:6px;
-  color:var(--ink);
-  font-size:10px;
-  letter-spacing:.07em;
+  margin-top:7px;
+  color:#706a61;
+  font-size:8px;
+  font-weight:500;
+  letter-spacing:.18em;
 }
 .room-dir-detail{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:13px;
   color:var(--ink);
+  font-size:9px;
+  letter-spacing:.16em;
+  font-weight:500;
+  transition:color .3s ease,gap .3s var(--ease);
 }
-.room-dir-detail:hover{color:var(--accent)}
+.room-dir-detail:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:24px;
+  bottom:-5px;
+  height:1px;
+  background:var(--accent);
+  transform:scaleX(.28);
+  transform-origin:left;
+  transition:transform .35s var(--ease);
+}
+.room-dir-detail:hover{
+  color:#8f6d48;
+  gap:17px;
+}
+.room-dir-detail:hover:after{
+  transform:scaleX(1);
+}
 
 .room-detail-drawer{
   position:fixed;
@@ -2412,14 +2461,40 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   text-transform:uppercase;
 }
 .room-detail-rate strong{
-  color:#9e1e1e;
-  font-size:30px;
-  font-weight:600;
+  color:#8f2430;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:32px;
+  font-weight:400;
 }
 .room-detail-rate small{
   color:var(--ink);
   font-size:9px;
   letter-spacing:.08em;
+}
+@media(max-width:1100px) and (min-width:600px){
+  .room-dir-action{
+    align-items:flex-start;
+    justify-self:start;
+    padding-left:0;
+    border-left:0;
+  }
+  .room-dir-price{align-items:flex-start;text-align:left}
+}
+@media(max-width:599px){
+  .room-dir-action{
+    align-items:flex-start;
+    justify-self:start;
+    min-width:0;
+    padding-left:0;
+    border-left:0;
+    gap:11px;
+  }
+  .room-dir-price{align-items:flex-start;text-align:left}
+  .room-dir-price strong{font-size:27px}
+  .room-detail-panel{padding:24px 20px}
+  .room-detail-kicker{margin-top:54px}
+  .room-detail-rate{flex-wrap:wrap}
+  .room-detail-rate span{width:100%;margin-right:0}
 }
 @media(max-width:1100px) and (min-width:600px){
   .room-dir-action{align-items:flex-start;justify-self:start}
