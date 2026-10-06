@@ -4809,7 +4809,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   width:100%;
   overflow:hidden;
   min-height:218px;
-  padding:30px 28px;
+  padding:0;
   border:1px solid rgba(255,255,255,.08);
   border-radius:14px;
   background:var(--card-bg);
@@ -4861,24 +4861,30 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-amenities .amenities-full-grid>div span{
   position:relative;
   z-index:1;
-  margin-bottom:26px;
+  display:block;
+  margin:0 0 26px;
   color:#d6b36a;
   font-size:9px;
   letter-spacing:.18em;
+  line-height:1;
 }
 .page-amenities .amenities-full-grid>div strong{
   position:relative;
   z-index:1;
+  display:block;
   color:rgba(246,242,233,.66);
   font-size:9px;
   letter-spacing:.16em;
+  line-height:1.15;
 }
 .page-amenities .amenities-full-grid>div h3{
   position:relative;
   z-index:1;
+  display:block;
   margin:18px 0 8px;
   color:#fffaf0;
   font-size:25px;
+  line-height:1.05;
   font-weight:400;
   letter-spacing:-.02em;
 }
@@ -4896,9 +4902,19 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   overflow-wrap:anywhere;
   word-break:normal;
 }
-.page-amenities .amenities-full-grid>div>*{
+.page-amenities .amenities-full-grid>div>.amenity-card-content{
   position:relative;
   z-index:2;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  padding:30px 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+}
+.page-amenities .amenities-full-grid>div>.amenity-card-content>*{
   min-width:0;
   max-width:100%;
 }
@@ -4946,14 +4962,24 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     width:100%;
     max-width:100%;
     min-width:0;
-    height:218px;
+    height:auto;
     min-height:218px;
-    padding:28px 20px 26px;
+    padding:0;
     border-left:0;
     border-radius:13px;
-    display:grid;
-    grid-template-rows:auto auto auto 1fr;
-    align-content:start;
+    display:block;
+  }
+
+  .page-amenities .amenities-full-grid>div>.amenity-card-content{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    min-height:218px;
+    padding:28px 20px 26px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
   }
 
   .page-amenities .amenities-full-grid>div span{
@@ -4974,11 +5000,12 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   }
   .page-amenities .amenities-full-grid>div p{
     display:block;
-    margin:0;
+    width:100%;
     max-width:100%;
+    margin:0;
     font-size:12px;
     line-height:1.52;
-    align-self:start;
+    overflow-wrap:anywhere;
   }
 }
 
