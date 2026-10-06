@@ -1302,9 +1302,13 @@ body{min-height:100%;}
 
   .signature-header .site-nav a:after{display:none}
 
-  .signature-header .site-nav.open a:nth-child(1){opacity:1;transform:none;transition-delay:.12s}
-  .signature-header .site-nav.open a:nth-child(2){opacity:1;transform:none;transition-delay:.18s}
-  .signature-header .site-nav.open a:nth-child(3){opacity:1;transform:none;transition-delay:.24s}
+  .signature-header .site-nav.open a:nth-child(1){opacity:1;transform:none;transition-delay:.08s}
+  .signature-header .site-nav.open a:nth-child(2){opacity:1;transform:none;transition-delay:.12s}
+  .signature-header .site-nav.open a:nth-child(3){opacity:1;transform:none;transition-delay:.16s}
+  .signature-header .site-nav.open a:nth-child(4){opacity:1;transform:none;transition-delay:.20s}
+  .signature-header .site-nav.open a:nth-child(5){opacity:1;transform:none;transition-delay:.24s}
+  .signature-header .site-nav.open a:nth-child(6){opacity:1;transform:none;transition-delay:.28s}
+  .signature-header .site-nav.open a:nth-child(7){opacity:1;transform:none;transition-delay:.32s}
 
   .signature-header .site-nav a:hover{
     color:var(--header-theme);
