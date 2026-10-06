@@ -4730,3 +4730,452 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .moments-signature-hero .hero-lede{
   transition:color .8s ease,opacity .35s ease,transform .45s var(--ease);
 }
+
+/* =========================================================
+   GLOBAL NAV — EXPANDED SITE MAP
+   ========================================================= */
+.page-amenities .signature-header:not(.scrolled),
+.page-about .signature-header:not(.scrolled),
+.page-login .signature-header:not(.scrolled){
+  color:var(--ink);
+  background:rgba(247,244,238,.94);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.page-amenities .signature-header:not(.scrolled) .brand,
+.page-amenities .signature-header:not(.scrolled) .site-nav a,
+.page-amenities .signature-header:not(.scrolled) .menu-toggle,
+.page-about .signature-header:not(.scrolled) .brand,
+.page-about .signature-header:not(.scrolled) .site-nav a,
+.page-about .signature-header:not(.scrolled) .menu-toggle,
+.page-login .signature-header:not(.scrolled) .brand,
+.page-login .signature-header:not(.scrolled) .site-nav a,
+.page-login .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--ink);
+  text-shadow:none;
+}
+.page-amenities .signature-header:not(.scrolled) .nav-book,
+.page-about .signature-header:not(.scrolled) .nav-book,
+.page-login .signature-header:not(.scrolled) .nav-book{
+  background:var(--ink);
+  color:var(--white);
+  border-color:var(--ink);
+}
+.page-amenities .signature-header:not(.scrolled) .nav-book:hover,
+.page-about .signature-header:not(.scrolled) .nav-book:hover,
+.page-login .signature-header:not(.scrolled) .nav-book:hover{
+  background:var(--accent);
+  color:var(--ink);
+  border-color:var(--accent);
+}
+
+/* Eight desktop navigation items need a little more breathing discipline. */
+.site-nav{
+  gap:clamp(14px,1.7vw,30px);
+  font-size:clamp(11px,.85vw,13px);
+}
+
+/* =========================================================
+   AMENITIES PAGE
+   ========================================================= */
+.page-amenities{
+  background:var(--paper);
+}
+.page-amenities .amenities-feature{
+  background:#fff;
+}
+.amenities-feature-grid{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:clamp(40px,8vw,120px);
+  align-items:center;
+}
+.amenities-feature-copy{
+  max-width:500px;
+}
+.amenities-feature-copy h2,
+.page-about .about-story-copy h2{
+  margin:0 0 28px;
+  font-size:clamp(54px,7vw,100px);
+  line-height:.88;
+  letter-spacing:-.055em;
+  font-weight:500;
+}
+.amenities-feature-copy p:not(.eyebrow),
+.page-about .about-story-copy p:not(.eyebrow){
+  max-width:470px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.65;
+}
+.amenities-feature-image{
+  aspect-ratio:16/10;
+}
+.page-amenities .amenities-list-section{
+  background:#f0ece4;
+}
+.page-amenities .section-heading-row,
+.page-about .section-heading-row{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:60px;
+  align-items:end;
+  margin-bottom:74px;
+}
+.page-amenities .section-heading-row h2,
+.page-about .section-heading-row h2{
+  margin:0;
+  font-size:clamp(54px,7vw,100px);
+  line-height:.88;
+  letter-spacing:-.055em;
+  font-weight:500;
+}
+.page-amenities .section-heading-row>p,
+.page-about .section-heading-row>p{
+  max-width:440px;
+  margin:0 0 5px auto;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.65;
+}
+.page-amenities .amenities-full-grid{
+  grid-template-columns:repeat(3,1fr);
+}
+.page-amenities .amenity-grid>div{
+  min-height:210px;
+}
+.page-amenities .amenity-grid>div span,
+.page-about .amenity-grid>div span{
+  display:block;
+  margin-bottom:22px;
+  color:#9c9388;
+  font-size:9px;
+  letter-spacing:.15em;
+}
+.page-amenities .amenity-grid>div:nth-child(3n+2),
+.page-amenities .amenity-grid>div:nth-child(3n+3){
+  padding-left:32px;
+}
+.page-amenities .amenity-grid h3,
+.page-about .amenity-grid h3{
+  margin-top:16px;
+}
+.page-amenities .contact-cta{
+  background:#e6e1d8;
+}
+
+/* =========================================================
+   ABOUT PAGE
+   ========================================================= */
+.page-about{
+  background:#f7f4ed;
+}
+.page-about .about-story{
+  background:#fff;
+}
+.about-story-grid{
+  display:grid;
+  grid-template-columns:1.12fr .88fr;
+  gap:clamp(44px,8vw,130px);
+  align-items:center;
+}
+.about-story-image{
+  aspect-ratio:4/3;
+}
+.about-story-copy{
+  max-width:500px;
+}
+.about-story-copy p + p{
+  margin-top:20px;
+}
+.page-about .about-principles{
+  background:#ebe6dd;
+}
+.page-about .about-moment{
+  background:#fff;
+}
+.about-moment-box{
+  max-width:980px;
+  margin:0 auto;
+  padding:clamp(52px,8vw,100px) clamp(28px,6vw,80px);
+  border:1px solid #d6cec0;
+  text-align:center;
+}
+.about-moment-box blockquote{
+  margin:20px auto 28px;
+  max-width:850px;
+  color:#292720;
+  font-size:clamp(42px,7vw,92px);
+  line-height:.92;
+  letter-spacing:-.05em;
+  font-weight:500;
+}
+.about-moment-box>span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+.page-login{
+  background:#1b1a18;
+}
+.login-page{
+  min-height:100svh;
+  padding-top:0;
+}
+.login-layout{
+  min-height:100svh;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+}
+.login-image{
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  background:#24221e;
+}
+.login-image:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.64));
+}
+.login-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.login-image-overlay{
+  position:absolute;
+  z-index:2;
+  left:clamp(28px,5vw,70px);
+  right:clamp(28px,5vw,70px);
+  bottom:clamp(40px,8vw,100px);
+  color:#f7f3ea;
+}
+.login-image-overlay .eyebrow{
+  color:#b4aa9b;
+  margin-bottom:22px;
+}
+.login-image-overlay h1{
+  margin:0 0 26px;
+  font-size:clamp(58px,7vw,100px);
+  line-height:.86;
+  letter-spacing:-.055em;
+  font-weight:500;
+}
+.login-image-overlay h1 em{
+  color:#d6b36a;
+}
+.login-image-overlay>p:last-child{
+  max-width:410px;
+  margin:0;
+  color:rgba(247,243,234,.78);
+  line-height:1.6;
+}
+.login-card{
+  align-self:center;
+  justify-self:center;
+  width:min(100% - 60px,500px);
+  padding:clamp(20px,4vw,48px);
+  background:#f7f4ed;
+}
+.login-card h2{
+  margin:0 0 22px;
+  color:#292720;
+  font-size:clamp(52px,6vw,82px);
+  line-height:.86;
+  letter-spacing:-.055em;
+  font-weight:500;
+}
+.login-card h2 em{
+  color:#9a7447;
+}
+.login-lede{
+  max-width:390px;
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+.login-form{
+  display:grid;
+  gap:16px;
+  margin-top:42px;
+}
+.login-form>label{
+  display:grid;
+  gap:8px;
+  color:#6f685f;
+  font-size:9px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.login-form input[type="email"],
+.login-form input[type="password"]{
+  width:100%;
+  padding:15px 14px;
+  border:1px solid #d3ccbf;
+  background:#fff;
+  color:#292720;
+  outline:none;
+}
+.login-form input:focus{
+  border-color:#9a7447;
+}
+.login-form-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:center;
+  color:#7a736a;
+  font-size:10px;
+}
+.login-check{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  letter-spacing:.04em;
+}
+.login-form-meta a{
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.button-outline-dark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  padding:15px 20px;
+  border:1px solid var(--ink);
+  border-radius:999px;
+  background:transparent;
+  color:var(--ink);
+  transition:background .3s ease,color .3s ease,transform .3s var(--ease);
+}
+.button-outline-dark:hover{
+  background:var(--ink);
+  color:#fff;
+  transform:translateY(-2px);
+}
+.login-divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:30px 0 18px;
+  color:#a1988b;
+  font-size:8px;
+  letter-spacing:.17em;
+}
+.login-divider:before,
+.login-divider:after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:#d8d0c3;
+}
+.login-note{
+  margin:18px 0 0;
+  color:#9a9287;
+  font-size:9px;
+  line-height:1.55;
+  text-align:center;
+}
+
+@media(max-width:1000px){
+  .site-nav{gap:18px}
+  .amenities-feature-grid,
+  .about-story-grid{
+    grid-template-columns:1fr;
+  }
+  .amenities-feature-copy,
+  .about-story-copy{
+    max-width:none;
+  }
+  .amenities-feature-image{
+    max-width:760px;
+  }
+  .page-amenities .section-heading-row,
+  .page-about .section-heading-row{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+  .page-amenities .section-heading-row>p,
+  .page-about .section-heading-row>p{
+    margin:0;
+  }
+  .login-layout{
+    grid-template-columns:1fr;
+  }
+  .login-image{
+    min-height:52svh;
+  }
+  .login-card{
+    width:min(100% - 40px,560px);
+    margin:0 auto;
+  }
+}
+@media(max-width:900px){
+  .site-nav{
+    gap:18px;
+  }
+}
+@media(max-width:560px){
+  .site-nav{
+    gap:17px;
+  }
+  .page-amenities .page-hero,
+  .page-about .page-hero{
+    padding-top:142px;
+  }
+  .amenities-feature-grid,
+  .about-story-grid{
+    gap:38px;
+  }
+  .amenities-feature-copy h2,
+  .page-about .about-story-copy h2{
+    font-size:clamp(50px,15vw,78px);
+  }
+  .amenities-feature-copy p:not(.eyebrow),
+  .page-about .about-story-copy p:not(.eyebrow){
+    font-size:15px;
+  }
+  .page-amenities .section-heading-row h2,
+  .page-about .section-heading-row h2{
+    font-size:clamp(50px,15vw,78px);
+  }
+  .page-amenities .amenities-full-grid{
+    grid-template-columns:1fr;
+  }
+  .page-amenities .amenity-grid>div{
+    min-height:0;
+  }
+  .page-amenities .amenity-grid>div:nth-child(3n+2),
+  .page-amenities .amenity-grid>div:nth-child(3n+3){
+    padding-left:0;
+    border-left:0;
+  }
+  .about-moment-box{
+    padding:42px 22px;
+  }
+  .about-moment-box blockquote{
+    font-size:clamp(38px,12vw,64px);
+  }
+  .login-image{
+    min-height:48svh;
+  }
+  .login-image-overlay{
+    left:20px;
+    right:20px;
+    bottom:30px;
+  }
+  .login-image-overlay h1{
+    font-size:clamp(50px,15vw,78px);
+  }
+  .login-card{
+    width:100%;
+    padding:32px 20px 38px;
+  }
+}
