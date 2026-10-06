@@ -179,88 +179,95 @@
     }
   }
 
-  // ---------- Hotel Experience carousel ----------
+  // ---------- Hotel Experience continuous flow ----------
   const experience = document.querySelector('[data-experience-carousel]');
   if (experience) {
     const track = experience.querySelector('[data-experience-track]');
-    const cards = [...experience.querySelectorAll('[data-experience-card]')];
+    const originals = [...experience.querySelectorAll('[data-experience-card]')];
     const current = experience.querySelector('[data-experience-current]');
-    const reduce = reduceMotion;
 
-    let timer = 0;
-    let step = 0;
-    let logicalIndex = 0;
+    if (track && originals.length > 1 && !reduceMotion) {
+      // Duplicate one complete sequence. The moving track can then wrap by
+      // exactly one sequence width with no visible jump.
+      originals.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.classList.add('experience-card-clone');
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
 
-    if (track && cards.length > 1) {
+      let raf = 0;
+      let lastTime = 0;
+      let position = 0;
+      let loopWidth = 0;
+      let cardStep = 0;
+      const speed = () => window.matchMedia('(max-width:599px)').matches ? 23 : 30;
+
       const measure = () => {
         const gap = parseFloat(getComputedStyle(track).gap) || 0;
-        step = cards[0].getBoundingClientRect().width + gap;
+        const widths = originals.reduce((sum, card) => sum + card.getBoundingClientRect().width, 0);
+        loopWidth = widths + (gap * originals.length);
+        cardStep = (originals[0]?.getBoundingClientRect().width || 0) + gap;
       };
 
-      const updateCounter = () => {
-        if (current) {
-          current.textContent = String(logicalIndex + 1).padStart(2, '0');
+      const render = () => {
+        track.style.transform = `translate3d(-${position}px,0,0)`;
+        if (current && cardStep) {
+          const active = Math.floor(position / cardStep) % originals.length;
+          current.textContent = String(active + 1).padStart(2, '0');
         }
       };
 
-      const schedule = () => {
-        window.clearTimeout(timer);
-        if (!reduce && !document.hidden) {
-          timer = window.setTimeout(advance, 2500);
+      const frame = time => {
+        if (document.hidden) {
+          lastTime = 0;
+          raf = 0;
+          return;
         }
+
+        if (!lastTime) lastTime = time;
+        const delta = Math.min(time - lastTime, 50);
+        lastTime = time;
+
+        position += speed() * (delta / 1000);
+
+        if (loopWidth && position >= loopWidth) {
+          position -= loopWidth;
+        }
+
+        render();
+        raf = window.requestAnimationFrame(frame);
       };
 
-      const advance = () => {
-        measure();
-
-        // Move exactly one card. After the animation, recycle the first
-        // card to the end and instantly restore the track to x=0.
-        // Because the first visible card is now identical, there is no jump.
-        track.style.transition = 'transform .72s var(--ease)';
-        track.style.transform = `translate3d(-${step}px,0,0)`;
-
-        window.setTimeout(() => {
-          const first = track.querySelector('[data-experience-card]');
-          if (!first) return;
-
-          track.appendChild(first);
-          track.style.transition = 'none';
-          track.style.transform = 'translate3d(0,0,0)';
-
-          logicalIndex = (logicalIndex + 1) % cards.length;
-          updateCounter();
-
-          requestAnimationFrame(() => {
-            track.style.transition = '';
-          });
-
-          schedule();
-        }, 760);
+      const startFlow = () => {
+        window.cancelAnimationFrame(raf);
+        lastTime = 0;
+        raf = window.requestAnimationFrame(frame);
       };
 
-      const init = () => {
-        track.style.transform = 'translate3d(0,0,0)';
-        updateCounter();
-        measure();
-        schedule();
+      const stopFlow = () => {
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+        lastTime = 0;
       };
 
-      init();
+      measure();
+      render();
+      startFlow();
 
       window.addEventListener('resize', () => {
         measure();
-        track.style.transition = 'none';
-        track.style.transform = 'translate3d(0,0,0)';
+        if (loopWidth) position %= loopWidth;
+        render();
       }, { passive:true });
 
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-          window.clearTimeout(timer);
+          stopFlow();
         } else {
           measure();
-          track.style.transition = 'none';
-          track.style.transform = 'translate3d(0,0,0)';
-          schedule();
+          if (loopWidth) position %= loopWidth;
+          startFlow();
         }
       });
     }
