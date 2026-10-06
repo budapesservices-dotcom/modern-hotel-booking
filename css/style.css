@@ -585,6 +585,29 @@
   color:var(--ink);
   font-weight:500;
 }
+@media(max-width:1100px) and (min-width:600px){
+  .room-directory-row{
+    grid-template-columns:42px 180px 90px minmax(0,1fr);
+    grid-template-areas:
+      "number image class main"
+      "number image class action";
+    column-gap:18px;
+    row-gap:8px;
+    align-items:center;
+    min-height:188px;
+    padding-block:16px;
+  }
+  .room-dir-number{grid-area:number}
+  .room-dir-image{grid-area:image;width:180px;height:136px}
+  .room-dir-class{grid-area:class;min-width:0}
+  .room-dir-main{grid-area:main;min-width:0}
+  .room-dir-action{
+    grid-area:action;
+    justify-self:start;
+    white-space:nowrap;
+    margin-top:2px;
+  }
+}
 @media(max-width:1000px){
   .experience-head{
     grid-template-columns:1fr .8fr;
@@ -2085,6 +2108,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .room-directory{border-top:0}
 .room-directory-row{
   display:grid;
+  min-width:0;
   grid-template-columns:52px 220px 110px minmax(280px,1fr) 150px;
   gap:clamp(18px,2.5vw,36px);
   align-items:center;
@@ -2108,8 +2132,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .room-dir-class{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:7px}
 .room-dir-class span{font-size:9px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase}
 .room-dir-class i{font-style:normal;color:var(--muted);font-size:10px;letter-spacing:.08em}
+.room-dir-main{min-width:0}
 .room-dir-main h3{margin:0 0 8px;font-size:clamp(27px,3vw,42px);line-height:.9;letter-spacing:-.045em;font-weight:500}
-.room-dir-main p{max-width:500px;margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.5}
+.room-dir-main p{max-width:500px;min-width:0;overflow-wrap:anywhere;margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.5}
 .room-dir-main>div{display:flex;flex-wrap:wrap;gap:7px 14px}
 .room-dir-main>div span{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#827d74}
 .room-dir-action{justify-self:end;white-space:nowrap;color:var(--ink)}
