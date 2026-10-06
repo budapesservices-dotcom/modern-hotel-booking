@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Your active bookings at The Still Hotel.">
+  <meta name="theme-color" content="#f7f4ed">
+  <title>Your Booking — The Still Hotel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-your-booking">
+<header class="site-header signature-header" data-header>
+  <a class="brand" href="index.html" aria-label="The Still Hotel home">
+    <img class="brand-logo" src="assets/logo-still.svg" alt="">
+  </a>
+  <nav id="site-nav" class="site-nav" data-nav>
+    <a href="index.html">Home</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="amenities.html">Amenities</a>
+    <a href="gallery.html">Moments</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html">Login</a>
+    <a class="nav-book" href="rooms.html">Plan your stay</a>
+  </nav>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation" aria-controls="site-nav" data-menu-toggle>
+    <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+</header>
+
+<main>
+  <section class="page-hero your-booking-hero">
+    <div class="page-wrap narrow-hero">
+      <p class="eyebrow">Guest area / Your stay</p>
+      <h1>Your booking<br><em>at a glance.</em></h1>
+      <p>Keep your active reservation details and customer Booking ID in one place.</p>
+    </div>
+  </section>
+
+  <section class="your-booking-section section">
+    <div class="page-wrap">
+      <div class="your-booking-list" data-your-booking-list aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="page-wrap footer-bottom">
+    <span>© 2026 The Still Hotel. All rights reserved.</span>
+    <span>GUEST AREA</span>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+<script src="js/your-booking.js" defer></script>
+</body>
+</html>
