@@ -1054,6 +1054,7 @@
 
   const prepared = new WeakSet();
   const parallaxElements = new Set();
+  let revealIndex = 0;
   const geometry = new Map();
 
   const typeSettings = {
@@ -1098,7 +1099,7 @@
 
     const type = getMotionType(element);
     const config = typeSettings[type] || typeSettings.block;
-    const index = prepared.size || 0;
+    const index = revealIndex++;
 
     const delay = config.delay + ((index * 47) % 360);
     const duration = config.duration + ((index * 29) % 220);
@@ -1175,7 +1176,6 @@
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
     let raf = 0;
-    let lastScrollY = window.scrollY;
     let metricsDirty = true;
 
     const refreshGeometry = () => {
@@ -1230,7 +1230,6 @@
         element.style.setProperty('--fx-parallax', item.current.toFixed(2) + 'px');
       });
 
-      lastScrollY = scrollY;
 
       if (stillMoving) {
         raf = window.requestAnimationFrame(updateParallax);
