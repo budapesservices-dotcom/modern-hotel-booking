@@ -2049,6 +2049,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .room-atlas-head h2{margin:0;font-size:clamp(64px,7vw,108px);line-height:.84;letter-spacing:-.06em;font-weight:500}
 .room-atlas-head>p{max-width:400px;margin:0 0 3px;color:var(--muted);font-size:14px;line-height:1.7}
 
+.room-filter-group{display:flex;align-items:center;gap:12px;min-width:0}
+.room-filter-label{flex:0 0 auto;color:var(--muted);font-size:8px;letter-spacing:.15em;text-transform:uppercase}
+.room-filter-group + .room-filter-group{padding-left:20px;border-left:1px solid var(--line)}
 .room-filter-bar{
   position:sticky;
   top:82px;
@@ -2188,4 +2191,66 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .rooms-included-grid p{font-size:11px}
   .rooms-rate-box{grid-template-columns:1fr;gap:28px;padding:24px 20px 28px}
   .rooms-rate-box h2{font-size:clamp(48px,14vw,68px)}
+}
+
+/* =========================================================
+   CALL US PAGE
+   ========================================================= */
+.page-call{background:var(--white)}
+.page-call .signature-header:not(.scrolled){
+  color:var(--ink);
+  background:rgba(247,244,238,.94);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.page-call .signature-header:not(.scrolled) .brand,
+.page-call .signature-header:not(.scrolled) .site-nav a,
+.page-call .signature-header:not(.scrolled) .menu-toggle{
+  color:var(--ink);
+  text-shadow:none;
+}
+.page-call .signature-header:not(.scrolled) .nav-book{
+  background:var(--ink);
+  color:var(--white);
+  border-color:var(--ink);
+}
+.call-hero{padding-top:154px;padding-bottom:110px;background:#f7f5ef}
+.call-hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(420px,1.1fr);gap:clamp(50px,8vw,120px);align-items:center}
+.call-hero-copy h1{margin:0 0 30px;font-size:clamp(58px,7.5vw,112px);line-height:.86;letter-spacing:-.06em;font-weight:500}
+.call-hero-copy h1 em{color:#b09262}
+.call-hero-copy>p:not(.eyebrow){max-width:510px;margin:0 0 34px;color:var(--muted);font-size:16px;line-height:1.7}
+.call-hero-visual{position:relative;aspect-ratio:4/4.5;overflow:hidden;border-radius:10px;background:#ddd7cb}
+.call-hero-visual img{width:100%;height:100%;object-fit:cover}
+.call-hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.28))}
+.call-hero-visual span{position:absolute;z-index:2;left:18px;bottom:16px;color:#fff;font-size:9px;letter-spacing:.18em;text-transform:uppercase}
+.call-details{background:var(--white)}
+.call-details-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:clamp(50px,10vw,140px);align-items:start}
+.call-details h2{margin:0;font-size:clamp(60px,7vw,100px);line-height:.86;letter-spacing:-.055em;font-weight:500}
+.call-contact-list{border-top:1px solid var(--line)}
+.call-contact-item{display:grid;grid-template-columns:110px 1fr auto;gap:20px;align-items:center;padding:25px 0;border-bottom:1px solid var(--line);transition:padding .4s var(--ease),background .3s ease}
+.call-contact-item span,.call-contact-item i{font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.call-contact-item strong{font-size:clamp(18px,2vw,25px);font-weight:400}
+.call-contact-item i{justify-self:end}
+.call-contact-item:hover{padding-inline:14px;background:#f7f5ef}
+.call-note{background:#1b1a18;color:#f4f0e7}
+.call-note-inner{text-align:center}
+.call-note .eyebrow{color:#a49d91}
+.call-note h2{margin:0 0 42px;font-size:clamp(62px,8vw,120px);line-height:.84;letter-spacing:-.06em;font-weight:500}
+.call-note h2 em{color:#d6b36a}
+@media(max-width:1000px){
+  .call-hero-grid{grid-template-columns:1fr;gap:40px}
+  .call-hero-visual{max-width:760px}
+  .call-details-grid{grid-template-columns:1fr;gap:45px}
+}
+@media(max-width:599px){
+  .call-hero{padding-top:104px;padding-bottom:70px}
+  .call-hero-grid{gap:34px}
+  .call-hero-copy h1{font-size:clamp(50px,14vw,76px)}
+  .call-hero-copy>p:not(.eyebrow){font-size:14px}
+  .call-hero-visual{aspect-ratio:1/1.08}
+  .call-contact-item{grid-template-columns:1fr auto;gap:9px 15px}
+  .call-contact-item span{grid-column:1}
+  .call-contact-item i{grid-column:2;grid-row:1;justify-self:end}
+  .call-contact-item strong{grid-column:1/-1}
+  .call-note h2{font-size:clamp(52px,15vw,78px)}
 }
