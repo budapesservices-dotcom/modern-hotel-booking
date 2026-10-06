@@ -44,12 +44,12 @@
   const getNotifications=()=>{const value=readJson(STORAGE.notifications,[]);return Array.isArray(value)?value:[];};
   const saveNotifications=notifications=>{try{localStorage.setItem(STORAGE.notifications,JSON.stringify(notifications));return true;}catch{return false;}};
   const emitBookingUpdate=detail=>window.dispatchEvent(new CustomEvent('still:booking-updated',{detail:detail||{}}));
-  const notifyAdmin=({type,booking,requestId='',title,message})=>{
+  const notifyAdmin=({type,booking,requestId='',title,message,status='pending'})=>{
     if(!booking?.bookingToken)return false;
     const id=requestId?`${type}:${requestId}`:`${type}:${booking.bookingToken}`;
     const notifications=getNotifications();
     if(notifications.some(item=>item.id===id))return false;
-    notifications.unshift({id,type,status:'pending',requestId,bookingToken:booking.bookingToken,customerBookingId:booking.customerBookingId||'',adminBookingId:booking.adminBookingId||'',room:booking.room||'',checkin:booking.checkin||'',checkout:booking.checkout||'',title,message,createdAt:new Date().toISOString()});
+    notifications.unshift({id,type,status,requestId,bookingToken:booking.bookingToken,customerBookingId:booking.customerBookingId||'',adminBookingId:booking.adminBookingId||'',room:booking.room||'',checkin:booking.checkin||'',checkout:booking.checkout||'',title,message,createdAt:new Date().toISOString()});
     return saveNotifications(notifications.slice(0,100));
   };
   const checkoutHasPassed=booking=>{
@@ -64,10 +64,26 @@
       const canExpire=booking.status===STATUS.CONFIRMED||booking.status===STATUS.CANCELLATION_PENDING;
       if(!canExpire||!checkoutHasPassed(booking))return booking;
       const expired={...booking,status:STATUS.EXPIRED,expiredAt:booking.expiredAt||new Date().toISOString()};
-      notifyAdmin({type:'expiry',booking:expired,title:'Booking ID expired',message:`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.`});
+      notifyAdmin({type:'expiry',booking:expired,status:'logged',title:'Booking ID expired',message:`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.`});
       changed=true; return expired;
     });
-    if(changed){saveBookings(next);emitBookingUpdate({reason:'booking-expired'});}
+    if(changed){
+      const expiredRequestIds=new Set(
+        next.filter(booking=>booking.status===STATUS.EXPIRED&&booking.cancellationRequestId)
+          .map(booking=>booking.cancellationRequestId)
+      );
+      saveBookings(next);
+      if(expiredRequestIds.size){
+        saveNotifications(getNotifications().map(notification=>
+          notification.type==='cancellation' &&
+          notification.status==='pending' &&
+          expiredRequestIds.has(notification.requestId)
+            ? {...notification,status:'expired',resolvedAt:new Date().toISOString()}
+            : notification
+        ));
+      }
+      emitBookingUpdate({reason:'booking-expired'});
+    }
     return next;
   };
   const requestCancellation=identifier=>{
@@ -109,8 +125,10 @@
     const removed=bookings.length-remaining.length;
     if(!removed)return{ok:true,removed:0};
     saveBookings(remaining);
-    const current=readJson(STORAGE.current,'');
-    if(!remaining.some(booking=>booking.customerBookingId===current)){try{localStorage.removeItem(STORAGE.current);}catch{}}
+    const current=localStorage.getItem(STORAGE.current)||'';
+    if(!remaining.some(booking=>booking.customerBookingId===current)){
+      try{localStorage.removeItem(STORAGE.current);}catch{}
+    }
     emitBookingUpdate({reason:'history-deleted',count:removed});
     return{ok:true,removed};
   };
