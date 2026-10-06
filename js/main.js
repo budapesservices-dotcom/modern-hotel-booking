@@ -840,6 +840,44 @@
     }, { passive: true });
   }
 
+  // ---------- Moments gallery filter ----------
+  const momentsFilter = document.querySelector('[data-moments-filter]');
+  if (momentsFilter) {
+    const momentItems = [...document.querySelectorAll('[data-moment-item]')];
+    const momentTabs = [...momentsFilter.querySelectorAll('[data-moment-category]')];
+    let activeMomentCategory = 'all';
+
+    const applyMomentFilter = () => {
+      momentItems.forEach(item => {
+        const itemCategory = String(item.dataset.category || '').trim().toLowerCase();
+        const show =
+          activeMomentCategory === 'all' ||
+          itemCategory === activeMomentCategory;
+
+        item.hidden = !show;
+        item.setAttribute('aria-hidden', show ? 'false' : 'true');
+        item.classList.toggle('is-filter-hidden', !show);
+      });
+
+      momentTabs.forEach(tab => {
+        const active =
+          String(tab.dataset.momentCategory || 'all').trim().toLowerCase() === activeMomentCategory;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    };
+
+    momentTabs.forEach(tab => {
+      tab.addEventListener('click', event => {
+        event.preventDefault();
+        activeMomentCategory = String(tab.dataset.momentCategory || 'all').trim().toLowerCase();
+        applyMomentFilter();
+      });
+    });
+
+    applyMomentFilter();
+  }
+
   // ---------- Gallery lightbox ----------
   const closeLightbox = () => {
     if (!lightbox) return;
