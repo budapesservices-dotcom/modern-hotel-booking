@@ -640,3 +640,4 @@
     }
   });
 })();
+// Room booking controls refined.
