@@ -187,20 +187,25 @@
     const current = experience.querySelector('[data-experience-current]');
     const reduce = reduceMotion;
 
-    let index = 0;
+    let index = originals.length;
     let timer = 0;
     let step = 0;
     const total = originals.length;
 
     if (track && total > 1) {
+      // Three copies let the middle sequence loop into the next sequence
+      // and then reset invisibly to the equivalent middle card.
       originals.forEach(card => {
-        const clone = card.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        clone.classList.add('experience-card-clone');
-        track.appendChild(clone);
+        track.appendChild(card.cloneNode(true));
+        track.appendChild(card.cloneNode(true));
       });
 
       const cards = [...track.querySelectorAll('[data-experience-card]')];
+
+      cards.forEach((card, i) => {
+        if (i >= total) card.setAttribute('aria-hidden', 'true');
+        if (i >= total * 2) card.classList.add('experience-card-tail');
+      });
 
       const measure = () => {
         const gap = parseFloat(getComputedStyle(track).gap) || 0;
@@ -228,16 +233,16 @@
           timer = window.setTimeout(() => {
             index += 1;
 
-            // The second copy of card 01 is visually identical to the first.
-            // Reset beneath it without a visible jump, then continue the loop.
-            if (index >= total * 2) {
-              index = total;
-              render(false);
-              requestAnimationFrame(() => {
-                index += 1;
-                render(true);
+            // At the first card of the third set, the second set contains
+            // an identical visual state. Reset instantly to keep the loop
+            // visually continuous, then keep moving.
+            if (index === total * 2) {
+              render(true);
+              window.setTimeout(() => {
+                index = total;
+                render(false);
                 schedule();
-              });
+              }, 740);
               return;
             }
 
