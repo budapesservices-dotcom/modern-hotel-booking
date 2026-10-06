@@ -429,18 +429,57 @@
     }
   };
 
+
+  const configureRoomDetailGuests = item => {
+    if (!roomDetailGuests) return;
+    const maxGuests = Math.max(1, Number(item?.dataset.maxGuests || 1));
+    const current = Math.min(Math.max(1, Number(roomDetailGuests.value || 1)), maxGuests);
+    roomDetailGuests.innerHTML = Array.from({ length:maxGuests }, (_, index) => {
+      const value = index + 1;
+      return '<option value="' + value + '"' + (value === current ? ' selected' : '') + '>' + value + '</option>';
+    }).join('');
+  };
+
+  const setRoomDetailNights = nights => {
+    if (!roomDetailNights) return;
+    const value = Math.min(30, Math.max(1, Number(nights) || 1));
+    roomDetailNights.value = String(value);
+  };
+
+  const syncRoomDetailCheckoutFromNights = () => {
+    if (!roomDetailCheckin || !roomDetailCheckout || !roomDetailNights) return;
+    const nights = Math.min(30, Math.max(1, Number(roomDetailNights.value) || 1));
+    const next = new Date(roomDetailCheckin.value + 'T12:00:00');
+    next.setDate(next.getDate() + nights);
+    roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
+    roomDetailCheckout.value = next.toISOString().slice(0, 10);
+  };
+
+  const syncRoomDetailNightsFromCheckout = () => {
+    if (!roomDetailCheckin || !roomDetailCheckout || !roomDetailNights) return;
+    const startDate = new Date(roomDetailCheckin.value + 'T12:00:00');
+    const endDate = new Date(roomDetailCheckout.value + 'T12:00:00');
+    const diff = Math.round((endDate - startDate) / 86400000);
+    if (diff >= 1 && diff <= 30) {
+      setRoomDetailNights(diff);
+    } else {
+      setRoomDetailNights(diff < 1 ? 1 : 30);
+      syncRoomDetailCheckoutFromNights();
+    }
+  };
+
   const updateRoomDetailSummary = () => {
     if (!roomDetailCheckin || !roomDetailCheckout) return;
-    const nights = roomDetailCheckin.value && roomDetailCheckout.value
-      ? Math.round((new Date(`${roomDetailCheckout.value}T12:00:00`) - new Date(`${roomDetailCheckin.value}T12:00:00`)) / 86400000)
-      : 0;
+    const nights = Math.min(30, Math.max(1, Number(roomDetailNights?.value) || 1));
+    syncRoomDetailCheckoutFromNights();
+
     const priceText = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '0';
     const price = Number(priceText) || 0;
 
-    if (roomDetailNights) roomDetailNights.textContent = nights > 0 ? String(nights) : '—';
-    if (roomDetailTotal) roomDetailTotal.textContent = nights > 0
-      ? `$${(price * nights).toLocaleString('en-US')}`
-      : '$0';
+    if (roomDetailNights) roomDetailNights.value = String(nights);
+    if (roomDetailTotal) {
+      roomDetailTotal.textContent = `${(price * nights).toLocaleString('en-US')}`;
+    }
 
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName || '—';
     if (roomDetailSummaryType && roomDetailKicker?.textContent) {
@@ -489,8 +528,11 @@
     if (roomDetailPrice) roomDetailPrice.textContent = price;
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
     if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
-    if (roomDetailNumber) roomDetailNumber.textContent = item.querySelector('.room-dir-number')?.textContent || '01';
+    if (roomDetailNumber) roomDetailNumber.textContent = '';
+    configureRoomDetailGuests(item);
     setRoomDetailDateMinimums();
+    setRoomDetailNights(1);
+    syncRoomDetailCheckoutFromNights();
     updateRoomDetailSummary();
     renderRoomDetailGallery(item, roomId);
 
@@ -512,17 +554,18 @@
   document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
 
   roomDetailCheckin?.addEventListener('change', () => {
-    if (roomDetailCheckout) {
-      roomDetailCheckout.min = roomDetailCheckin.value || roomDetailCheckout.min;
-      if (roomDetailCheckout.value && roomDetailCheckin.value && roomDetailCheckout.value <= roomDetailCheckin.value) {
-        const next = new Date(`${roomDetailCheckin.value}T12:00:00`);
-        next.setDate(next.getDate() + 1);
-        roomDetailCheckout.value = `${next.getFullYear()}-${pad(next.getMonth()+1)}-${pad(next.getDate())}`;
-      }
-    }
+    setRoomDetailNights(roomDetailNights?.value || 1);
+    syncRoomDetailCheckoutFromNights();
     updateRoomDetailSummary();
   });
-  roomDetailCheckout?.addEventListener('change', updateRoomDetailSummary);
+  roomDetailCheckout?.addEventListener('change', () => {
+    syncRoomDetailNightsFromCheckout();
+    updateRoomDetailSummary();
+  });
+  roomDetailNights?.addEventListener('change', () => {
+    syncRoomDetailCheckoutFromNights();
+    updateRoomDetailSummary();
+  });
   roomDetailGuests?.addEventListener('change', updateRoomDetailSummary);
 
   // ---------- Booking ----------
