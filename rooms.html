@@ -52,70 +52,97 @@
     </div>
   </section>
 
-  <section class="rooms-finder" aria-label="Room collection navigation">
-    <div class="page-wrap rooms-finder-inner">
-      <div>
-        <span class="eyebrow">Find your room</span>
-        <strong>03 / 03</strong>
-      </div>
-      <a href="#quiet-room">Quiet Room</a>
-      <a href="#long-room">Long Room</a>
-      <a href="#still-suite">Still Suite</a>
-      <button type="button" data-booking-open>Plan your stay <span>→</span></button>
-    </div>
-  </section>
-
-  <section id="room-collection" class="room-collection section">
+  <section class="room-atlas-section" id="room-collection" aria-labelledby="room-atlas-heading">
     <div class="page-wrap">
-      <div class="room-collection-head">
+      <div class="room-atlas-head">
         <div>
-          <p class="eyebrow">The collection</p>
-          <h2>Three ways<br>to <em>stay.</em></h2>
+          <p class="eyebrow">The room atlas / 09 spaces</p>
+          <h2 id="room-atlas-heading">Find your<br><em>kind of stay.</em></h2>
         </div>
-        <p>Each room is designed around the same promise: make space for the hours you actually want.</p>
+        <p>Move through the hotel by class. From quietly essential rooms to larger suites, each space is made for a different way of spending the day.</p>
       </div>
 
-      <div class="room-stories">
-        <article id="quiet-room" class="room-story room-story-light" data-parallax="0.025">
-          <div class="room-story-image">
-            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1700&q=86" alt="The Quiet Room with king bed and soft natural light" loading="lazy">
-            <span class="room-story-index">01 / QUIET</span>
-          </div>
-          <div class="room-story-content">
-            <div class="room-story-top"><span>28.4 M²</span><span>2 GUESTS</span></div>
-            <h3>The Quiet<br><em>Room.</em></h3>
-            <p>A calm, generous room for mornings without alarms. Soft light, a king bed and enough space to put the day down.</p>
-            <div class="room-feature-line"><span>King bed</span><span>Rain shower</span><span>Work desk</span><span>City view</span></div>
-            <button class="text-link room-story-cta" type="button" data-booking-open>Plan this room <span>→</span></button>
-          </div>
+      <div class="room-filter-bar" data-room-filter>
+        <div class="room-filter-tabs" role="tablist" aria-label="Filter rooms by class">
+          <button class="room-filter is-active" type="button" data-room-category="all" role="tab" aria-selected="true">All <span>09</span></button>
+          <button class="room-filter" type="button" data-room-category="essential" role="tab" aria-selected="false">Essential <span>03</span></button>
+          <button class="room-filter" type="button" data-room-category="signature" role="tab" aria-selected="false">Signature <span>03</span></button>
+          <button class="room-filter" type="button" data-room-category="suites" role="tab" aria-selected="false">Suites <span>03</span></button>
+        </div>
+        <span class="room-filter-result"><b data-room-result-count>09</b> rooms</span>
+      </div>
+
+      <div class="room-directory" data-room-directory>
+        <article class="room-directory-row" id="quiet-room" data-room-item data-category="essential">
+          <span class="room-dir-number">01</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=84" alt="The Quiet Room with king bed and natural light" loading="lazy"></div>
+          <div class="room-dir-class"><span>Essential</span><i>28.4 m²</i></div>
+          <div class="room-dir-main"><h3>The Quiet Room</h3><p>A calm room for mornings without alarms.</p><div><span>2 guests</span><span>King bed</span><span>Rain shower</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article id="long-room" class="room-story room-story-dark" data-parallax="0.018">
-          <div class="room-story-image">
-            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1700&q=86" alt="The Long Room with lounge area and generous space" loading="lazy">
-            <span class="room-story-index">02 / LONG</span>
-          </div>
-          <div class="room-story-content">
-            <div class="room-story-top"><span>41.2 M²</span><span>2–3 GUESTS</span></div>
-            <h3>The Long<br><em>Room.</em></h3>
-            <p>More room to settle in, stretch out and let an afternoon disappear. A lounge corner and dining nook make staying in feel easy.</p>
-            <div class="room-feature-line"><span>King bed</span><span>Lounge chair</span><span>Dining nook</span><span>Rain shower</span></div>
-            <button class="text-link room-story-cta" type="button" data-booking-open>Plan this room <span>→</span></button>
-          </div>
+        <article class="room-directory-row" id="city-room" data-room-item data-category="essential">
+          <span class="room-dir-number">02</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1200&q=84" alt="City Room with contemporary hotel interior" loading="lazy"></div>
+          <div class="room-dir-class"><span>Essential</span><i>30.1 m²</i></div>
+          <div class="room-dir-main"><h3>The City Room</h3><p>A bright base for moving through the city at your own pace.</p><div><span>2 guests</span><span>King bed</span><span>City view</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
 
-        <article id="still-suite" class="room-story room-story-light room-story-suite" data-parallax="0.022">
-          <div class="room-story-image">
-            <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1700&q=86" alt="The Still Suite with elegant contemporary interiors" loading="lazy">
-            <span class="room-story-index">03 / SUITE</span>
-          </div>
-          <div class="room-story-content">
-            <div class="room-story-top"><span>56.8 M²</span><span>2–4 GUESTS</span></div>
-            <h3>The Still<br><em>Suite.</em></h3>
-            <p>A private little world with a separate living space, soaking tub and the room to make a longer stay feel natural.</p>
-            <div class="room-feature-line"><span>King bed</span><span>Living room</span><span>Soaking tub</span><span>Panoramic view</span></div>
-            <button class="text-link room-story-cta" type="button" data-booking-open>Plan this room <span>→</span></button>
-          </div>
+        <article class="room-directory-row" id="garden-room" data-room-item data-category="essential">
+          <span class="room-dir-number">03</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=84" alt="Quiet hotel lounge and garden-facing interior" loading="lazy"></div>
+          <div class="room-dir-class"><span>Essential</span><i>32.6 m²</i></div>
+          <div class="room-dir-main"><h3>The Garden Room</h3><p>A softer outlook, with space to slow down between plans.</p><div><span>2 guests</span><span>King bed</span><span>Garden view</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row" id="long-room" data-room-item data-category="signature">
+          <span class="room-dir-number">04</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=84" alt="The Long Room with generous space and lounge seating" loading="lazy"></div>
+          <div class="room-dir-class"><span>Signature</span><i>41.2 m²</i></div>
+          <div class="room-dir-main"><h3>The Long Room</h3><p>More space to settle in and let an afternoon disappear.</p><div><span>2–3 guests</span><span>King bed</span><span>Lounge</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row" id="corner-room" data-room-item data-category="signature">
+          <span class="room-dir-number">05</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=84" alt="Corner Room with a broad hotel view" loading="lazy"></div>
+          <div class="room-dir-class"><span>Signature</span><i>44.8 m²</i></div>
+          <div class="room-dir-main"><h3>The Corner Room</h3><p>Two directions of light and a little more room to stay in.</p><div><span>2–3 guests</span><span>King bed</span><span>Panoramic outlook</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row" id="light-room" data-room-item data-category="signature">
+          <span class="room-dir-number">06</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=84" alt="Light Room with warm contemporary hotel interior" loading="lazy"></div>
+          <div class="room-dir-class"><span>Signature</span><i>46.5 m²</i></div>
+          <div class="room-dir-main"><h3>The Light Room</h3><p>Designed around generous daylight and longer, quieter evenings.</p><div><span>2–3 guests</span><span>King bed</span><span>Work nook</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row room-directory-suite" id="still-suite" data-room-item data-category="suites">
+          <span class="room-dir-number">07</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=84" alt="The Still Suite with elegant contemporary interiors" loading="lazy"></div>
+          <div class="room-dir-class"><span>Suite</span><i>56.8 m²</i></div>
+          <div class="room-dir-main"><h3>The Still Suite</h3><p>A private little world with a separate living space and soaking tub.</p><div><span>2–4 guests</span><span>King bed</span><span>Soaking tub</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row room-directory-suite" id="panorama-suite" data-room-item data-category="suites">
+          <span class="room-dir-number">08</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1200&q=84" alt="Panorama Suite with evening city atmosphere" loading="lazy"></div>
+          <div class="room-dir-class"><span>Suite</span><i>68.4 m²</i></div>
+          <div class="room-dir-main"><h3>The Panorama Suite</h3><p>An expansive stay framed by wider views and room to linger.</p><div><span>2–4 guests</span><span>King bed</span><span>Living area</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
+        </article>
+
+        <article class="room-directory-row room-directory-suite" id="residence-suite" data-room-item data-category="suites">
+          <span class="room-dir-number">09</span>
+          <div class="room-dir-image"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=84" alt="Residence Suite with spacious modern interior" loading="lazy"></div>
+          <div class="room-dir-class"><span>Suite</span><i>82.7 m²</i></div>
+          <div class="room-dir-main"><h3>The Residence Suite</h3><p>The most generous setting for longer stays, shared mornings and slow returns.</p><div><span>2–4 guests</span><span>King bed</span><span>Dining space</span></div></div>
+          <button class="room-dir-action text-link" type="button" data-booking-open>Plan this room <span>→</span></button>
         </article>
       </div>
     </div>
