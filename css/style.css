@@ -129,3 +129,513 @@
 @media(prefers-reduced-motion:reduce){.signature-header:after{animation:none;transform:scaleX(1);opacity:1}.hero-scene,.story-photo{transition:none;transform:none}.hero-scene.is-active,.story-photo.is-active{transform:none}.story-progress span{transition:none}}
 
 
+
+/* =========================================================
+   RESPONSIVE LOCK
+   Four deliberate device modes:
+   1. Mobile      < 600px
+   2. Foldables   600–899px
+   3. Tablet      900–1199px
+   4. Desktop     1200px+
+   The hero is always exactly one viewport high.
+   ========================================================= */
+
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
+body{min-height:100%;}
+
+.signature-hero{
+  width:100%;
+  max-width:100%;
+  height:100dvh;
+  min-height:100svh;
+  max-height:100dvh;
+  overflow:hidden;
+}
+.signature-hero-inner{
+  width:min(100% - 2*var(--pad),var(--max));
+  height:100%;
+  min-height:100%;
+  min-width:0;
+}
+
+/* ---------- 1. MOBILE ---------- */
+@media (max-width:599px){
+  :root{--pad:20px}
+
+  .site-header,
+  .signature-header{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    height:62px;
+    padding:8px max(20px,env(safe-area-inset-right)) 8px max(20px,env(safe-area-inset-left));
+  }
+
+  .signature-header:after{
+    left:max(20px,env(safe-area-inset-left));
+    right:max(20px,env(safe-area-inset-right));
+  }
+
+  .brand{
+    width:46px;
+    height:46px;
+    flex:0 0 46px;
+    margin-left:0;
+  }
+  .brand-logo{width:44px;height:44px}
+
+  .menu-toggle{
+    display:flex;
+    flex:0 0 auto;
+    width:auto;
+    min-width:0;
+    padding:6px 0;
+    margin:0;
+    background:transparent;
+    border:0;
+  }
+
+  .site-nav{
+    display:none!important;
+    position:absolute;
+    inset:62px 20px auto;
+    width:auto;
+    max-width:none;
+  }
+  .site-nav.open{
+    display:flex!important;
+  }
+
+  .signature-hero-inner{
+    width:calc(100% - 40px);
+    max-width:none;
+    min-width:0;
+    height:100%;
+    padding:70px 0 16px;
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+    gap:10px;
+  }
+
+  .signature-headline{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    align-self:center;
+    padding:0;
+    transform:none;
+  }
+
+  .hero-overline{
+    max-width:100%;
+    margin-bottom:16px;
+    font-size:8px;
+    letter-spacing:.17em;
+  }
+
+  .signature-headline h1{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    font-size:clamp(48px,14vw,72px);
+    line-height:.88;
+    letter-spacing:-.035em;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+
+  .hero-lede{
+    width:100%;
+    max-width:300px;
+    font-size:15px;
+    line-height:1.42;
+    margin:22px 0 20px;
+  }
+
+  .hero-cta-row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    width:min(100%,300px);
+    gap:8px;
+  }
+  .hero-cta-row .button{
+    width:100%;
+    min-width:0;
+  }
+
+  .time-rail{
+    position:relative;
+    inset:auto;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    margin:0;
+    transform:none;
+  }
+
+  .time-rail>p{display:none}
+
+  .time-track{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.24);
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:0 18px;
+  }
+
+  .time-stop{
+    width:100%;
+    min-width:0;
+    padding:10px 0 5px;
+    overflow:hidden;
+  }
+  .time-stop:before{display:none}
+  .time-stop span,
+  .time-stop small{
+    display:block;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .time-stop small{white-space:nowrap}
+
+  .hero-scene{width:100%;height:100%;min-width:0;min-height:100%}
+}
+
+/* ---------- 2. FOLDABLES ---------- */
+@media (min-width:600px) and (max-width:899px){
+  :root{--pad:28px}
+
+  .site-header,
+  .signature-header{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    height:72px;
+    padding:10px max(28px,env(safe-area-inset-right)) 10px max(28px,env(safe-area-inset-left));
+  }
+
+  .signature-header:after{
+    left:max(28px,env(safe-area-inset-left));
+    right:max(28px,env(safe-area-inset-right));
+  }
+
+  .brand{
+    width:52px;
+    height:52px;
+    flex:0 0 52px;
+    margin-left:0;
+  }
+  .brand-logo{width:50px;height:50px}
+
+  .signature-hero-inner{
+    width:calc(100% - 56px);
+    max-width:none;
+    min-width:0;
+    height:100%;
+    padding:86px 0 22px;
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+    gap:18px;
+  }
+
+  .signature-headline{
+    width:min(100%,620px);
+    max-width:100%;
+    min-width:0;
+    align-self:center;
+    padding:0;
+    transform:none;
+  }
+
+  .signature-headline h1{
+    max-width:100%;
+    font-size:clamp(62px,10vw,86px);
+    line-height:.86;
+    letter-spacing:-.042em;
+  }
+
+  .hero-lede{
+    max-width:420px;
+    font-size:16px;
+    line-height:1.45;
+    margin:24px 0;
+  }
+
+  .hero-cta-row{
+    width:min(100%,380px);
+    gap:8px;
+  }
+  .hero-cta-row .button{
+    min-width:0;
+  }
+
+  .time-rail{
+    position:relative;
+    inset:auto;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    transform:none;
+    margin:0;
+  }
+  .time-rail>p{display:none}
+  .time-track{
+    width:100%;
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.26);
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:0 16px;
+  }
+  .time-stop{
+    min-width:0;
+    padding:14px 0 5px;
+    overflow:hidden;
+  }
+  .time-stop:before{display:none}
+  .time-stop small{
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+}
+
+/* Foldable in landscape: use the wider canvas for a true split composition. */
+@media (min-width:600px) and (max-width:899px) and (orientation:landscape){
+  .signature-hero-inner{
+    grid-template-columns:minmax(0,1fr) 210px;
+    grid-template-rows:1fr;
+    align-items:center;
+    gap:42px;
+    padding-top:86px;
+    padding-bottom:26px;
+  }
+
+  .signature-headline{
+    align-self:center;
+    width:100%;
+  }
+
+  .signature-headline h1{
+    font-size:clamp(58px,8.4vw,82px);
+  }
+
+  .time-rail{
+    align-self:center;
+    width:210px;
+  }
+
+  .time-track{
+    border-top:0;
+    border-left:1px solid rgba(255,255,255,.26);
+    grid-template-columns:1fr;
+  }
+
+  .time-stop{padding:12px 0 12px 18px}
+  .time-stop:before{
+    display:block;
+    left:-4px;
+    top:20px;
+  }
+}
+
+/* Real dual-screen foldables with a horizontal hinge. */
+@media (horizontal-viewport-segments:2){
+  .signature-hero-inner{
+    width:100%;
+    max-width:none;
+    padding-left:calc(28px + env(viewport-segment-left 0 0));
+    padding-right:calc(28px + env(viewport-segment-right 1 0));
+    column-gap:env(viewport-segment-width 0 0);
+  }
+}
+@media (vertical-viewport-segments:2){
+  .signature-hero-inner{
+    height:100dvh;
+    min-height:100svh;
+  }
+}
+
+/* ---------- 3. TABLET ---------- */
+@media (min-width:900px) and (max-width:1199px){
+  :root{--pad:42px}
+
+  .site-header,
+  .signature-header{
+    width:100%;
+    max-width:100%;
+    height:78px;
+    padding:12px var(--pad);
+  }
+
+  .signature-header:after{
+    left:var(--pad);
+    right:var(--pad);
+  }
+
+  .brand{
+    width:56px;
+    height:56px;
+    flex:0 0 56px;
+    margin-left:0;
+  }
+  .brand-logo{width:54px;height:54px}
+
+  .site-nav{
+    gap:24px;
+    font-size:12px;
+  }
+
+  .nav-book{padding:10px 15px}
+
+  .signature-hero-inner{
+    width:calc(100% - 84px);
+    max-width:none;
+    min-width:0;
+    height:100%;
+    padding:100px 0 30px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 205px;
+    grid-template-rows:1fr;
+    align-items:center;
+    gap:42px;
+  }
+
+  .signature-headline{
+    max-width:700px;
+    min-width:0;
+    align-self:center;
+    padding:0;
+    transform:none;
+  }
+
+  .signature-headline h1{
+    font-size:clamp(76px,9vw,108px);
+    line-height:.84;
+    letter-spacing:-.045em;
+  }
+
+  .hero-lede{
+    max-width:410px;
+    font-size:17px;
+    margin:28px 0 24px;
+  }
+
+  .hero-cta-row{
+    width:min(100%,390px);
+    gap:8px;
+  }
+
+  .time-rail{
+    position:relative;
+    right:auto;
+    top:auto;
+    width:205px;
+    transform:none;
+    align-self:center;
+  }
+
+  .time-track{
+    border-left:1px solid rgba(255,255,255,.28);
+    border-top:0;
+    grid-template-columns:1fr;
+  }
+
+  .time-stop{
+    padding:12px 0 12px 18px;
+    min-width:0;
+  }
+
+  .time-stop small{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .time-stop:before{
+    display:block;
+    left:-4px;
+    top:20px;
+  }
+}
+
+/* ---------- 4. DESKTOP ---------- */
+@media (min-width:1200px){
+  .site-header,
+  .signature-header{
+    width:100%;
+    max-width:100%;
+    height:82px;
+    padding:12px var(--pad);
+  }
+
+  .brand{
+    width:64px;
+    height:64px;
+    flex:0 0 64px;
+    margin-left:18px;
+  }
+  .brand-logo{width:62px;height:62px}
+
+  .signature-hero-inner{
+    width:min(100% - 2*var(--pad),var(--max));
+    height:100%;
+    min-width:0;
+    padding-top:112px;
+    padding-bottom:34px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 230px;
+    grid-template-rows:1fr;
+    align-items:center;
+    gap:70px;
+  }
+
+  .signature-headline{
+    max-width:820px;
+    min-width:0;
+    align-self:center;
+    padding:0;
+    transform:translateY(5vh);
+  }
+
+  .signature-headline h1{
+    font-size:clamp(92px,8vw,126px);
+    line-height:.84;
+    letter-spacing:-.048em;
+  }
+
+  .hero-lede{
+    max-width:420px;
+    font-size:17px;
+    margin:30px 0 26px;
+  }
+
+  .time-rail{
+    position:relative;
+    right:auto;
+    top:auto;
+    width:230px;
+    transform:none;
+    align-self:center;
+  }
+
+  .time-track{
+    border-left:1px solid color-mix(in srgb,var(--hero-theme) 76%,white 24%);
+    border-top:0;
+    grid-template-columns:1fr;
+  }
+
+  .time-stop{
+    padding:12px 0 12px 19px;
+    min-width:0;
+  }
+
+  .time-stop:before{
+    display:block;
+    left:-4px;
+    top:20px;
+  }
+}
