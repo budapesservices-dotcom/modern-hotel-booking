@@ -4587,3 +4587,114 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     height:3px;
   }
 }
+
+
+/* =========================================================
+   MOMENTS HERO — MOBILE / CINEMATIC FINAL PASS
+   ========================================================= */
+.page-gallery .moments-hero{
+  isolation:isolate;
+  min-height:82svh;
+  background:#171613;
+}
+.page-gallery .moments-hero:before{
+  z-index:-2;
+  background:
+    linear-gradient(180deg,rgba(12,11,9,.34),rgba(12,11,9,.66)),
+    var(--moments-hero-image);
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  opacity:1;
+  transform:scale(1.03);
+  transition:background-image .7s ease,filter .7s ease,transform 1.4s var(--ease);
+  filter:brightness(.78) saturate(.78);
+}
+.page-gallery .moments-hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(10,9,8,.16) 0%,rgba(10,9,8,.02) 28%,rgba(10,9,8,.20) 55%,rgba(10,9,8,.68) 100%);
+  pointer-events:none;
+}
+.page-gallery .moments-hero-inner{
+  min-height:82svh;
+}
+.page-gallery .moments-hero-copy{
+  max-width:900px;
+  margin-top:auto;
+  padding-top:8vh;
+  padding-bottom:7vh;
+}
+.page-gallery .moments-hero-copy h1{
+  text-shadow:0 3px 24px rgba(0,0,0,.24);
+}
+.page-gallery .moments-hero-copy>p:last-child{
+  color:rgba(247,243,234,.82);
+  text-shadow:0 2px 14px rgba(0,0,0,.24);
+}
+.page-gallery .moments-time-rail{
+  position:relative;
+  z-index:2;
+  max-width:none;
+}
+.page-gallery .moments-time-rail i{
+  background:rgba(255,255,255,.28);
+}
+.page-gallery .moments-time-rail span{
+  text-shadow:0 2px 10px rgba(0,0,0,.28);
+}
+
+@media(max-width:560px){
+  .page-gallery .moments-hero,
+  .page-gallery .moments-hero-inner{
+    min-height:calc(100svh - 56px);
+  }
+  .page-gallery .moments-hero-inner{
+    width:calc(100% - 40px);
+    padding-top:72px;
+    padding-bottom:22px;
+  }
+  .page-gallery .moments-hero-topline{
+    align-items:center;
+    font-size:6.5px;
+  }
+  .page-gallery .moments-hero-copy{
+    padding-top:0;
+    padding-bottom:5vh;
+    margin-top:auto;
+  }
+  .page-gallery .moments-hero-copy .eyebrow{
+    margin-bottom:14px;
+    font-size:7px;
+  }
+  .page-gallery .moments-hero-copy h1{
+    max-width:330px;
+    margin-bottom:20px;
+    font-size:clamp(49px,14vw,76px);
+    line-height:.84;
+    letter-spacing:-.05em;
+  }
+  .page-gallery .moments-hero-copy>p:last-child{
+    max-width:295px;
+    margin:0;
+    font-size:12px;
+    line-height:1.55;
+    color:rgba(247,243,234,.84);
+  }
+  .page-gallery .moments-time-rail{
+    width:100%;
+    padding-top:0;
+    margin-top:auto;
+  }
+  .page-gallery .moments-time-rail span{
+    text-align:left;
+  }
+  .page-gallery .moments-time-rail span.is-active:after{
+    left:0;
+    bottom:-8px;
+    transform:none;
+  }
+}
