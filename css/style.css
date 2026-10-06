@@ -4805,6 +4805,8 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   --card-bg:#27312f;
   position:relative;
   isolation:isolate;
+  min-width:0;
+  width:100%;
   overflow:hidden;
   min-height:218px;
   padding:30px 28px;
@@ -4883,15 +4885,22 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-amenities .amenities-full-grid>div p{
   position:relative;
   z-index:1;
-  max-width:300px;
+  display:block;
+  min-width:0;
+  width:100%;
+  max-width:100%;
   margin:0;
   color:rgba(246,242,233,.70);
   font-size:13px;
   line-height:1.62;
+  overflow-wrap:anywhere;
+  word-break:normal;
 }
 .page-amenities .amenities-full-grid>div>*{
   position:relative;
   z-index:2;
+  min-width:0;
+  max-width:100%;
 }
 @keyframes amenityWaterRipple{
   0%{
@@ -4927,10 +4936,16 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     grid-template-columns:1fr;
     gap:8px;
   }
+  .page-amenities .amenity-grid.amenities-full-grid{
+    width:100%;
+    min-width:0;
+  }
   .page-amenities .amenities-full-grid>div,
   .page-amenities .amenities-full-grid>div:nth-child(3n+2),
   .page-amenities .amenities-full-grid>div:nth-child(3n+3){
     width:100%;
+    max-width:100%;
+    min-width:0;
     height:218px;
     min-height:218px;
     padding:28px 20px 26px;
