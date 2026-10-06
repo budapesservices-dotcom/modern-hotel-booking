@@ -6675,3 +6675,76 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     margin-top:9px;
   }
 }
+
+/* Contact Google Maps — real interactive embed in the editorial location frame. */
+.page-contact .contact-map-frame{
+  position:relative;
+  min-height:520px;
+  overflow:hidden;
+  border:1px solid rgba(214,179,106,.16);
+  border-radius:14px;
+  background:#24221e;
+}
+.page-contact .contact-map-frame iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-width:200px;
+  min-height:200px;
+  border:0;
+  display:block;
+  filter:saturate(.72) contrast(.98);
+}
+.page-contact .contact-map-frame:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(13,12,10,.16),transparent 28%,transparent 72%,rgba(13,12,10,.30)),
+    linear-gradient(90deg,rgba(13,12,10,.12),transparent 24%,transparent 76%,rgba(13,12,10,.12));
+}
+.page-contact .contact-map-label{
+  position:absolute;
+  z-index:2;
+  left:22px;
+  right:22px;
+  bottom:20px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:18px;
+  pointer-events:none;
+  color:#fffdf8;
+  text-shadow:0 2px 12px rgba(0,0,0,.55);
+}
+.page-contact .contact-map-label span{
+  font-size:8px;
+  letter-spacing:.16em;
+}
+.page-contact .contact-map-label strong{
+  color:#d6b36a;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:400;
+}
+@media(max-width:1000px){
+  .page-contact .contact-map-frame{
+    min-height:440px;
+  }
+}
+@media(max-width:560px){
+  .page-contact .contact-map-frame{
+    min-height:340px;
+  }
+  .page-contact .contact-map-label{
+    left:16px;
+    right:16px;
+    bottom:16px;
+    align-items:flex-start;
+    flex-direction:column;
+    gap:5px;
+  }
+}
