@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#1b1916">
   <title>Admin Booking Desk — The Still Hotel</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/booking-management.css">
 </head>
 <body class="page-admin-bookings">
 <main class="admin-booking-page">
@@ -24,17 +25,21 @@
       <h1>Booking<br><em>desk.</em></h1>
     </div>
     <div>
-      <p>Admin-side view of confirmed booking records for the front-end demo.</p>
+      <p>Admin-side view of booking records, cancellation requests, and automatic booking-expiry events.</p>
       <p class="admin-demo-warning">Demo storage only — records are local to this browser and are not secure for real guest data.</p>
     </div>
   </section>
 
   <section class="admin-booking-table-section">
     <div class="admin-booking-stats" data-admin-stats></div>
+
+    <div class="admin-notifications" data-admin-notifications aria-live="polite"></div>
+
     <div class="admin-booking-list" data-admin-booking-list aria-live="polite"></div>
   </section>
 </main>
 
+<script src="js/booking-flow.js" defer></script>
 <script src="js/admin-bookings.js" defer></script>
 </body>
 </html>
