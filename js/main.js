@@ -278,6 +278,40 @@
     }
   }
 
+  // ---------- Room Atlas filter ----------
+  const roomFilter = document.querySelector('[data-room-filter]');
+  if (roomFilter) {
+    const roomItems = [...document.querySelectorAll('[data-room-item]')];
+    const roomTabs = [...roomFilter.querySelectorAll('[data-room-category]')];
+    const roomCount = roomFilter.querySelector('[data-room-result-count]');
+
+    const applyRoomFilter = category => {
+      const visible = roomItems.filter(item => category === 'all' || item.dataset.category === category);
+
+      roomItems.forEach(item => {
+        const show = category === 'all' || item.dataset.category === category;
+        item.classList.toggle('is-filter-hidden', !show);
+        item.setAttribute('aria-hidden', show ? 'false' : 'true');
+      });
+
+      roomTabs.forEach(tab => {
+        const active = tab.dataset.roomCategory === category;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      if (roomCount) {
+        roomCount.textContent = String(visible.length).padStart(2, '0');
+      }
+    };
+
+    roomTabs.forEach(tab => {
+      tab.addEventListener('click', () => applyRoomFilter(tab.dataset.roomCategory));
+    });
+
+    applyRoomFilter('all');
+  }
+
   // ---------- Booking ----------
   const setBookingMinDate = () => {
     const today = new Date();
