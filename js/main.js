@@ -1285,40 +1285,24 @@
 
   prepareWithin(document.documentElement);
 
-  const restartAmbientEntrance = () => {
-    document.querySelectorAll('.fx-motion.fx-visible').forEach(element => {
-      element.classList.remove('fx-visible');
-    });
-
-    // Re-enter only what is currently visible. Elements below the fold
-    // remain observed and will animate naturally when scrolled into view.
-    window.requestAnimationFrame(() => {
-      const viewportTop = -80;
-      const viewportBottom = window.innerHeight + 80;
-
-      document.querySelectorAll('.fx-motion').forEach(element => {
-        const rect = element.getBoundingClientRect();
-        if (rect.bottom >= viewportTop && rect.top <= viewportBottom) {
-          element.classList.add('fx-visible');
-        }
-      });
-
-      window.dispatchEvent(new Event('still:ambient-motion-ready'));
-    });
-  };
-
-  if (document.documentElement.classList.contains('site-loading')) {
-    window.addEventListener('still:page-ready', restartAmbientEntrance, { once:true });
-  } else {
-    restartAmbientEntrance();
-  }
-
   if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('.fx-motion').forEach(element => element.classList.add('fx-visible'));
+    const showFallbackMotion = () => {
+      document.querySelectorAll('.fx-motion').forEach(element => element.classList.add('fx-visible'));
+    };
+
+    if (document.documentElement.classList.contains('site-loading')) {
+      window.addEventListener('still:page-ready', showFallbackMotion, { once:true });
+    } else {
+      showFallbackMotion();
+    }
   } else {
     const active = new Set();
 
     const revealObserver = new IntersectionObserver(entries => {
+      // Content is hidden only by the loader curtain. Do not consume the
+      // entrance transition before the page becomes visible.
+      if (document.documentElement.classList.contains('site-loading')) return;
+
       entries.forEach(entry => {
         const element = entry.target;
 
@@ -1334,7 +1318,18 @@
       rootMargin:'14% 0px 14% 0px'
     });
 
-    document.querySelectorAll('.fx-motion').forEach(element => revealObserver.observe(element));
+    const observeEntranceTargets = () => {
+      document.querySelectorAll('.fx-motion').forEach(element => {
+        revealObserver.unobserve(element);
+        revealObserver.observe(element);
+      });
+    };
+
+    observeEntranceTargets();
+
+    if (document.documentElement.classList.contains('site-loading')) {
+      window.addEventListener('still:page-ready', observeEntranceTargets, { once:true });
+    }
 
     // Parallax candidates use the same viewport gating, but only a much
     // smaller visual subset is updated during scrolling.
