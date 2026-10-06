@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Still Hotel booking desk — front-end demo.">
+  <meta name="theme-color" content="#1b1916">
+  <title>Admin Booking Desk — The Still Hotel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-admin-bookings">
+<main class="admin-booking-page">
+  <header class="admin-booking-header">
+    <a class="admin-booking-brand" href="index.html" aria-label="Back to The Still Hotel">
+      <img src="assets/logo-still.svg" alt="">
+      <span>THE STILL / BOOKING DESK</span>
+    </a>
+    <a class="admin-booking-home" href="index.html">Exit desk</a>
+  </header>
+
+  <section class="admin-booking-intro">
+    <div>
+      <p class="eyebrow">Operations / Reservations</p>
+      <h1>Booking<br><em>desk.</em></h1>
+    </div>
+    <div>
+      <p>Admin-side view of confirmed booking records for the front-end demo.</p>
+      <p class="admin-demo-warning">Demo storage only — records are local to this browser and are not secure for real guest data.</p>
+    </div>
+  </section>
+
+  <section class="admin-booking-table-section">
+    <div class="admin-booking-stats" data-admin-stats></div>
+    <div class="admin-booking-list" data-admin-booking-list aria-live="polite"></div>
+  </section>
+</main>
+
+<script src="js/admin-bookings.js" defer></script>
+</body>
+</html>
