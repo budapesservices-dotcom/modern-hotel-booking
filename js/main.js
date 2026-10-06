@@ -333,6 +333,46 @@
     applyRoomFilters();
   }
 
+  // ---------- Room details ----------
+  const roomDetailDrawer = document.querySelector('[data-room-detail-drawer]');
+  const roomDetailTitle = document.querySelector('[data-room-detail-title]');
+  const roomDetailKicker = document.querySelector('[data-room-detail-kicker]');
+  const roomDetailDescription = document.querySelector('[data-room-detail-description]');
+  const roomDetailSpecs = document.querySelector('[data-room-detail-specs]');
+  const roomDetailAvailability = document.querySelector('[data-room-detail-availability]');
+  const roomDetailPrice = document.querySelector('[data-room-detail-price]');
+  const openRoomDetail = item => {
+    if (!roomDetailDrawer) return;
+    const title = item.querySelector('.room-dir-main h3')?.textContent || '';
+    const description = item.querySelector('.room-dir-main p')?.textContent || '';
+    const type = item.querySelector('.room-dir-class span')?.textContent || '';
+    const size = item.querySelector('.room-dir-class i')?.textContent || '';
+    const availability = item.querySelector('.room-dir-availability')?.textContent || '';
+    const price = item.querySelector('[data-room-price-current]')?.textContent || '';
+    const specs = [...item.querySelectorAll('.room-dir-main>div span')].map(el => el.textContent.trim());
+
+    if (roomDetailTitle) roomDetailTitle.textContent = title;
+    if (roomDetailKicker) roomDetailKicker.textContent = `${type} · ${size}`;
+    if (roomDetailDescription) roomDetailDescription.textContent = description;
+    if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
+    if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
+    if (roomDetailPrice) roomDetailPrice.textContent = price;
+
+    roomDetailDrawer.classList.add('open');
+    roomDetailDrawer.setAttribute('aria-hidden', 'false');
+    body.classList.add('no-scroll');
+  };
+  const closeRoomDetail = () => {
+    if (!roomDetailDrawer) return;
+    roomDetailDrawer.classList.remove('open');
+    roomDetailDrawer.setAttribute('aria-hidden', 'true');
+    body.classList.remove('no-scroll');
+  };
+  document.querySelectorAll('[data-room-detail]').forEach(btn => {
+    btn.addEventListener('click', () => openRoomDetail(btn.closest('[data-room-item]')));
+  });
+  document.querySelectorAll('[data-room-detail-close]').forEach(btn => btn.addEventListener('click', closeRoomDetail));
+
   // ---------- Booking ----------
   const setBookingMinDate = () => {
     const today = new Date();
@@ -443,6 +483,7 @@
     if (e.key === 'Escape') {
       closeBooking();
       closeLightbox();
+      closeRoomDetail();
     }
   });
 })();
