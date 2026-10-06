@@ -5292,6 +5292,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     padding-bottom:clamp(92px,14.5vh,126px);
     align-items:end;
   }
+  .page-amenities .page-hero .narrow-hero{
+    transform:translateY(clamp(-160px,-18vh,-110px));
+  }
   .page-about .page-hero{
     padding-top:142px;
   }
