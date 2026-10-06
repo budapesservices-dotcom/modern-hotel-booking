@@ -183,67 +183,24 @@
   const experience = document.querySelector('[data-experience-carousel]');
   if (experience) {
     const track = experience.querySelector('[data-experience-track]');
-    const originals = [...experience.querySelectorAll('[data-experience-card]')];
+    const cards = [...experience.querySelectorAll('[data-experience-card]')];
     const current = experience.querySelector('[data-experience-current]');
     const reduce = reduceMotion;
 
-    let index = 0;
     let timer = 0;
     let step = 0;
-    const total = originals.length;
+    let logicalIndex = 0;
 
-    if (track && total > 1) {
-      const clones = originals.map(card => {
-        const clone = card.cloneNode(true);
-        clone.classList.add('experience-card-clone');
-        clone.setAttribute('aria-hidden', 'true');
-        return clone;
-      });
-      clones.forEach(clone => track.appendChild(clone));
-
-      const cards = [...track.querySelectorAll('[data-experience-card]')];
-
+    if (track && cards.length > 1) {
       const measure = () => {
         const gap = parseFloat(getComputedStyle(track).gap) || 0;
         step = cards[0].getBoundingClientRect().width + gap;
       };
 
-      const render = (animate = true) => {
-        track.style.transition = animate ? 'transform .72s var(--ease)' : 'none';
-        track.style.transform = `translate3d(-${index * step}px,0,0)`;
-
+      const updateCounter = () => {
         if (current) {
-          current.textContent = String((index % total) + 1).padStart(2, '0');
+          current.textContent = String(logicalIndex + 1).padStart(2, '0');
         }
-
-        if (!animate) {
-          requestAnimationFrame(() => {
-            track.style.transition = '';
-          });
-        }
-      };
-
-      const resetToCloneBase = () => {
-        // After showing clone 01, rotate the original set behind it.
-        // The visible pixels stay identical, so there is no jump.
-        originals.forEach(card => track.appendChild(card));
-        index = 0;
-        render(false);
-      };
-
-      const advance = () => {
-        index += 1;
-        render(true);
-
-        if (index === total) {
-          window.setTimeout(() => {
-            resetToCloneBase();
-            schedule();
-          }, 760);
-          return;
-        }
-
-        schedule();
       };
 
       const schedule = () => {
@@ -253,9 +210,38 @@
         }
       };
 
-      const init = () => {
+      const advance = () => {
         measure();
-        render(false);
+
+        // Move exactly one card. After the animation, recycle the first
+        // card to the end and instantly restore the track to x=0.
+        // Because the first visible card is now identical, there is no jump.
+        track.style.transition = 'transform .72s var(--ease)';
+        track.style.transform = `translate3d(-${step}px,0,0)`;
+
+        window.setTimeout(() => {
+          const first = track.querySelector('[data-experience-card]');
+          if (!first) return;
+
+          track.appendChild(first);
+          track.style.transition = 'none';
+          track.style.transform = 'translate3d(0,0,0)';
+
+          logicalIndex = (logicalIndex + 1) % cards.length;
+          updateCounter();
+
+          requestAnimationFrame(() => {
+            track.style.transition = '';
+          });
+
+          schedule();
+        }, 760);
+      };
+
+      const init = () => {
+        track.style.transform = 'translate3d(0,0,0)';
+        updateCounter();
+        measure();
         schedule();
       };
 
@@ -263,7 +249,8 @@
 
       window.addEventListener('resize', () => {
         measure();
-        render(false);
+        track.style.transition = 'none';
+        track.style.transform = 'translate3d(0,0,0)';
       }, { passive:true });
 
       document.addEventListener('visibilitychange', () => {
@@ -271,7 +258,8 @@
           window.clearTimeout(timer);
         } else {
           measure();
-          render(false);
+          track.style.transition = 'none';
+          track.style.transform = 'translate3d(0,0,0)';
           schedule();
         }
       });
