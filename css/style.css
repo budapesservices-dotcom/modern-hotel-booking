@@ -5669,7 +5669,39 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 @media(max-width:560px){
   .page-about .about-story-grid{
-    gap:38px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .page-about .about-story-copy{
+    display:contents;
+  }
+  .page-about .about-story-copy .eyebrow{
+    order:1;
+    margin-bottom:16px;
+  }
+  .page-about .about-story-copy h2{
+    order:2;
+    margin:0 0 28px;
+  }
+  .page-about .about-story-image{
+    order:3;
+    width:100%;
+    margin:0 0 30px;
+    aspect-ratio:16/10;
+  }
+  .page-about .about-story-copy p:not(.eyebrow){
+    order:4;
+    width:100%;
+    margin:0 0 18px;
+  }
+  .page-about .about-story-copy p:not(.eyebrow):last-of-type{
+    margin-bottom:20px;
+  }
+  .page-about .about-story-copy .text-link{
+    order:5;
+    margin-top:0;
+    margin-bottom:0;
   }
   .page-about .about-story-copy h2{
     font-size:clamp(50px,15vw,78px);
