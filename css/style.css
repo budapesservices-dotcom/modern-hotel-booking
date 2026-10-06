@@ -334,43 +334,33 @@
   transition:transform .55s var(--ease),filter .55s ease;
 }
 .story-pane-1{
-  --panel-base:18px;
   left:0;
   background-position:left center;
-  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
+  transform:translate3d(0,var(--panel-parallax),0);
 }
 .story-pane-2{
-  --panel-base:0px;
   left:calc((100% - 32px) / 5 + 8px);
   background-position:25% center;
-  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
+  transform:translate3d(0,var(--panel-parallax),0);
 }
 .story-pane-3{
-  --panel-base:30px;
   left:calc(2 * ((100% - 32px) / 5 + 8px));
   background-position:50% center;
-  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
+  transform:translate3d(0,var(--panel-parallax),0);
 }
 .story-pane-4{
-  --panel-base:9px;
   left:calc(3 * ((100% - 32px) / 5 + 8px));
   background-position:75% center;
-  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
+  transform:translate3d(0,var(--panel-parallax),0);
 }
 .story-pane-5{
-  --panel-base:24px;
   right:0;
   background-position:right center;
-  transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax)),0);
+  transform:translate3d(0,var(--panel-parallax),0);
 }
 .story-architecture-figure:hover .story-pane{
   filter:saturate(.94) contrast(1.03);
 }
-.story-architecture-figure:hover .story-pane-1{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
-.story-architecture-figure:hover .story-pane-2{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 3px),0)}
-.story-architecture-figure:hover .story-pane-3{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
-.story-architecture-figure:hover .story-pane-4{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 3px),0)}
-.story-architecture-figure:hover .story-pane-5{transform:translate3d(0,calc(var(--panel-base) + var(--panel-parallax) - 4px),0)}
 .story-image-index{
   position:absolute;
   z-index:2;
@@ -1141,11 +1131,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .story-hours span{min-width:86px}
   .story-triptych{aspect-ratio:5/4}
   .story-pane{width:calc((100% - 24px) / 5);height:68%}
-  .story-pane-1{transform:translateY(12px)}
-  .story-pane-2{left:calc((100% - 24px) / 5 + 6px);transform:translateY(0)}
-  .story-pane-3{left:calc(2 * ((100% - 24px) / 5 + 6px));transform:translateY(18px)}
-  .story-pane-4{left:calc(3 * ((100% - 24px) / 5 + 6px));transform:translateY(5px)}
-  .story-pane-5{transform:translateY(14px)}
+  .story-pane-2{left:calc((100% - 24px) / 5 + 6px)}
+  .story-pane-3{left:calc(2 * ((100% - 24px) / 5 + 6px))}
+  .story-pane-4{left:calc(3 * ((100% - 24px) / 5 + 6px))}
   .story-architecture-figure figcaption{
     font-size:8px;
     gap:12px;
