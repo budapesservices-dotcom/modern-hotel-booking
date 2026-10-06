@@ -5970,3 +5970,14 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     align-items:end;
   }
 }
+
+/* Contact hero: identical About hero background/DNA, intentionally buttonless. */
+.page-contact .contact-page-hero{
+  background:
+    radial-gradient(circle at 78% 24%,rgba(214,179,106,.10),transparent 27%),
+    radial-gradient(circle at 18% 78%,rgba(63,91,84,.18),transparent 32%),
+    #1b1a18;
+}
+.page-contact .contact-page-hero .hero-cta-row{
+  display:none !important;
+}
