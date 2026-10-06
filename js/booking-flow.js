@@ -105,7 +105,7 @@
 
     const makeToken = () => {
       if (window.crypto?.randomUUID) {
-        return window.crypto.randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase();
+        return window.crypto.randomUUID().replace(/-/g, '').slice(0, 12).toUpperCase();
       }
 
       if (window.crypto?.getRandomValues) {
@@ -115,7 +115,7 @@
           .toUpperCase();
       }
 
-      return Math.random().toString(36).slice(2, 10).toUpperCase();
+      return Math.random().toString(36).slice(2, 14).toUpperCase();
     };
 
     let token = makeToken();
@@ -174,7 +174,7 @@
 
       localStorage.setItem('stillHotelCurrentBookingId', bookingIds.customerId);
     } catch {
-      // Session storage is optional for this front-end demo.
+      // Local browser storage is optional for this front-end demo.
     }
 
     modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
