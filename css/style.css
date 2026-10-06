@@ -5786,3 +5786,53 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     font-size:8px;
   }
 }
+
+/* =========================================================
+   GLOBAL BUTTON HOVER LANGUAGE — GOLD
+   ========================================================= */
+:root{
+  --button-hover-gold:#d6b36a;
+}
+
+/* Bordered / outline controls: gold border + gold surface on hover. */
+.signature-header .nav-book:hover,
+.button-outline-light:hover,
+.button-outline-dark:hover,
+.button-whatsapp:hover,
+.suite-arrow:hover,
+.close-button:hover,
+.room-custom-select-trigger:hover,
+.room-filter.is-active:hover{
+  background:var(--button-hover-gold) !important;
+  color:#292720 !important;
+  border-color:var(--button-hover-gold) !important;
+}
+
+/* Borderless controls: keep their form and turn the type gold. */
+.text-link:hover,
+.story-hours .story-hour:hover,
+.time-stop:hover,
+.room-booking-cancel:hover,
+.footer-action:hover{
+  color:var(--button-hover-gold) !important;
+}
+
+/* Small text controls that use a bottom rule as their border. */
+.room-detail-close-text:hover{
+  color:var(--button-hover-gold) !important;
+  border-color:var(--button-hover-gold) !important;
+}
+
+/* Room filters without a visible border stay text-only on hover. */
+.room-filter:hover:not(.is-active){
+  color:var(--button-hover-gold) !important;
+}
+
+/* Preserve the subtle lift used throughout the button system. */
+.button-outline-light:hover,
+.button-outline-dark:hover,
+.button-whatsapp:hover,
+.suite-arrow:hover,
+.close-button:hover{
+  transform:translateY(-2px);
+}
