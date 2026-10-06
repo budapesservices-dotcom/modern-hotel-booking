@@ -1,32 +1,4 @@
-/*
- * The Still Hotel — Booking Flow
- * --------------------------------
- * Front-end booking gate + confirmation UI.
- *
- * Flow:
- *   Booking button
- *      -> booking-flow.js
- *      -> check authentication
- *          -> not logged in: redirect to login.html
- *          -> logged in / demo bypass: show booking confirmation
- *      -> Continue
- *      -> next booking step
- *
- * Current contest/demo mode:
- *   BYPASS_LOGIN = true
- *
- * Client hand-off later:
- *   1. Set BYPASS_LOGIN to false.
- *   2. Connect hasSession() to the real authentication layer.
- *   3. Replace the local success state with the client's real reservation service.
- *
- * Each booking receives one shared token and two paired IDs:
- *   customerBookingId -> shown to the guest.
- *   adminBookingId    -> kept for the admin booking desk.
- * Both IDs are generated together from the same booking token.
- *
- * No credentials, passwords, or personal contact data belong in this file.\n * Reservation state is kept in the browser for this demo.
- */
+
 
 (() => {
   const BYPASS_LOGIN = true;
@@ -63,10 +35,88 @@
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 
+
+  const STORAGE={bookings:'stillHotelBookings',notifications:'stillHotelAdminNotifications',current:'stillHotelCurrentBookingId'};
+  const STATUS={CONFIRMED:'confirmed',CANCELLATION_PENDING:'cancellation_pending',CANCELLED:'cancelled',EXPIRED:'expired'};
+  const readJson=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key)||'');return value??fallback;}catch{return fallback;}};
+  const getBookings=()=>{const value=readJson(STORAGE.bookings,[]);return Array.isArray(value)?value:[];};
+  const saveBookings=bookings=>{try{localStorage.setItem(STORAGE.bookings,JSON.stringify(bookings));return true;}catch{return false;}};
+  const getNotifications=()=>{const value=readJson(STORAGE.notifications,[]);return Array.isArray(value)?value:[];};
+  const saveNotifications=notifications=>{try{localStorage.setItem(STORAGE.notifications,JSON.stringify(notifications));return true;}catch{return false;}};
+  const emitBookingUpdate=detail=>window.dispatchEvent(new CustomEvent('still:booking-updated',{detail:detail||{}}));
+  const notifyAdmin=({type,booking,requestId='',title,message})=>{
+    if(!booking?.bookingToken)return false;
+    const id=requestId?\`${type}:${requestId}\`:\`${type}:${booking.bookingToken}\`;
+    const notifications=getNotifications();
+    if(notifications.some(item=>item.id===id))return false;
+    notifications.unshift({id,type,status:'pending',requestId,bookingToken:booking.bookingToken,customerBookingId:booking.customerBookingId||'',adminBookingId:booking.adminBookingId||'',room:booking.room||'',checkin:booking.checkin||'',checkout:booking.checkout||'',title,message,createdAt:new Date().toISOString()});
+    return saveNotifications(notifications.slice(0,100));
+  };
+  const checkoutHasPassed=booking=>{
+    if(!booking?.checkout)return false;
+    const today=new Date(); today.setHours(0,0,0,0);
+    const checkout=new Date(booking.checkout+'T00:00:00');
+    return !Number.isNaN(checkout.getTime())&&today>checkout;
+  };
+  const expireOverdueBookings=()=>{
+    const bookings=getBookings(); let changed=false;
+    const next=bookings.map(booking=>{
+      const canExpire=booking.status===STATUS.CONFIRMED||booking.status===STATUS.CANCELLATION_PENDING;
+      if(!canExpire||!checkoutHasPassed(booking))return booking;
+      const expired={...booking,status:STATUS.EXPIRED,expiredAt:booking.expiredAt||new Date().toISOString()};
+      notifyAdmin({type:'expiry',booking:expired,title:'Booking ID expired',message:\`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.\`});
+      changed=true; return expired;
+    });
+    if(changed){saveBookings(next);emitBookingUpdate({reason:'booking-expired'});}
+    return next;
+  };
+  const requestCancellation=identifier=>{
+    const bookings=expireOverdueBookings();
+    const index=typeof identifier==='number'?identifier:bookings.findIndex(booking=>booking.customerBookingId===identifier||booking.adminBookingId===identifier||booking.bookingToken===identifier);
+    if(index<0)return{ok:false,reason:'not-found'};
+    const booking=bookings[index];
+    if(booking.status!==STATUS.CONFIRMED)return{ok:false,reason:'not-cancellable',booking};
+    if(booking.checkin){
+      const today=new Date(); today.setHours(0,0,0,0);
+      const checkin=new Date(booking.checkin+'T00:00:00');
+      if(!Number.isNaN(checkin.getTime())&&checkin<today)return{ok:false,reason:'stay-started',booking};
+    }
+    const requestId=\`${booking.bookingToken}-CXL-${Date.now().toString(36).toUpperCase()}\`;
+    const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationRequestId:requestId,cancellationRequestedAt:new Date().toISOString()};
+    const next=[...bookings]; next[index]=updated;
+    if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
+    notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:\`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.\`});
+    emitBookingUpdate({reason:'cancellation-requested',booking:updated});
+    return{ok:true,booking:updated};
+  };
+  const resolveCancellation=(identifier,approved)=>{
+    const bookings=expireOverdueBookings();
+    const index=bookings.findIndex(booking=>booking.cancellationRequestId===identifier||booking.customerBookingId===identifier||booking.adminBookingId===identifier||booking.bookingToken===identifier);
+    if(index<0)return{ok:false,reason:'not-found'};
+    const booking=bookings[index];
+    if(booking.status!==STATUS.CANCELLATION_PENDING)return{ok:false,reason:'not-pending',booking};
+    const updated={...booking,status:approved?STATUS.CANCELLED:STATUS.CONFIRMED,cancellationConfirmedAt:approved?new Date().toISOString():null,cancellationRejectedAt:approved?null:new Date().toISOString()};
+    const next=[...bookings]; next[index]=updated;
+    if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
+    saveNotifications(getNotifications().map(notification=>notification.type==='cancellation'&&notification.requestId===booking.cancellationRequestId?{...notification,status:approved?'approved':'rejected',resolvedAt:new Date().toISOString()}:notification));
+    emitBookingUpdate({reason:approved?'cancellation-approved':'cancellation-rejected',booking:updated});
+    return{ok:true,booking:updated};
+  };
+  const deleteHistory=()=>{
+    const bookings=expireOverdueBookings();
+    const history=new Set([STATUS.CANCELLED,STATUS.EXPIRED]);
+    const remaining=bookings.filter(booking=>!history.has(booking.status));
+    const removed=bookings.length-remaining.length;
+    if(!removed)return{ok:true,removed:0};
+    saveBookings(remaining);
+    const current=readJson(STORAGE.current,'');
+    if(!remaining.some(booking=>booking.customerBookingId===current)){try{localStorage.removeItem(STORAGE.current);}catch{}}
+    emitBookingUpdate({reason:'history-deleted',count:removed});
+    return{ok:true,removed};
+  };
+
   const hasSession = () => {
-    // Client integration point:
-    // return true only when the site's real authentication layer
-    // confirms that a guest is signed in.
+
     return Boolean(window.TheStillAuth?.isAuthenticated);
   };
 
@@ -77,7 +127,7 @@
         JSON.stringify(bookingData)
       );
     } catch {
-      // Session storage may be unavailable; login can still be opened.
+
     }
 
     const params = new URLSearchParams({
@@ -124,15 +174,13 @@
 
     let token = makeToken();
 
-    // Avoid local collisions when multiple demo bookings are created
-    // in the same browser.
     try {
-      const existing = JSON.parse(localStorage.getItem('stillHotelBookings') || '[]');
+      const existing = getBookings();
       const usedTokens = new Set(existing.map(item => item?.bookingToken).filter(Boolean));
 
       while (usedTokens.has(token)) token = makeToken();
     } catch {
-      // Keep the generated token when storage is unavailable.
+
     }
 
     return {
@@ -163,22 +211,20 @@
         bookingToken: bookingIds.token,
         customerBookingId: bookingIds.customerId,
         adminBookingId: bookingIds.adminId,
-        status: 'confirmed',
+        status: STATUS.CONFIRMED,
         createdAt: new Date().toISOString()
       };
 
-      const existingBookings = JSON.parse(
-        localStorage.getItem('stillHotelBookings') || '[]'
-      );
+      saveBookings([bookingRecord, ...getBookings()].slice(0, 25));
 
-      localStorage.setItem(
-        'stillHotelBookings',
-        JSON.stringify([bookingRecord, ...existingBookings].slice(0, 25))
-      );
-
-      localStorage.setItem('stillHotelCurrentBookingId', bookingIds.customerId);
+      localStorage.setItem(STORAGE.current, bookingIds.customerId);
+      emitBookingUpdate({
+        reason: 'booking-created',
+        customerBookingId: bookingIds.customerId,
+        adminBookingId: bookingIds.adminId
+      });
     } catch {
-      // Local browser storage is optional for this front-end demo.
+
     }
 
     modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
@@ -393,21 +439,33 @@
       price: bookingData?.price || ''
     };
 
-    /*
-     * Authentication is checked BEFORE confirmation.
-     * The client can disable BYPASS_LOGIN when real authentication is ready.
-     */
+    
     if (!BYPASS_LOGIN && !hasSession()) {
       redirectToLogin(data);
       return;
     }
 
-    // Authenticated (or contest/demo bypass): now show the receipt.
     showConfirmation(data);
   };
 
+  expireOverdueBookings();
+  window.setInterval(expireOverdueBookings, 60 * 1000);
+
+  window.addEventListener('storage', event => {
+    if (event.key === STORAGE.bookings || event.key === STORAGE.notifications) {
+      expireOverdueBookings();
+    }
+  });
+
   window.TheStillBooking = {
     start: startBooking,
+    getBookings: expireOverdueBookings,
+    getNotifications,
+    requestCancellation,
+    resolveCancellation,
+    deleteHistory,
+    expireOverdueBookings,
+    status: STATUS,
     config: {
       bypassLogin: BYPASS_LOGIN,
       loginUrl: LOGIN_URL
