@@ -657,17 +657,23 @@
   roomDetailCheckin?.addEventListener('change', () => {
     setRoomDetailNights(roomDetailNights?.value || 1);
     syncRoomDetailCheckoutFromNights();
+    refreshRoomCustomSelect(roomDetailNights);
     updateRoomDetailSummary();
   });
   roomDetailCheckout?.addEventListener('change', () => {
     syncRoomDetailNightsFromCheckout();
+    refreshRoomCustomSelect(roomDetailNights);
     updateRoomDetailSummary();
   });
   roomDetailNights?.addEventListener('change', () => {
     syncRoomDetailCheckoutFromNights();
+    refreshRoomCustomSelect(roomDetailNights);
     updateRoomDetailSummary();
   });
-  roomDetailGuests?.addEventListener('change', updateRoomDetailSummary);
+  roomDetailGuests?.addEventListener('change', () => {
+    refreshRoomCustomSelect(roomDetailGuests);
+    updateRoomDetailSummary();
+  });
 
   // ---------- Booking ----------
   const setBookingMinDate = () => {
