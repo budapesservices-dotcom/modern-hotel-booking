@@ -421,23 +421,24 @@
   };
 
   const updateRoomDetailSummary = () => {
-    if (!roomDetailSummary || !roomDetailCheckin || !roomDetailCheckout) return;
-    if (!roomDetailCheckin.value || !roomDetailCheckout.value) {
-      roomDetailSummary.textContent = 'Choose your dates.';
-      if (roomDetailNights) roomDetailNights.textContent = '—';
-      return;
-    }
-    const start = new Date(`${roomDetailCheckin.value}T12:00:00`);
-    const end = new Date(`${roomDetailCheckout.value}T12:00:00`);
-    const nights = Math.round((end-start)/86400000);
-    if (nights > 0) {
-      roomDetailSummary.textContent = `${nights} night${nights === 1 ? '' : 's'} · ${roomDetailGuests?.value || '2'} guest${roomDetailGuests?.value === '1' ? '' : 's'}`;
-      if (roomDetailNights) roomDetailNights.textContent = `${nights} NIGHT${nights === 1 ? '' : 'S'}`;
-    } else {
-      roomDetailSummary.textContent = 'Choose a later check-out date.';
-      if (roomDetailNights) roomDetailNights.textContent = '—';
+    if (!roomDetailCheckin || !roomDetailCheckout) return;
+    const nights = roomDetailCheckin.value && roomDetailCheckout.value
+      ? Math.round((new Date(`${roomDetailCheckout.value}T12:00:00`) - new Date(`${roomDetailCheckin.value}T12:00:00`)) / 86400000)
+      : 0;
+    const priceText = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '0';
+    const price = Number(priceText) || 0;
+
+    if (roomDetailNights) roomDetailNights.textContent = nights > 0 ? String(nights) : '—';
+    if (roomDetailTotal) roomDetailTotal.textContent = nights > 0
+      ? `$${(price * nights).toLocaleString('en-US')}`
+      : '$0';
+
+    if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName || '—';
+    if (roomDetailSummaryType && roomDetailKicker?.textContent) {
+      roomDetailSummaryType.textContent = roomDetailKicker.textContent.split(' · ')[0] || '—';
     }
   };
+
 
   const renderRoomDetailGallery = (item, roomId) => {
     if (!roomDetailMainImage || !roomDetailThumbs) return;
@@ -478,9 +479,9 @@
     if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
     if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
     if (roomDetailPrice) roomDetailPrice.textContent = price;
-    if (roomDetailOldPrice) roomDetailOldPrice.textContent = oldPrice;
+    if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
+    if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
     if (roomDetailNumber) roomDetailNumber.textContent = item.querySelector('.room-dir-number')?.textContent || '01';
-
     setRoomDetailDateMinimums();
     updateRoomDetailSummary();
     renderRoomDetailGallery(item, roomId);
@@ -508,17 +509,6 @@
   });
   roomDetailCheckout?.addEventListener('change', updateRoomDetailSummary);
   roomDetailGuests?.addEventListener('change', updateRoomDetailSummary);
-
-  roomDetailReserve?.addEventListener('click', () => {
-    if (!activeRoomName) return;
-    const guestCount = roomDetailGuests?.value || '2';
-    const start = roomDetailCheckin?.value || '';
-    const end = roomDetailCheckout?.value || '';
-    const message = start && end
-      ? `Hello, I'd like to reserve ${activeRoomName} at The Still Hotel from ${start} to ${end} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`
-      : `Hello, I'd like to ask about availability for ${activeRoomName} at The Still Hotel for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
-    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-  });
 
   // ---------- Booking ----------
   const setBookingMinDate = () => {
