@@ -8053,33 +8053,29 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 
+
 /* =========================================================
    STILL HOTEL / AMBIENT MOTION FX
-   Layered on top of the existing motion systems.
-   Elements already using reveal/parallax/carousel motion are
-   intentionally excluded by js/main.js.
+   Soft, low-cost motion layer. Existing special-motion
+   components are excluded by js/main.js.
    ========================================================= */
 
 .fx-motion{
   --fx-x:0px;
-  --fx-reveal-y:24px;
+  --fx-reveal-y:20px;
   --fx-parallax:0px;
   --fx-delay:0ms;
-  --fx-duration:850ms;
+  --fx-duration:820ms;
   opacity:0;
   translate:var(--fx-x) calc(var(--fx-reveal-y) + var(--fx-parallax));
-  filter:blur(2px);
   transition:
     opacity var(--fx-duration) var(--ease) var(--fx-delay),
-    translate var(--fx-duration) var(--ease) var(--fx-delay),
-    filter var(--fx-duration) ease var(--fx-delay);
-  will-change:opacity,translate;
+    translate var(--fx-duration) var(--ease) var(--fx-delay);
 }
 
 .fx-motion.fx-visible{
   opacity:1;
   translate:0 var(--fx-parallax);
-  filter:blur(0);
 }
 
 .fx-sheen{
@@ -8097,13 +8093,13 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   background:linear-gradient(
     112deg,
     transparent 0%,
-    transparent 42%,
-    rgba(255,255,255,.17) 50%,
-    transparent 58%,
+    transparent 43%,
+    rgba(255,255,255,.13) 50%,
+    transparent 57%,
     transparent 100%
   );
   transform:translateX(-130%);
-  transition:transform 1.2s cubic-bezier(.18,.72,.2,1);
+  transition:transform 1.35s cubic-bezier(.18,.72,.2,1);
 }
 
 .fx-sheen:hover:after{
@@ -8111,13 +8107,13 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 .site-header .fx-motion{
-  --fx-reveal-y:12px;
-  --fx-duration:720ms;
+  --fx-reveal-y:10px;
+  --fx-duration:680ms;
 }
 
 @media(max-width:700px){
   .fx-motion{
-    --fx-reveal-y:18px;
+    --fx-reveal-y:15px;
   }
 
   .fx-sheen:after{
@@ -8129,9 +8125,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .fx-motion{
     opacity:1 !important;
     translate:none !important;
-    filter:none !important;
     transition:none !important;
-    animation:none !important;
   }
 
   .fx-sheen:after{
