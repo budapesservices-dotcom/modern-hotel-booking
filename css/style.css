@@ -43,9 +43,9 @@
 .signature-hero[data-tone="night"]{--hero-theme:#c77a5a;--hero-secondary:#3f2547;--hero-button-bg:#c77a5a;--hero-button-fg:#3f2547}
 
 .hero-scenes,.hero-scene,.hero-wash,.hero-grain{position:absolute;inset:0}
-.hero-scene{background-image:var(--hero-image);background-size:cover;background-position:center;opacity:0;transform:scale(1.055);transition:opacity .9s ease,transform 3.6s linear}
+.hero-scene{background-image:var(--hero-image);background-size:cover;background-position:center;opacity:0;filter:brightness(.72) saturate(.92);transform:scale(1.055);transition:opacity .9s ease,transform 3.6s linear,filter .9s ease}
 .hero-scene.is-active{opacity:1;transform:scale(1)}
-.hero-wash{background:linear-gradient(90deg,rgba(20,19,16,.72),rgba(20,19,16,.18) 54%,rgba(20,19,16,.40)),linear-gradient(0deg,rgba(20,19,16,.58),rgba(20,19,16,.08) 48%,transparent 72%)}
+.hero-wash{background:linear-gradient(90deg,rgba(12,11,9,.78),rgba(12,11,9,.28) 54%,rgba(12,11,9,.46)),linear-gradient(0deg,rgba(12,11,9,.64),rgba(12,11,9,.14) 48%,transparent 72%)}
 .signature-hero-inner{position:relative;z-index:2;height:100%;min-height:100svh;padding-top:30px;padding-bottom:30px;display:grid;grid-template-rows:1fr auto}
 .signature-headline{align-self:center;max-width:760px;padding:3vh 0 4vh;transform:translateY(6vh)}
 .hero-overline{display:flex;align-items:center;gap:11px;margin:0 0 20px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#fffdf8;text-shadow:0 1px 10px rgba(0,0,0,.4);transition:color .8s ease}
