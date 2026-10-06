@@ -3016,3 +3016,198 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     grid-column:auto;
   }
 }
+
+/* =========================================================
+   ROOM DETAIL BOOKING — DEEP LUXURY OVERRIDE
+   ========================================================= */
+.room-detail-info-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+  color:#8d8579;
+  font-size:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.room-detail-close-text{
+  padding:3px 0;
+  border:0;
+  border-bottom:1px solid #b7aa98;
+  background:transparent;
+  color:#665e54;
+  font-size:8px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.room-detail-close-text:hover{
+  color:#9a7447;
+  border-color:#9a7447;
+}
+
+/* The booking card is the visual anchor: dark, dense and premium. */
+.room-booking-card{
+  margin-top:20px;
+  padding:26px;
+  border:1px solid #3e3830;
+  border-radius:4px;
+  background:
+    linear-gradient(150deg,#24211c 0%,#171512 100%);
+  box-shadow:
+    0 18px 42px rgba(28,24,18,.16),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  color:#eee7d8;
+}
+.room-booking-title{
+  margin-bottom:24px;
+  color:#f4eee1;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:28px;
+  line-height:1;
+  letter-spacing:-.025em;
+}
+.room-booking-summary-list{
+  border-top:1px solid #403a32;
+}
+.room-booking-line{
+  display:grid;
+  grid-template-columns:minmax(105px,.72fr) minmax(0,1.28fr);
+  gap:18px;
+  align-items:center;
+  min-height:49px;
+  padding:10px 0;
+  border-bottom:1px solid #302b25;
+}
+.room-booking-line>span{
+  color:#948b7d;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.room-booking-line>strong,
+.room-booking-line .booking-value{
+  min-width:0;
+  color:#eee7d8;
+  font-size:12px;
+  font-weight:400;
+  text-align:right;
+}
+.room-booking-room strong{
+  color:#f5eee1;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:18px;
+  letter-spacing:-.02em;
+}
+.booking-value input,
+.booking-value select{
+  width:100%;
+  min-width:0;
+  padding:4px 0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#eee7d8;
+  font-size:12px;
+  font-weight:400;
+  text-align:right;
+  color-scheme:dark;
+}
+.booking-value input:focus,
+.booking-value select:focus{
+  color:#d6b36a;
+}
+.room-booking-total{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:20px;
+  padding:20px 0 8px;
+}
+.room-booking-total span{
+  color:#f0e8da;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.room-booking-total strong{
+  color:#d6b36a;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:32px;
+  font-weight:400;
+  letter-spacing:-.03em;
+}
+.room-booking-actions{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:14px;
+  margin-top:25px;
+}
+.room-booking-cancel{
+  justify-self:end;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#999083;
+  font-size:9px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.room-booking-cancel:hover{color:#f0e8da}
+.room-booking-actions>span{
+  color:#524a3e;
+  font-size:10px;
+}
+.room-booking-now{
+  justify-self:start;
+  min-height:46px;
+  padding:12px 20px;
+  border:1px solid #d6b36a;
+  background:#d6b36a;
+  color:#25221d;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.room-booking-now:hover{
+  border-color:#edd58f;
+  background:#edd58f;
+  color:#211f1b;
+}
+
+/* The detail viewer must never crop tall/portrait room photography. */
+.room-detail-hero-image{
+  aspect-ratio:4 / 3 !important;
+  min-height:220px !important;
+  display:grid;
+  place-items:center;
+  background:#24221e;
+}
+.room-detail-hero-image img{
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain !important;
+  object-position:center;
+  background:#24221e;
+}
+
+@media(max-width:599px){
+  .room-detail-info-top{margin-bottom:18px}
+  .room-booking-card{padding:20px}
+  .room-booking-line{
+    grid-template-columns:90px minmax(0,1fr);
+    gap:10px;
+    min-height:46px;
+  }
+  .room-booking-title{font-size:25px}
+  .room-booking-total strong{font-size:28px}
+  .room-booking-actions{
+    grid-template-columns:auto auto 1fr;
+    gap:10px;
+  }
+  .room-booking-now{padding-inline:16px}
+}
