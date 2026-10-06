@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     delete payload._honey;
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/stay@thestillhotel.example", {
+      const email = window.STILL_CONTACT?.email || "stay@thestillhotel.example";
+      const response = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(email), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
