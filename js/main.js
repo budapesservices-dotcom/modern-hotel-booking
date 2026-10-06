@@ -5,22 +5,21 @@
   const nav = document.querySelector('[data-nav]');
   const drawer = document.querySelector('[data-booking-drawer]');
   const liveTime = document.querySelector('[data-live-time]');
+  const summary = document.querySelector('[data-booking-summary]');
   const checkin = document.querySelector('[data-booking-checkin]');
   const checkout = document.querySelector('[data-booking-checkout]');
   const guests = document.querySelector('[data-booking-guests]');
-  const summary = document.querySelector('[data-booking-summary]');
   const lightbox = document.querySelector('[data-lightbox]');
   const lightboxImage = document.querySelector('[data-lightbox-image]');
   const lightboxCaption = document.querySelector('[data-lightbox-caption]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const pad = n => String(n).padStart(2, '0');
-  const formatTime = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  const setNow = () => { if (liveTime) liveTime.textContent = formatTime(new Date()); };
-  setNow();
-  window.setInterval(setNow, 30000);
 
-  window.addEventListener('scroll', () => header?.classList.toggle('scrolled', window.scrollY > 30), { passive: true });
+  // ---------- Header ----------
+  const syncHeader = () => header?.classList.toggle('scrolled', window.scrollY > 32);
+  window.addEventListener('scroll', syncHeader, { passive: true });
+  syncHeader();
 
   menuToggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
@@ -31,10 +30,120 @@
     menuToggle?.setAttribute('aria-expanded', 'false');
   }));
 
+  // ---------- Signature hero: time is the interface ----------
+  const scenes = [...document.querySelectorAll('[data-scene]')];
+  const stops = [...document.querySelectorAll('[data-scene-target]')];
+  const sceneCount = document.querySelector('[data-scene-count]');
+  const sceneLabel = document.querySelector('[data-live-label]');
+  const nextScene = document.querySelector('[data-next-scene]');
+  const hero = document.querySelector('[data-hero]');
+  const sceneData = [
+    { time: '06:42', label: 'MORNING' },
+    { time: '12:30', label: 'AFTERNOON' },
+    { time: '18:47', label: 'BLUE HOUR' },
+    { time: '22:16', label: 'NIGHT' }
+  ];
+  let activeScene = 0;
+  let timer = null;
+
+  const setScene = (index, restart = true) => {
+    if (!scenes.length) return;
+    activeScene = (index + scenes.length) % scenes.length;
+    scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === activeScene));
+    stops.forEach((stop, i) => stop.classList.toggle('is-active', i === activeScene));
+    const meta = sceneData[activeScene];
+    if (liveTime) liveTime.textContent = meta.time;
+    if (sceneLabel) sceneLabel.textContent = meta.label;
+    if (sceneCount) sceneCount.textContent = `${pad(activeScene + 1)} / ${pad(scenes.length)}`;
+    if (restart) startTimer();
+  };
+
+  const startTimer = () => {
+    if (!scenes.length || reduceMotion) return;
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => setScene(activeScene + 1), 6500);
+  };
+
+  if (scenes.length) {
+    stops.forEach(stop => stop.addEventListener('click', () => setScene(Number(stop.dataset.sceneTarget))));
+    nextScene?.addEventListener('click', () => setScene(activeScene + 1));
+    hero?.addEventListener('mouseenter', () => window.clearTimeout(timer));
+    hero?.addEventListener('mouseleave', startTimer);
+    setScene(0, true);
+  }
+
+  // ---------- Time story ----------
+  const storyTime = document.querySelector('[data-story-time]');
+  const storyKicker = document.querySelector('[data-story-kicker]');
+  const storyTitle = document.querySelector('[data-story-title]');
+  const storyBody = document.querySelector('[data-story-body]');
+  const storyProgress = document.querySelector('[data-story-progress]');
+  const storyPhotos = [...document.querySelectorAll('[data-story-photo]')];
+  const storyData = [
+    {
+      time: '06:42',
+      kicker: 'First light',
+      title: 'Coffee.<br>Window.<br><em>No plans.</em>',
+      body: 'Soft light enters before the city becomes loud. This is the hour we designed the room around.',
+      image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1800&q=84'
+    },
+    {
+      time: '12:30',
+      kicker: 'Nowhere to be',
+      title: 'Keep the<br><em>afternoon.</em>',
+      body: 'Close the door. Let the city get on without you. Some of the best hours arrive unannounced.',
+      image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1800&q=84'
+    },
+    {
+      time: '18:47',
+      kicker: 'Blue hour',
+      title: 'The city<br>changes<br><em>colour.</em>',
+      body: 'Come downstairs when the windows turn gold. Stay for one more conversation before the night begins.',
+      image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1800&q=84'
+    },
+    {
+      time: '22:16',
+      kicker: 'Goodnight',
+      title: 'Stay a<br>little<br><em>longer.</em>',
+      body: 'Lights low. Curtains closed. Nothing left to do except enjoy the room you chose.',
+      image: 'https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1800&q=84'
+    }
+  ];
+
+  const setStory = index => {
+    if (!storyTime) return;
+    const item = storyData[index];
+    storyTime.textContent = item.time;
+    if (storyKicker) storyKicker.textContent = item.kicker;
+    if (storyTitle) storyTitle.innerHTML = item.title;
+    if (storyBody) storyBody.textContent = item.body;
+    if (storyProgress) storyProgress.style.width = `${((index + 1) / storyData.length) * 100}%`;
+    storyPhotos.forEach(photo => photo.classList.remove('is-active'));
+    const photo = storyPhotos[index % Math.max(storyPhotos.length, 1)];
+    if (photo) {
+      photo.style.backgroundImage = `url('${item.image}')`;
+      requestAnimationFrame(() => photo.classList.add('is-active'));
+    }
+  };
+
+  if (storyTime) {
+    setStory(0);
+    stops.forEach(stop => stop.addEventListener('click', () => setStory(Number(stop.dataset.sceneTarget))));
+    nextScene?.addEventListener('click', () => setStory((activeScene + 1) % storyData.length));
+    if (!reduceMotion) {
+      const storySection = document.querySelector('.time-story');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.target.classList.toggle('is-in-view', entry.isIntersecting));
+      }, { threshold: 0.25 });
+      storySection && observer.observe(storySection);
+    }
+  }
+
+  // ---------- Booking ----------
   const setBookingMinDate = () => {
-    const d = new Date();
-    d.setHours(0,0,0,0);
-    const iso = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const iso = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
     if (checkin && !checkin.min) checkin.min = iso;
     if (checkout && !checkout.min) checkout.min = iso;
   };
@@ -42,13 +151,21 @@
 
   const updateSummary = () => {
     if (!summary) return;
-    if (!checkin?.value || !checkout?.value) { summary.textContent = 'Choose your dates.'; return; }
+    if (!checkin?.value || !checkout?.value) {
+      summary.textContent = 'Choose your dates.';
+      return;
+    }
     const start = new Date(`${checkin.value}T12:00:00`);
     const end = new Date(`${checkout.value}T12:00:00`);
     const nights = Math.max(0, Math.round((end - start) / 86400000));
-    summary.textContent = nights > 0 ? `${nights} night${nights === 1 ? '' : 's'} / ${guests?.value || '2'} guests` : 'Choose a later check-out date.';
+    summary.textContent = nights > 0
+      ? `${nights} night${nights === 1 ? '' : 's'} / ${guests?.value || '2'} guests`
+      : 'Choose a later check-out date.';
   };
-  checkin?.addEventListener('change', () => { if (checkout) checkout.min = checkin.value || checkout.min; updateSummary(); });
+  checkin?.addEventListener('change', () => {
+    if (checkout) checkout.min = checkin.value || checkout.min;
+    updateSummary();
+  });
   checkout?.addEventListener('change', updateSummary);
   guests?.addEventListener('change', updateSummary);
 
@@ -68,22 +185,16 @@
   document.querySelectorAll('[data-booking-open]').forEach(btn => btn.addEventListener('click', openBooking));
   document.querySelectorAll('[data-booking-close]').forEach(btn => btn.addEventListener('click', closeBooking));
 
-  const closeLightbox = () => {
-    if (!lightbox) return;
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    if (lightboxImage) { lightboxImage.src = ''; lightboxImage.alt = ''; }
-  };
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeBooking(); closeLightbox(); } });
-
   document.querySelectorAll('[data-book-now]').forEach(btn => btn.addEventListener('click', () => {
     const guestCount = guests?.value || '2';
-    const msg = checkin?.value && checkout?.value
+    const message = checkin?.value && checkout?.value
       ? `Hello, I'd like to check availability at The Still Hotel from ${checkin.value} to ${checkout.value} for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`
       : `Hello, I'd like to ask about booking a room at The Still Hotel for ${guestCount} guest${guestCount === '1' ? '' : 's'}.`;
-    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+    window.open(`https://wa.me/6281200000000?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
   }));
 
+  // ---------- Reveal / parallax ----------
+  const reveal = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -91,9 +202,9 @@
         revealObserver.unobserve(entry.target);
       }
     }), { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    reveal.forEach(el => revealObserver.observe(el));
   } else {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    reveal.forEach(el => el.classList.add('is-visible'));
   }
 
   if (!reduceMotion && window.matchMedia('(min-width: 901px)').matches) {
@@ -113,6 +224,16 @@
     }, { passive: true });
   }
 
+  // ---------- Gallery lightbox ----------
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    if (lightboxImage) {
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+    }
+  };
   document.querySelectorAll('[data-lightbox-item]').forEach(item => item.addEventListener('click', () => {
     if (!lightbox || !lightboxImage) return;
     const image = item.querySelector('img');
@@ -124,4 +245,10 @@
     lightbox.setAttribute('aria-hidden', 'false');
   }));
   document.querySelectorAll('[data-lightbox-close]').forEach(btn => btn.addEventListener('click', closeLightbox));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeBooking();
+      closeLightbox();
+    }
+  });
 })();
