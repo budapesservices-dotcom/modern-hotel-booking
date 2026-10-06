@@ -31,41 +31,60 @@
   }));
 
   // ---------- Signature hero: time is the interface ----------
-  const scenes = [...document.querySelectorAll('[data-scene]')];
-  const stops = [...document.querySelectorAll('[data-scene-target]')];
-  const sceneCount = document.querySelector('[data-scene-count]');
-  const sceneLabel = document.querySelector('[data-live-label]');
   const hero = document.querySelector('[data-hero]');
-  const sceneData = [
-    { time: '06:42', label: 'MORNING', tone: 'morning' },
-    { time: '12:30', label: 'AFTERNOON', tone: 'afternoon' },
-    { time: '18:47', label: 'BLUE HOUR', tone: 'blue-hour' },
-    { time: '22:16', label: 'NIGHT', tone: 'night' }
-  ];
+  const heroScenes = document.querySelector('[data-hero-scenes]');
+  const heroMood = document.querySelector('[data-hero-mood]');
+  const timeTrack = document.querySelector('[data-time-track]');
+  const sceneLabel = document.querySelector('[data-live-label]');
+  const heroTimeline = Array.isArray(window.HERO_TIMELINE) ? window.HERO_TIMELINE : [];
+  let scenes = [];
+  let stops = [];
   let activeScene = 0;
   let timer = null;
+
+  const renderHeroTimeline = () => {
+    if (!heroScenes || !timeTrack || !heroTimeline.length) return;
+
+    heroScenes.innerHTML = heroTimeline.map((item, index) => `
+      <div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}"
+        style="background-image:url("${item.image}")"></div>
+    `).join('');
+
+    timeTrack.innerHTML = heroTimeline.map((item, index) => `
+      <button class="time-stop${index === 0 ? ' is-active' : ''}" type="button" data-scene-target="${index}" aria-label="${item.time} — ${item.caption}">
+        <span>${item.time}</span><small>${item.caption}</small>
+      </button>
+    `).join('');
+
+    scenes = [...heroScenes.querySelectorAll('[data-scene]')];
+    stops = [...timeTrack.querySelectorAll('[data-scene-target]')];
+  };
 
   const setScene = (index, restart = true) => {
     if (!scenes.length) return;
     activeScene = (index + scenes.length) % scenes.length;
     scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === activeScene));
     stops.forEach((stop, i) => stop.classList.toggle('is-active', i === activeScene));
-    const meta = sceneData[activeScene];
+
+    const meta = heroTimeline[activeScene];
     if (hero) hero.dataset.tone = meta.tone;
-    if (liveTime) liveTime.textContent = meta.time;
     if (sceneLabel) sceneLabel.textContent = meta.label;
-    if (sceneCount) sceneCount.textContent = `${pad(activeScene + 1)} / ${pad(scenes.length)}`;
+
     if (restart) startTimer();
   };
 
   const startTimer = () => {
     if (!scenes.length || reduceMotion) return;
     window.clearTimeout(timer);
-    timer = window.setTimeout(() => setScene(activeScene + 1), 6500);
+    timer = window.setTimeout(() => setScene(activeScene + 1), 5600);
   };
 
+  renderHeroTimeline();
+
   if (scenes.length) {
-    stops.forEach(stop => stop.addEventListener('click', () => setScene(Number(stop.dataset.sceneTarget))));
+    stops.forEach(stop => {
+      stop.addEventListener('click', () => setScene(Number(stop.dataset.sceneTarget)));
+    });
     hero?.addEventListener('mouseenter', () => window.clearTimeout(timer));
     hero?.addEventListener('mouseleave', startTimer);
     setScene(0, true);
