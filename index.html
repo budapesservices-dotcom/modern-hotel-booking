@@ -74,21 +74,36 @@
         <a class="text-link story-link reveal" href="rooms.html">Discover the rooms <span>→</span></a>
 
         <div class="story-hours reveal" aria-label="The day at The Still Hotel">
-          <span><strong>06:42</strong><small>FIRST LIGHT</small></span>
-          <span><strong>12:30</strong><small>NOWHERE TO BE</small></span>
-          <span><strong>18:47</strong><small>BLUE HOUR</small></span>
+          <button type="button" class="story-hour is-active" data-architecture-scene="0" aria-pressed="true"><strong>06:42</strong><small>FIRST LIGHT</small></button>
+          <button type="button" class="story-hour" data-architecture-scene="1" aria-pressed="false"><strong>12:30</strong><small>NOWHERE TO BE</small></button>
+          <button type="button" class="story-hour" data-architecture-scene="2" aria-pressed="false"><strong>18:47</strong><small>BLUE HOUR</small></button>
         </div>
       </div>
 
       <figure class="story-architecture-figure reveal" data-parallax="0.035">
-        <div class="story-architecture-image" role="img" aria-label="Modern hotel exterior with a quiet illuminated entrance at dusk"
-             style="--story-image:url('https://images.unsplash.com/photo-1776262438118-18e2a5613eca?auto=format&fit=crop&w=1900&q=88')">
-          <div class="story-triptych" aria-hidden="true">
-            <span class="story-pane story-pane-1"></span>
-            <span class="story-pane story-pane-2"></span>
-            <span class="story-pane story-pane-3"></span>
-            <span class="story-pane story-pane-4"></span>
-            <span class="story-pane story-pane-5"></span>
+        <div class="story-architecture-image" role="img" aria-label="Hotel exterior views across three moments of the day">
+          <div class="story-triptych" data-story-architecture>
+            <div class="story-triptych-stage is-active" data-story-stage="0" aria-hidden="false">
+              <span class="story-pane story-pane-1"></span>
+              <span class="story-pane story-pane-2"></span>
+              <span class="story-pane story-pane-3"></span>
+              <span class="story-pane story-pane-4"></span>
+              <span class="story-pane story-pane-5"></span>
+            </div>
+            <div class="story-triptych-stage" data-story-stage="1" aria-hidden="true">
+              <span class="story-pane story-pane-1"></span>
+              <span class="story-pane story-pane-2"></span>
+              <span class="story-pane story-pane-3"></span>
+              <span class="story-pane story-pane-4"></span>
+              <span class="story-pane story-pane-5"></span>
+            </div>
+            <div class="story-triptych-stage" data-story-stage="2" aria-hidden="true">
+              <span class="story-pane story-pane-1"></span>
+              <span class="story-pane story-pane-2"></span>
+              <span class="story-pane story-pane-3"></span>
+              <span class="story-pane story-pane-4"></span>
+              <span class="story-pane story-pane-5"></span>
+            </div>
           </div>
         </div>
       </figure>
