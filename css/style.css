@@ -3231,3 +3231,9 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   border-color:#d6b36a !important;
   transform:translateY(-1px);
 }
+
+
+/* ROOM ATLAS — rows inherit the section background */
+.page-rooms .room-directory-row{background:transparent;}
+.page-rooms .room-directory-row:nth-child(even){background:transparent;}
+.page-rooms .room-directory-row:hover{background:#ded7ca;}
