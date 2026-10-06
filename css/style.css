@@ -8195,6 +8195,3 @@ html.site-loading::after{
   }
 }
 
-html.site-loading *{
-  animation-play-state:paused !important;
-}
