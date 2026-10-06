@@ -12,24 +12,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (submitButton) { submitButton.disabled = true; submitButton.classList.add("is-sending"); }
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.classList.add("is-sending");
+    }
     setStatus("Sending your message…");
-    const payload = Object.fromEntries(new FormData(form).entries());
+
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+    delete payload._honey;
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://formsubmit.co/ajax/blueboys55256@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
         body: JSON.stringify(payload)
       });
+
       const result = await response.json().catch(() => ({}));
-      if (!response.ok || !result.ok) throw new Error(result.message || "Unable to send the message.");
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Unable to send the message.");
+      }
+
       form.reset();
-      setStatus(result.message, "success");
+      setStatus("Your message has been sent. We’ll be in touch soon.", "success");
     } catch (error) {
       setStatus(error.message || "Something went wrong. Please try again.", "error");
     } finally {
-      if (submitButton) { submitButton.disabled = false; submitButton.classList.remove("is-sending"); }
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.classList.remove("is-sending");
+      }
     }
   });
 });
