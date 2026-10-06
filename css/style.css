@@ -8051,3 +8051,90 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     height:62px;
   }
 }
+
+
+/* =========================================================
+   STILL HOTEL / AMBIENT MOTION FX
+   Layered on top of the existing motion systems.
+   Elements already using reveal/parallax/carousel motion are
+   intentionally excluded by js/main.js.
+   ========================================================= */
+
+.fx-motion{
+  --fx-x:0px;
+  --fx-reveal-y:24px;
+  --fx-parallax:0px;
+  --fx-delay:0ms;
+  --fx-duration:850ms;
+  opacity:0;
+  translate:var(--fx-x) calc(var(--fx-reveal-y) + var(--fx-parallax));
+  filter:blur(2px);
+  transition:
+    opacity var(--fx-duration) var(--ease) var(--fx-delay),
+    translate var(--fx-duration) var(--ease) var(--fx-delay),
+    filter var(--fx-duration) ease var(--fx-delay);
+  will-change:opacity,translate;
+}
+
+.fx-motion.fx-visible{
+  opacity:1;
+  translate:0 var(--fx-parallax);
+  filter:blur(0);
+}
+
+.fx-sheen{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+
+.fx-sheen:after{
+  content:"";
+  position:absolute;
+  z-index:4;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(
+    112deg,
+    transparent 0%,
+    transparent 42%,
+    rgba(255,255,255,.17) 50%,
+    transparent 58%,
+    transparent 100%
+  );
+  transform:translateX(-130%);
+  transition:transform 1.2s cubic-bezier(.18,.72,.2,1);
+}
+
+.fx-sheen:hover:after{
+  transform:translateX(130%);
+}
+
+.site-header .fx-motion{
+  --fx-reveal-y:12px;
+  --fx-duration:720ms;
+}
+
+@media(max-width:700px){
+  .fx-motion{
+    --fx-reveal-y:18px;
+  }
+
+  .fx-sheen:after{
+    display:none;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .fx-motion{
+    opacity:1 !important;
+    translate:none !important;
+    filter:none !important;
+    transition:none !important;
+    animation:none !important;
+  }
+
+  .fx-sheen:after{
+    display:none !important;
+  }
+}
