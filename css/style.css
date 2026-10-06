@@ -227,6 +227,7 @@
 }
 @keyframes headerRuleIn{from{transform:scaleX(.12);opacity:0}22%{opacity:1}to{transform:scaleX(1);opacity:1}}
 .signature-header .nav-book{border-color:currentColor}
+.signature-header .site-nav .nav-book:after{display:none}
 .signature-hero{position:relative;height:100dvh;min-height:100svh;overflow:hidden;background:#24231e;color:var(--hero-fg);--hero-theme:#d6b36a;--hero-secondary:#183a59;--hero-fg:#fffdf8;--hero-button-bg:#d6b36a;--hero-button-fg:#183a59}
 .signature-hero[data-tone="morning"]{--hero-theme:#d6b36a;--hero-secondary:#183a59;--hero-button-bg:#d6b36a;--hero-button-fg:#183a59}
 .signature-hero[data-tone="afternoon"]{--hero-theme:#d77b63;--hero-secondary:#174f49;--hero-button-bg:#d77b63;--hero-button-fg:#174f49}
