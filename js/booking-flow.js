@@ -25,7 +25,7 @@
  *   adminBookingId    -> kept for the admin booking desk.
  * Both IDs are generated together from the same booking token.
  *
- * No credentials, passwords, or personal contact data belong in this file.
+ * No credentials, passwords, or personal contact data belong in this file.\n * Reservation state is kept in the browser for this demo.
  */
 
 (() => {
