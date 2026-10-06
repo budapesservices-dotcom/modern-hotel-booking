@@ -23,9 +23,10 @@
   const WHATSAPP_NUMBER = '620000000000';
 
   const hasSession = () => {
-    // Placeholder for the client's real authentication state.
-    // Example later: return Boolean(window.currentUser);
-    return true;
+    // Client integration point:
+    // return true only when the site's real authentication layer
+    // confirms that a guest is signed in.
+    return Boolean(window.TheStillAuth?.isAuthenticated);
   };
 
   const redirectToLogin = bookingData => {
