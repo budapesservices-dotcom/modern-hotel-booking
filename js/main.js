@@ -187,25 +187,21 @@
     const current = experience.querySelector('[data-experience-current]');
     const reduce = reduceMotion;
 
-    let index = originals.length;
+    let index = 0;
     let timer = 0;
     let step = 0;
     const total = originals.length;
 
     if (track && total > 1) {
-      // Three copies let the middle sequence loop into the next sequence
-      // and then reset invisibly to the equivalent middle card.
-      originals.forEach(card => {
-        track.appendChild(card.cloneNode(true));
-        track.appendChild(card.cloneNode(true));
+      const clones = originals.map(card => {
+        const clone = card.cloneNode(true);
+        clone.classList.add('experience-card-clone');
+        clone.setAttribute('aria-hidden', 'true');
+        return clone;
       });
+      clones.forEach(clone => track.appendChild(clone));
 
       const cards = [...track.querySelectorAll('[data-experience-card]')];
-
-      cards.forEach((card, i) => {
-        if (i >= total) card.setAttribute('aria-hidden', 'true');
-        if (i >= total * 2) card.classList.add('experience-card-tail');
-      });
 
       const measure = () => {
         const gap = parseFloat(getComputedStyle(track).gap) || 0;
@@ -227,28 +223,33 @@
         }
       };
 
+      const resetToCloneBase = () => {
+        // After showing clone 01, rotate the original set behind it.
+        // The visible pixels stay identical, so there is no jump.
+        originals.forEach(card => track.appendChild(card));
+        index = 0;
+        render(false);
+      };
+
+      const advance = () => {
+        index += 1;
+        render(true);
+
+        if (index === total) {
+          window.setTimeout(() => {
+            resetToCloneBase();
+            schedule();
+          }, 760);
+          return;
+        }
+
+        schedule();
+      };
+
       const schedule = () => {
         window.clearTimeout(timer);
         if (!reduce && !document.hidden) {
-          timer = window.setTimeout(() => {
-            index += 1;
-
-            // At the first card of the third set, the second set contains
-            // an identical visual state. Reset instantly to keep the loop
-            // visually continuous, then keep moving.
-            if (index === total * 2) {
-              render(true);
-              window.setTimeout(() => {
-                index = total;
-                render(false);
-                schedule();
-              }, 740);
-              return;
-            }
-
-            render(true);
-            schedule();
-          }, 2500);
+          timer = window.setTimeout(advance, 2500);
         }
       };
 
