@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     delete payload._honey;
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/blueboys55256@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/stay@thestillhotel.example", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
