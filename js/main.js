@@ -44,6 +44,7 @@
   const heroScenes = document.querySelector('[data-hero-scenes]');
   const timeTrack = document.querySelector('[data-time-track]');
   const sceneLabel = document.querySelector('[data-live-label]');
+  const heroDescription = document.querySelector('[data-hero-description]');
   const heroTimeline = Array.isArray(window.HERO_TIMELINE) ? window.HERO_TIMELINE : [];
   let scenes = [];
   let stops = [];
@@ -79,6 +80,9 @@
     if (hero) hero.dataset.tone = meta.tone;
     if (header) header.dataset.tone = meta.tone;
     if (sceneLabel) sceneLabel.textContent = meta.label;
+    if (heroDescription && meta.description) {
+      heroDescription.textContent = meta.description;
+    }
 
     const finalCall = document.querySelector('[data-final-call]');
     if (finalCall) {
@@ -838,97 +842,6 @@
         ticking = false;
       });
     }, { passive: true });
-  }
-
-  // ---------- Moments hero timeline ----------
-  const momentsHero = document.querySelector('[data-moments-hero]');
-  const momentsLiveTime = document.querySelector('[data-moments-live-time]');
-  const momentsLiveKicker = document.querySelector('[data-moments-live-kicker]');
-  const momentsLiveDescription = document.querySelector('[data-moments-live-description]');
-  const momentsTimeStops = [...document.querySelectorAll('[data-moments-time]')];
-
-  const momentsTimeline = [
-    {
-      time: '06:42',
-      kicker: 'First light',
-      description: 'Soft light enters before the city becomes loud. Coffee waits by the window, and the day has nowhere to be yet.',
-      image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1800&q=88'
-    },
-    {
-      time: '12:30',
-      kicker: 'Nowhere to be',
-      description: 'Close the door for a while. Let the afternoon stretch out slowly, with nothing scheduled but the hours ahead.',
-      image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1800&q=88'
-    },
-    {
-      time: '18:47',
-      kicker: 'Blue hour',
-      description: 'The windows turn gold as the city changes colour. Come downstairs, stay for dinner, and take the long way back.',
-      image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1800&q=88'
-    },
-    {
-      time: '22:16',
-      kicker: 'Goodnight',
-      description: 'Lights low. Curtains closed. The day is finished. Stay a little longer inside the room you chose.',
-      image: 'https://images.unsplash.com/photo-1551887373-6a4f699f0f3c?auto=format&fit=crop&w=1800&q=88'
-    }
-  ];
-
-  if (momentsLiveTime && momentsLiveKicker && momentsLiveDescription && momentsTimeStops.length) {
-    let momentsActive = 0;
-    let momentsTimer = null;
-
-    const showMoment = (index, animate = true) => {
-      momentsActive = (index + momentsTimeline.length) % momentsTimeline.length;
-      const item = momentsTimeline[momentsActive];
-
-      if (animate) {
-        momentsLiveDescription.classList.add('is-changing');
-      }
-
-      momentsTimeStops.forEach(stop => {
-        stop.classList.toggle('is-active', stop.dataset.momentsTime === item.time);
-      });
-
-      momentsLiveTime.textContent = item.time;
-      momentsLiveKicker.textContent = item.kicker;
-      if (momentsHero && item.image) {
-        momentsHero.style.setProperty('--moments-hero-image', "url('" + item.image + "')");
-      }
-
-      window.setTimeout(() => {
-        momentsLiveDescription.textContent = item.description;
-        momentsLiveDescription.classList.remove('is-changing');
-      }, animate ? 220 : 0);
-    };
-
-    const startMomentsLoop = () => {
-      if (reduceMotion) return;
-      window.clearInterval(momentsTimer);
-      momentsTimer = window.setInterval(() => showMoment(momentsActive + 1), 4200);
-    };
-
-    momentsTimeStops.forEach(stop => {
-      stop.addEventListener('click', () => {
-        const index = momentsTimeline.findIndex(item => item.time === stop.dataset.momentsTime);
-        if (index < 0) return;
-        showMoment(index);
-        startMomentsLoop();
-      });
-    });
-
-    showMoment(0, false);
-    startMomentsLoop();
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        window.clearInterval(momentsTimer);
-        momentsTimer = null;
-      } else {
-        showMoment(momentsActive, false);
-        startMomentsLoop();
-      }
-    });
   }
 
   // ---------- Moments gallery filter ----------
