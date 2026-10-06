@@ -217,11 +217,34 @@
   const stops = [...document.querySelectorAll('[data-architecture-scene]')];
   const panes = [...root.querySelectorAll('[data-panel-speed]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTO_DELAY = 3300;
   let current = 0;
   let timer = 0;
+  let ticking = false;
 
-  const show = (index, restart = true) => {
-    current = (index + stages.length) % stages.length;
+  const updateParallax = () => {
+    if (!panes.length) return;
+
+    const rect = root.getBoundingClientRect();
+    const distance = (window.innerHeight * 0.5) - (rect.top + rect.height * 0.5);
+
+    panes.forEach(pane => {
+      const speed = Number(pane.dataset.panelSpeed || 0);
+      pane.style.setProperty('--panel-parallax', `${distance * speed}px`);
+    });
+
+    ticking = false;
+  };
+
+  const schedule = () => {
+    window.clearTimeout(timer);
+    if (!reduce && !document.hidden) {
+      timer = window.setTimeout(() => show(current + 1), AUTO_DELAY);
+    }
+  };
+
+  const show = index => {
+    current = ((index % stages.length) + stages.length) % stages.length;
 
     stages.forEach((stage, i) => {
       stage.style.setProperty('--story-stage-image', "url('" + stage.dataset.storyImage + "')");
@@ -235,13 +258,11 @@
       stop.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
-    window.clearInterval(timer);
-    if (restart && !document.hidden) {
-      timer = window.setInterval(() => show(current + 1, false), 4200);
-    }
+    updateParallax();
+    schedule();
   };
 
-  show(0, true);
+  show(0);
 
   stops.forEach(stop => {
     stop.addEventListener('click', () => show(Number(stop.dataset.architectureScene)));
@@ -249,35 +270,21 @@
 
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
-      show(current, true);
+      updateParallax();
+      schedule();
     } else {
-      window.clearInterval(timer);
+      window.clearTimeout(timer);
     }
   });
 
   if (!reduce && panes.length) {
-    let ticking = false;
-
-    const updateParallax = () => {
-      const rect = root.getBoundingClientRect();
-      const distance = (window.innerHeight * 0.5) - (rect.top + rect.height * 0.5);
-
-      panes.forEach(pane => {
-        const speed = Number(pane.dataset.panelSpeed || 0);
-        pane.style.setProperty('--panel-parallax', (distance * speed) + 'px');
-      });
-
-      ticking = false;
-    };
-
-    updateParallax();
-
-    window.addEventListener('scroll', () => {
+    const onScroll = () => {
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(updateParallax);
-    }, { passive: true });
+    };
 
+    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', updateParallax, { passive: true });
   }
 })();
