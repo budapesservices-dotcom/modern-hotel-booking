@@ -284,19 +284,22 @@
     const roomItems = [...document.querySelectorAll('[data-room-item]')];
     const categoryTabs = [...roomFilter.querySelectorAll('[data-room-category]')];
     const capacityTabs = [...roomFilter.querySelectorAll('[data-room-capacity]')];
-    const roomCount = roomFilter.querySelector('[data-room-result-count]');
     let activeCategory = 'all';
     let activeCapacity = 'all';
 
     const applyRoomFilters = () => {
-      const visible = roomItems.filter(item => {
-        const matchesCategory = activeCategory === 'all' || item.dataset.category === activeCategory;
-        const matchesCapacity = activeCapacity === 'all' || item.dataset.maxGuests === activeCapacity;
-        return matchesCategory && matchesCapacity;
-      });
-
       roomItems.forEach(item => {
-        const show = visible.includes(item);
+        const matchesCategory =
+          activeCategory === 'all' ||
+          String(item.dataset.category || '').toLowerCase() === activeCategory;
+
+        const matchesCapacity =
+          activeCapacity === 'all' ||
+          String(item.dataset.maxGuests || '') === activeCapacity;
+
+        const show = matchesCategory && matchesCapacity;
+
+        item.hidden = !show;
         item.classList.toggle('is-filter-hidden', !show);
         item.setAttribute('aria-hidden', show ? 'false' : 'true');
       });
@@ -312,20 +315,22 @@
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', active ? 'true' : 'false');
       });
-
-      if (roomCount) roomCount.textContent = String(visible.length).padStart(2, '0');
     };
 
     categoryTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        activeCategory = tab.dataset.roomCategory;
+      tab.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        activeCategory = String(tab.dataset.roomCategory || 'all').toLowerCase();
         applyRoomFilters();
       });
     });
 
     capacityTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        activeCapacity = tab.dataset.roomCapacity;
+      tab.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        activeCapacity = String(tab.dataset.roomCapacity || 'all');
         applyRoomFilters();
       });
     });
