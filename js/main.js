@@ -37,10 +37,10 @@
   const sceneLabel = document.querySelector('[data-live-label]');
   const hero = document.querySelector('[data-hero]');
   const sceneData = [
-    { time: '06:42', label: 'MORNING' },
-    { time: '12:30', label: 'AFTERNOON' },
-    { time: '18:47', label: 'BLUE HOUR' },
-    { time: '22:16', label: 'NIGHT' }
+    { time: '06:42', label: 'MORNING', tone: 'morning' },
+    { time: '12:30', label: 'AFTERNOON', tone: 'afternoon' },
+    { time: '18:47', label: 'BLUE HOUR', tone: 'blue-hour' },
+    { time: '22:16', label: 'NIGHT', tone: 'night' }
   ];
   let activeScene = 0;
   let timer = null;
@@ -51,6 +51,7 @@
     scenes.forEach((scene, i) => scene.classList.toggle('is-active', i === activeScene));
     stops.forEach((stop, i) => stop.classList.toggle('is-active', i === activeScene));
     const meta = sceneData[activeScene];
+    if (hero) hero.dataset.tone = meta.tone;
     if (liveTime) liveTime.textContent = meta.time;
     if (sceneLabel) sceneLabel.textContent = meta.label;
     if (sceneCount) sceneCount.textContent = `${pad(activeScene + 1)} / ${pad(scenes.length)}`;
