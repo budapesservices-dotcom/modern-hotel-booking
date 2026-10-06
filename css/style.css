@@ -87,7 +87,22 @@
 .story-copy p:not(.eyebrow){font-size:18px;color:rgba(255,255,255,.76);max-width:500px;line-height:1.45;margin:0 0 35px}
 .story-progress{height:1px;background:rgba(255,255,255,.25);margin-top:70px;overflow:hidden}
 .story-progress span{display:block;width:25%;height:100%;background:#fff;transform-origin:left;transition:width 1s linear}
-.rooms-preview{background:var(--white)}
+.rooms-preview{
+  background:#ebe7df;
+  position:relative;
+}
+.rooms-preview:before,
+.rooms-preview:after{
+  content:"";
+  position:absolute;
+  left:var(--pad);
+  right:var(--pad);
+  height:1px;
+  background:rgba(41,39,32,.08);
+  pointer-events:none;
+}
+.rooms-preview:before{top:0}
+.rooms-preview:after{bottom:0}
 .find-room-wrap{position:relative}
 .find-room-intro{
   display:grid;
