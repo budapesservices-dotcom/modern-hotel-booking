@@ -383,7 +383,8 @@
     'sixfold-residence': ['Two king beds', 'Full living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
     'courtyard-suite': ['Two king beds', 'Private terrace', 'Sheltered courtyard outlook', 'Deep soaking tub', 'Dining lounge', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Bathrobes & slippers', 'Evening turndown'],
     'grand-residence': ['Two king beds', 'Expansive living room', 'Full dining area', 'Private lounge', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
-    'family-residence': ['Three king beds', 'Large living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers']
+    'family-residence': ['Three king beds', 'Large living room', 'Full dining area', 'Pantry station', 'Two-bathroom layout', 'Deep soaking tub', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Evening turndown', 'Bathrobes & slippers'],
+    'terrace-suite': ['Two king beds', 'Private terrace', 'Separate living space', 'Deep soaking tub', 'Dining lounge', 'Espresso station', 'Mini bar', 'Premium bath amenities', 'Bathrobes & slippers', 'Evening turndown']
   };
 
   const renderRoomFacilities = roomId => {
@@ -532,6 +533,11 @@
       "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1800&q=88",
       "https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1200&q=84",
       "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=84"
+    ],
+    "terrace-suite": [
+      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1200&q=84",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=84"
     ]
   };
 
