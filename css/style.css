@@ -4927,16 +4927,21 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-amenities .amenity-decor-icon{
   position:absolute;
   z-index:0;
-  right:-22px;
-  bottom:-18px;
+  right:-105px;
+  bottom:-105px;
   width:270px;
   height:270px;
   display:block;
-  color:#d9d9d9;
+  margin:0 !important;
+  padding:0 !important;
+  color:#dedede;
   opacity:.18;
   pointer-events:none;
   transform:rotate(-11deg);
   transform-origin:center;
+  font-size:0 !important;
+  letter-spacing:0 !important;
+  line-height:0 !important;
 }
 .page-amenities .amenity-decor-icon svg{
   display:block;
@@ -4949,19 +4954,19 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   stroke-linejoin:round;
 }
 .page-amenities .amenities-full-grid>div:nth-child(2n) .amenity-decor-icon{
-  right:-30px;
-  bottom:-14px;
-  transform:rotate(8deg) scale(1.08);
+  right:-118px;
+  bottom:-96px;
+  transform:rotate(8deg) scale(1.06);
 }
 .page-amenities .amenities-full-grid>div:nth-child(3n) .amenity-decor-icon{
-  right:-12px;
-  bottom:-28px;
+  right:-96px;
+  bottom:-122px;
   transform:rotate(-18deg) scale(.98);
 }
 .page-amenities .amenities-full-grid>div:nth-child(4n) .amenity-decor-icon{
-  right:-26px;
-  bottom:-10px;
-  transform:rotate(14deg) scale(1.12);
+  right:-126px;
+  bottom:-88px;
+  transform:rotate(14deg) scale(1.1);
 }
 
 @keyframes amenityWaterRipple{
