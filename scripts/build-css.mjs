@@ -31,11 +31,10 @@ const main = async () => {
     parts.push(content.trimEnd());
   }
 
-  const bundle = [
-    "/* Generated from css/*.css modules by scripts/build-css.mjs. */",
-    "",
-    ...parts
-  ].join("\n\n") + "\n";
+  const bundle =
+    "/* Generated from css/*.css modules by scripts/build-css.mjs. */\n\n" +
+    parts.join("\n\n") +
+    "\n";
 
   await fs.writeFile(OUTPUT, bundle, "utf8");
   console.log(`Built ${OUTPUT} from ${MODULES.length} CSS modules.`);
