@@ -512,6 +512,52 @@
   const roomDetailFacilities = document.querySelector('[data-room-detail-facilities]');
   const roomDetailFacilityCount = document.querySelector('[data-room-detail-facility-count]');
   let activeRoomName = '';
+  let roomDetailOpener = null;
+  let bookingOpener = null;
+
+  const getVisibleModal = () => {
+    const modals = [...document.querySelectorAll('[aria-modal="true"]')];
+    return modals.reverse().find(modal => {
+      if (modal.getAttribute('aria-hidden') === 'true') return false;
+      if (modal.closest('[aria-hidden="true"]')) return false;
+      return modal.getClientRects().length > 0;
+    }) || null;
+  };
+
+  const getModalFocusable = modal =>
+    [...modal.querySelectorAll(
+      'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), ' +
+      'select:not([disabled]), textarea:not([disabled]), iframe, object, embed, ' +
+      '[contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+    )].filter(element => {
+      if (element.hidden) return false;
+      if (element.getAttribute('aria-hidden') === 'true') return false;
+      return element.getClientRects().length > 0;
+    });
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+
+    const modal = getVisibleModal();
+    if (!modal) return;
+
+    const focusable = getModalFocusable(modal);
+    if (!focusable.length) {
+      event.preventDefault();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
 
   const roomFacilities = {
     'quiet-room': ['King bed', 'Rain shower', 'Fast Wi-Fi', 'Smart TV', 'Climate control', 'Blackout curtains'],
@@ -974,6 +1020,9 @@
 
   const openRoomDetail = item => {
     if (!roomDetailDrawer) return;
+    roomDetailOpener = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
     roomDetailDrawer.dataset.roomId = item.id;
     activeRoomName = item.querySelector('.room-dir-main h3')?.textContent || '';
     const roomId = item.id;
@@ -1006,11 +1055,17 @@
     body.classList.add('no-scroll');
   };
 
-  const closeRoomDetail = () => {
+  const closeRoomDetail = (restoreFocus = true) => {
     if (!roomDetailDrawer) return;
     roomDetailDrawer.classList.remove('open');
     roomDetailDrawer.setAttribute('aria-hidden', 'true');
     body.classList.remove('no-scroll');
+
+    if (restoreFocus) {
+      const opener = roomDetailOpener;
+      roomDetailOpener = null;
+      if (opener?.isConnected) window.setTimeout(() => opener.focus(), 0);
+    }
   };
 
   document.querySelectorAll('[data-room-detail]').forEach(btn => {
@@ -1111,17 +1166,26 @@
 
   const openBooking = () => {
     if (!drawer) return;
-    closeRoomDetail();
+    bookingOpener = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    closeRoomDetail(false);
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden', 'false');
     body.classList.add('no-scroll');
     checkin?.focus();
   };
-  const closeBooking = () => {
+  const closeBooking = (restoreFocus = true) => {
     if (!drawer) return;
     drawer.classList.remove('open');
     drawer.setAttribute('aria-hidden', 'true');
     body.classList.remove('no-scroll');
+
+    if (restoreFocus) {
+      const opener = bookingOpener;
+      bookingOpener = null;
+      if (opener?.isConnected) window.setTimeout(() => opener.focus(), 0);
+    }
   };
   document.querySelectorAll('[data-booking-open]').forEach(btn => btn.addEventListener('click', openBooking));
   document.querySelectorAll('[data-booking-close]').forEach(btn => btn.addEventListener('click', closeBooking));
