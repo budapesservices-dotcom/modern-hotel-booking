@@ -369,7 +369,11 @@
     if (!panes.length) return;
 
     const rect = root.getBoundingClientRect();
-    const distance = (window.innerHeight * 0.5) - (rect.top + rect.height * 0.5);
+    const referencePane = panes[0];
+    const paneHeight = referencePane?.offsetHeight || rect.height;
+    const imageCenter = rect.top + (paneHeight * 0.5);
+    const viewportCenter = window.innerHeight * 0.5;
+    const distance = viewportCenter - imageCenter;
 
     panes.forEach(pane => {
       const speed = Number(pane.dataset.panelSpeed || 0);
