@@ -29,6 +29,48 @@
     return Math.max(0, nights);
   };
 
+  const validateBookingDates = (checkin, checkout) => {
+    if (!checkin || !checkout) {
+      return {
+        valid: false,
+        message: 'Please select both a check-in and check-out date.'
+      };
+    }
+
+    const start = new Date(checkin + 'T12:00:00');
+    const end = new Date(checkout + 'T12:00:00');
+
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+      return {
+        valid: false,
+        message: 'Please choose valid check-in and check-out dates.'
+      };
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (start < today) {
+      return {
+        valid: false,
+        message: 'Check-in must be today or a future date.'
+      };
+    }
+
+    if (end <= start) {
+      return {
+        valid: false,
+        message: 'Check-out must be at least one day after check-in.'
+      };
+    }
+
+    return {
+      valid: true,
+      checkin: start,
+      checkout: end
+    };
+  };
+
   const escapeHtml = value => String(value ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -464,6 +506,12 @@
     modal.querySelector('[data-booking-confirm-continue]')?.addEventListener(
       'click',
       () => {
+        const dateCheck = validateBookingDates(bookingData.checkin, bookingData.checkout);
+        if (!dateCheck.valid) {
+          window.alert(dateCheck.message);
+          return;
+        }
+
         if (bookingData.roomId && window.TheStillRoomInventory?.getAvailability) {
           const availability = window.TheStillRoomInventory.getAvailability(
             bookingData.roomId,
@@ -500,6 +548,12 @@
       guests: bookingData?.guests || '2',
       price: bookingData?.price || ''
     };
+
+    const dateCheck = validateBookingDates(data.checkin, data.checkout);
+    if (!dateCheck.valid) {
+      window.alert(dateCheck.message);
+      return;
+    }
 
     if (data.roomId && window.TheStillRoomInventory?.getAvailability) {
       const availability = window.TheStillRoomInventory.getAvailability(
@@ -542,6 +596,7 @@
     deleteHistory,
     expireOverdueBookings,
     status: STATUS,
+    validateBookingDates,
     config: {
       bypassLogin: BYPASS_LOGIN,
       bypassAdminCancellation: BYPASS_ADMIN_CANCELLATION,
