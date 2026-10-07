@@ -56,6 +56,7 @@
     booking.status === STATUS.CANCELLATION_PENDING;
 
   const statusLabel = status => ({
+    [STATUS.REQUESTED]: 'Request received',
     [STATUS.CONFIRMED]: 'Confirmed',
     [STATUS.CANCELLATION_PENDING]: 'Cancellation pending',
     [STATUS.CANCELLED]: 'Cancelled',
