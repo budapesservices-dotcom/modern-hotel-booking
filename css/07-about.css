@@ -1,0 +1,62 @@
+/* =========================================================
+   THE STILL HOTEL / ABOUT PAGE BASE STYLING
+   Source module extracted from the original css/style.css.
+   Cascade order is preserved by loading modules in numeric order.
+   ========================================================= */
+
+/* =========================================================
+   ABOUT PAGE
+   ========================================================= */
+.page-about{
+  background:#f7f4ed;
+}
+.page-about .about-story{
+  background:#fff;
+}
+.about-story-grid{
+  display:grid;
+  grid-template-columns:1.12fr .88fr;
+  gap:clamp(44px,8vw,130px);
+  align-items:center;
+}
+.about-story-image{
+  aspect-ratio:4/3;
+}
+.about-story-copy{
+  max-width:500px;
+}
+.about-story-copy p + p{
+  margin-top:20px;
+}
+.page-about .about-principles{
+  background:#ebe6dd;
+}
+.page-about .about-moment{
+  background:#fff;
+}
+.about-moment-box{
+  max-width:980px;
+  margin:0 auto;
+  padding:clamp(52px,8vw,100px) clamp(28px,6vw,80px);
+  border:1px solid #d6cec0;
+  text-align:center;
+}
+.about-moment-box blockquote{
+  margin:20px auto 28px;
+  max-width:850px;
+  color:#292720;
+  font-size:clamp(42px,7vw,92px);
+  line-height:.92;
+  letter-spacing:-.05em;
+  font-weight:500;
+}
+.about-moment-box>span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.page-login .signature-header:not(.scrolled){
+  --header-theme:#f4f0e7;
+  --header-secondary:#d6b36a;
+}
+
