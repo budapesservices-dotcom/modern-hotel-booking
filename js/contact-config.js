@@ -8,7 +8,7 @@ window.STILL_CONTACT = {
   phoneDisplay: "+62 000 0000 0000",
   phoneHref: "+620000000000",
   email: "stay@thestillhotel.example",
-  mapQuery: "Monas, Jakarta, Indonesia"
+  mapQuery: "Jakarta, Indonesia"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
