@@ -387,8 +387,11 @@
       return false;
     }
 
+    let whatsappOpened = false;
+
     if (whatsappUrl) {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      const whatsappWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      whatsappOpened = Boolean(whatsappWindow);
     }
 
     modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
@@ -440,11 +443,11 @@
             Keep this Customer Booking ID for reference. It does not confirm availability
             or the final reservation until the hotel confirms your stay.
           </p>
-          <p>Please keep this Customer Booking ID for reference while we confirm your stay.</p>
+          <p>WhatsApp should now open with your request ready to send. Please send the message there to complete the hand-off to the hotel.</p>
         </div>
 
         <div class="still-booking-success-actions">
-          ${whatsappUrl ? '<a class="button button-dark still-booking-whatsapp" href="' + escapeHtml(whatsappUrl) + '" target="_blank" rel="noopener">Open WhatsApp <span>↗</span></a>' : ''}
+          ${whatsappUrl ? '<a class="button button-dark still-booking-whatsapp" href="' + escapeHtml(whatsappUrl) + '" target="_blank" rel="noopener">Open WhatsApp' + (whatsappOpened ? ' again' : '') + ' <span>↗</span></a>' : ''}
           <button
             class="button ${whatsappUrl ? 'button-outline-dark' : 'button-dark'} still-booking-understand"
             type="button"
@@ -490,7 +493,7 @@
       nights ? 'Nights: ' + nights : '',
       'Customer Booking ID: ' + customerBookingId,
       '',
-      'Please confirm availability, final rate and booking conditions.'
+      'Please confirm availability, final rate and booking conditions. This is a booking request, not a final reservation.'
     ].filter(Boolean);
 
     return 'https://wa.me/' + number + '?text=' + encodeURIComponent(lines.join('\n'));
