@@ -289,7 +289,9 @@
     window.location.href = `${LOGIN_URL}?${params.toString()}`;
   };
 
-  const closeConfirmation = () => {
+  let confirmationOpener = null;
+
+  const closeConfirmation = (restoreFocus = true) => {
     const modal = document.getElementById(MODAL_ID);
     if (!modal) return;
 
@@ -297,8 +299,12 @@
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('still-booking-modal-open');
 
+    const opener = confirmationOpener;
+    confirmationOpener = null;
+
     window.setTimeout(() => {
       if (modal.parentNode) modal.remove();
+      if (restoreFocus && opener?.isConnected) opener.focus();
     }, 260);
   };
 
@@ -453,6 +459,10 @@
   };
 
   const showConfirmation = bookingData => {
+    confirmationOpener = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+
     const previous = document.getElementById(MODAL_ID);
     if (previous) previous.remove();
 
