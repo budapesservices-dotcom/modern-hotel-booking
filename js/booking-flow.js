@@ -437,8 +437,8 @@
 
         <div class="still-booking-success-note">
           <p>
-            Keep this Booking ID with you when you arrive. Our reception team
-            will use it to locate your booking details.
+            Keep this Customer Booking ID for reference. It does not confirm availability
+            or the final reservation until the hotel confirms your stay.
           </p>
           <p>Please keep this Customer Booking ID for reference while we confirm your stay.</p>
         </div>
