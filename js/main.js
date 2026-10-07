@@ -822,6 +822,9 @@
     }
     if (roomDetailCheckout) {
       roomDetailCheckout.min = iso;
+      const maxCheckout = new Date(today);
+      maxCheckout.setDate(maxCheckout.getDate() + 30);
+      roomDetailCheckout.max = maxCheckout.toISOString().slice(0, 10);
       if (!roomDetailCheckout.value) roomDetailCheckout.value = tomorrowIso;
     }
   };
@@ -869,13 +872,15 @@
       return;
     }
 
-    // Keep the user's selected dates. Only correct the minimum invalid case.
     if (diff < 1) {
       const next = new Date(startDate);
       next.setDate(next.getDate() + 1);
       roomDetailCheckout.value = next.toISOString().slice(0, 10);
       roomDetailNights.value = '1';
     } else {
+      const maxCheckout = new Date(startDate);
+      maxCheckout.setDate(maxCheckout.getDate() + 30);
+      roomDetailCheckout.value = maxCheckout.toISOString().slice(0, 10);
       roomDetailNights.value = '30';
     }
 
@@ -1022,10 +1027,16 @@
 
       // Do not rewrite a valid checkout just because check-in changed.
       // Only move it to the next day when the existing checkout becomes invalid.
+      const maxCheckout = new Date(checkinDate);
+      maxCheckout.setDate(maxCheckout.getDate() + 30);
+      roomDetailCheckout.max = maxCheckout.toISOString().slice(0, 10);
+
       if (!roomDetailCheckout.value || checkoutDate <= checkinDate) {
         const next = new Date(checkinDate);
         next.setDate(next.getDate() + 1);
         roomDetailCheckout.value = next.toISOString().slice(0, 10);
+      } else if (checkoutDate > maxCheckout) {
+        roomDetailCheckout.value = maxCheckout.toISOString().slice(0, 10);
       }
     }
 
@@ -1034,10 +1045,23 @@
   });
 
   roomDetailCheckout?.addEventListener('change', () => {
-    if (roomDetailCheckin && roomDetailCheckout.value <= roomDetailCheckin.value) {
-      const next = new Date(roomDetailCheckin.value + 'T12:00:00');
-      next.setDate(next.getDate() + 1);
-      roomDetailCheckout.value = next.toISOString().slice(0, 10);
+    if (roomDetailCheckin) {
+      const checkinDate = new Date(roomDetailCheckin.value + 'T12:00:00');
+      const checkoutDate = new Date(roomDetailCheckout.value + 'T12:00:00');
+
+      if (roomDetailCheckout.value <= roomDetailCheckin.value) {
+        const next = new Date(checkinDate);
+        next.setDate(next.getDate() + 1);
+        roomDetailCheckout.value = next.toISOString().slice(0, 10);
+      } else {
+        const maxCheckout = new Date(checkinDate);
+        maxCheckout.setDate(maxCheckout.getDate() + 30);
+        roomDetailCheckout.max = maxCheckout.toISOString().slice(0, 10);
+
+        if (checkoutDate > maxCheckout) {
+          roomDetailCheckout.value = maxCheckout.toISOString().slice(0, 10);
+        }
+      }
     }
 
     syncRoomDetailNightsFromDates();
