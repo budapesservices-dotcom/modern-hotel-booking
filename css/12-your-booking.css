@@ -1,0 +1,170 @@
+/* =========================================================
+   THE STILL HOTEL / GUEST BOOKING VIEW STYLING
+   Source module extracted from the original css/style.css.
+   Cascade order is preserved by loading modules in numeric order.
+   ========================================================= */
+
+/* =========================================================
+   YOUR BOOKING — GUEST RESERVATION VIEW
+   ========================================================= */
+.page-your-booking{
+  background:#f7f4ed;
+  color:#292720;
+}
+
+.your-booking-hero{
+  padding-top:170px;
+  padding-bottom:86px;
+  background:#f7f4ed;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-hero h1{
+  margin-bottom:24px;
+}
+
+.your-booking-section{
+  background:#ece7dd;
+}
+
+.your-booking-list{
+  width:min(900px,100%);
+  margin:0 auto;
+}
+
+.booking-empty-state{
+  padding:clamp(50px,9vw,100px) clamp(24px,5vw,70px);
+  background:#f7f4ed;
+  border:1px solid #d4ccbe;
+  text-align:center;
+}
+
+.booking-empty-state h2{
+  margin:16px 0 22px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(48px,7vw,80px);
+  line-height:.9;
+  letter-spacing:-.05em;
+  font-weight:400;
+}
+
+.booking-empty-state h2 em{
+  color:#9a7447;
+}
+
+.booking-empty-state>p:not(.eyebrow){
+  max-width:430px;
+  margin:0 auto 28px;
+  color:#746d64;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.your-booking-card{
+  margin-bottom:18px;
+  padding:28px;
+  background:#f7f4ed;
+  border:1px solid #d4ccbe;
+  box-shadow:0 14px 40px rgba(41,39,32,.06);
+}
+
+.your-booking-card.is-current{
+  border-color:#b9a078;
+}
+
+.your-booking-card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:flex-start;
+  padding-bottom:22px;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-card-head h2{
+  margin:10px 0 0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(30px,4vw,48px);
+  line-height:.95;
+  font-weight:400;
+  letter-spacing:-.035em;
+}
+
+.your-booking-status{
+  padding:7px 10px;
+  border:1px solid #cdbb93;
+  border-radius:999px;
+  color:#876a3d;
+  font-size:8px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.your-booking-id{
+  margin-top:22px;
+  padding:17px 18px;
+  background:#eee9df;
+  border:1px dashed #c9c0b3;
+}
+
+.your-booking-id span{
+  display:block;
+  margin-bottom:7px;
+  color:#8b8276;
+  font-size:8px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.your-booking-id strong{
+  display:block;
+  color:#292720;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:.05em;
+}
+
+.your-booking-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  margin-top:18px;
+  border-top:1px solid #d8d0c3;
+  border-bottom:1px solid #d8d0c3;
+}
+
+.your-booking-grid>div{
+  padding:16px 14px 16px 0;
+  border-right:1px solid #d8d0c3;
+}
+
+.your-booking-grid>div+div{
+  padding-left:14px;
+}
+
+.your-booking-grid>div:last-child{
+  border-right:0;
+}
+
+.your-booking-grid span{
+  display:block;
+  margin-bottom:7px;
+  color:#8b8276;
+  font-size:8px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.your-booking-grid strong{
+  color:#292720;
+  font-size:12px;
+  font-weight:500;
+}
+
+.your-booking-note{
+  margin:18px 0 0;
+  color:#746d64;
+  font-size:10px;
+  line-height:1.6;
+}
+
