@@ -267,9 +267,15 @@
         cancellationMode:'demo-bypass'
       };
       const next=[...bookings]; next[index]=updated;
-      if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
+      const previousBookings=localStorage.getItem(STORAGE.bookings);
+      const previousNotifications=localStorage.getItem(STORAGE.notifications);
 
-      notifyAdmin({
+      if(!saveBookings(next)){
+        restoreStorageValue(STORAGE.bookings,previousBookings);
+        return{ok:false,reason:'storage-error',booking};
+      }
+
+      const notified=notifyAdmin({
         type:'cancellation',
         booking:updated,
         requestId,
@@ -278,14 +284,40 @@
         message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}. Demo mode auto-confirms the cancellation without waiting for admin action.`
       });
 
+      if(!notified){
+        restoreStorageValue(STORAGE.bookings,previousBookings);
+        restoreStorageValue(STORAGE.notifications,previousNotifications);
+        return{ok:false,reason:'storage-error',booking};
+      }
+
       emitBookingUpdate({reason:'cancellation-auto-approved',booking:updated});
       return{ok:true,booking:updated};
     }
 
     const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationPreviousStatus:booking.status,cancellationRequestId:requestId,cancellationRequestedAt:requestedAt};
     const next=[...bookings]; next[index]=updated;
-    if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
-    notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.`});
+    const previousBookings=localStorage.getItem(STORAGE.bookings);
+    const previousNotifications=localStorage.getItem(STORAGE.notifications);
+
+    if(!saveBookings(next)){
+      restoreStorageValue(STORAGE.bookings,previousBookings);
+      return{ok:false,reason:'storage-error',booking};
+    }
+
+    const notified=notifyAdmin({
+      type:'cancellation',
+      booking:updated,
+      requestId,
+      title:'Cancellation request',
+      message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.`
+    });
+
+    if(!notified){
+      restoreStorageValue(STORAGE.bookings,previousBookings);
+      restoreStorageValue(STORAGE.notifications,previousNotifications);
+      return{ok:false,reason:'storage-error',booking};
+    }
+
     emitBookingUpdate({reason:'cancellation-requested',booking:updated});
     return{ok:true,booking:updated};
   };
@@ -298,8 +330,26 @@
     const restoredStatus=booking.cancellationPreviousStatus===STATUS.REQUESTED?STATUS.REQUESTED:STATUS.CONFIRMED;
     const updated={...booking,status:approved?STATUS.CANCELLED:restoredStatus,cancellationConfirmedAt:approved?new Date().toISOString():null,cancellationRejectedAt:approved?null:new Date().toISOString(),cancellationPreviousStatus:null};
     const next=[...bookings]; next[index]=updated;
-    if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
-    saveNotifications(getNotifications().map(notification=>notification.type==='cancellation'&&notification.requestId===booking.cancellationRequestId?{...notification,status:approved?'approved':'rejected',resolvedAt:new Date().toISOString()}:notification));
+    const previousBookings=localStorage.getItem(STORAGE.bookings);
+    const previousNotifications=localStorage.getItem(STORAGE.notifications);
+
+    if(!saveBookings(next)){
+      restoreStorageValue(STORAGE.bookings,previousBookings);
+      return{ok:false,reason:'storage-error',booking};
+    }
+
+    const resolvedNotifications=getNotifications().map(notification=>
+      notification.type==='cancellation'&&notification.requestId===booking.cancellationRequestId
+        ? {...notification,status:approved?'approved':'rejected',resolvedAt:new Date().toISOString()}
+        : notification
+    );
+
+    if(!saveNotifications(resolvedNotifications)){
+      restoreStorageValue(STORAGE.bookings,previousBookings);
+      restoreStorageValue(STORAGE.notifications,previousNotifications);
+      return{ok:false,reason:'storage-error',booking};
+    }
+
     emitBookingUpdate({reason:approved?'cancellation-approved':'cancellation-rejected',booking:updated});
     return{ok:true,booking:updated};
   };
