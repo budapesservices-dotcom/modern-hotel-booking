@@ -517,14 +517,14 @@
         const active =
           String(tab.dataset.roomCategory || 'all').trim().toLowerCase() === activeCategory;
         tab.classList.toggle('is-active', active);
-        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        tab.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
 
       capacityTabs.forEach(tab => {
         const active =
           String(tab.dataset.roomCapacity || 'all').trim() === activeCapacity;
         tab.classList.toggle('is-active', active);
-        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        tab.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
     };
 
@@ -1347,7 +1347,7 @@
         const active =
           String(tab.dataset.momentCategory || 'all').trim().toLowerCase() === activeMomentCategory;
         tab.classList.toggle('is-active', active);
-        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        tab.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
     };
 
