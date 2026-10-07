@@ -2946,6 +2946,8 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   color:#211f1b;
 }
 .room-booking-whatsapp{
+  justify-content:center;
+  gap:0;
   border:1px solid rgba(214,179,106,.55);
   background:transparent;
   color:#e8dfd0;
