@@ -3168,10 +3168,13 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .room-booking-title{font-size:25px}
   .room-booking-total strong{font-size:28px}
   .room-booking-actions{
-    grid-template-columns:auto auto auto 1fr;
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:10px;
   }
-  .room-booking-now{padding-inline:16px}
+  .room-booking-now,
+  .room-booking-whatsapp{
+    padding-inline:12px;
+  }
 }
 
 
