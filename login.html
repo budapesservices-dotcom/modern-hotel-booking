@@ -33,23 +33,25 @@
         <p class="login-lede">Enter your email and password to continue to your guest account.</p>
       </div>
 
-      <form class="login-form" action="#" method="post">
+      <form class="login-form" action="login.html" method="post" data-login-form novalidate>
         <label>Email address<input type="email" name="email" autocomplete="email" placeholder="you@example.com" required></label>
         <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="••••••••" required></label>
         <div class="login-form-meta">
           <label class="login-check"><input type="checkbox" name="remember"> <span>Remember me</span></label>
           <a href="contact.html" aria-label="Contact the hotel about a forgotten password">Forgot password?</a>
         </div>
-        <button class="button button-dark button-full" type="submit">Sign in <span>→</span></button>
+        <button class="button button-dark button-full" type="submit" data-login-submit>Sign in <span>→</span></button>
+        <p class="contact-form-status login-form-status" data-login-status role="status" aria-live="polite"></p>
       </form>
 
       <div class="login-divider"><span>NEW GUEST</span></div>
       <a class="button button-outline-dark button-full" href="rooms.html">Plan a stay <span>→</span></a>
-      <p class="login-note">Guest authentication is ready for connection to your preferred booking or membership system.</p>
+      <p class="login-note">Guest authentication is not connected in this static demo. Your password is not stored or submitted by this page.</p>
     </div>
   </section>
 </main>
 
 <script src="js/main.js" defer></script>
+<script src="js/login.js" defer></script>
 </body>
 </html>
