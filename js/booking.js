@@ -1,7 +1,5 @@
 (() => {
   const body = document.body;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const header = document.querySelector('[data-header]');
   const drawer = document.querySelector('[data-booking-drawer]');
   const summary = document.querySelector('[data-booking-summary]');
   const checkin = document.querySelector('[data-booking-checkin]');
@@ -81,30 +79,42 @@
     });
   }));
 
-  document.querySelectorAll('[data-room-detail-booking-now]').forEach(btn => btn.addEventListener('click', () => {
-    const roomId = roomDetailDrawer?.dataset.roomId || '';
-    const checkinValue = roomDetailCheckin?.value || '';
-    const checkoutValue = roomDetailCheckout?.value || '';
-    const availability = roomId
-      ? getRoomAvailability(roomId, checkinValue, checkoutValue)
-      : null;
+  document.querySelectorAll('[data-room-detail-booking-now]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const roomDetailDrawer = document.querySelector('[data-room-detail-drawer]');
+      const roomDetailCheckin = document.querySelector('[data-room-detail-checkin]');
+      const roomDetailCheckout = document.querySelector('[data-room-detail-checkout]');
+      const roomDetailPrice = document.querySelector('[data-room-detail-price]');
+      const roomDetailBookedUnder = document.querySelector('[data-room-detail-booked-under]');
+      const roomDetailGuests = document.querySelector('[data-room-detail-guests]');
 
-    if (availability && availability.available <= 0) {
-      window.alert('This room type is not available for the selected dates. Please choose different dates.');
-      return;
-    }
+      const roomId = roomDetailDrawer?.dataset.roomId || '';
+      const checkinValue = roomDetailCheckin?.value || '';
+      const checkoutValue = roomDetailCheckout?.value || '';
+      const availability = roomId
+        ? getRoomAvailability(roomId, checkinValue, checkoutValue)
+        : null;
 
-    const price = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '';
-    window.TheStillBooking?.start({
-      roomId,
-      room: activeRoomName || '',
-      bookedUnder: roomDetailBookedUnder?.value?.trim() || '',
-      checkin: checkinValue,
-      checkout: checkoutValue,
-      guests: roomDetailGuests?.value || '2',
-      price
+      if (availability && availability.available <= 0) {
+        window.alert('This room type is not available for the selected dates. Please choose different dates.');
+        return;
+      }
+
+      const activeRoomName =
+        document.querySelector('[data-room-detail-title]')?.textContent?.trim() || '';
+      const price = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '';
+
+      window.TheStillBooking?.start({
+        roomId,
+        room: activeRoomName,
+        bookedUnder: roomDetailBookedUnder?.value?.trim() || '',
+        checkin: checkinValue,
+        checkout: checkoutValue,
+        guests: roomDetailGuests?.value || '2',
+        price
+      });
     });
-  }));
+  });
   
   window.TheStillBookingUI = {
     open: openBooking,
