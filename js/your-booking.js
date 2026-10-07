@@ -123,7 +123,12 @@
 
     if (!confirmed) return;
 
-    window.TheStillBooking?.deleteHistory();
+    const result = window.TheStillBooking?.deleteHistory();
+    if (!result?.ok) {
+      window.alert('Booking history could not be updated because browser storage is unavailable. No history was removed.');
+      return;
+    }
+
     render();
   };
 
