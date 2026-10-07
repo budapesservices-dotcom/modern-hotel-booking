@@ -508,6 +508,7 @@
   const roomDetailCheckout = document.querySelector('[data-room-detail-checkout]');
   const roomDetailGuests = document.querySelector('[data-room-detail-guests]');
   const roomDetailNights = document.querySelector('[data-room-detail-nights]');
+  const roomDetailBookedUnder = document.querySelector('[data-room-detail-booked-under]');
   const roomDetailFacilities = document.querySelector('[data-room-detail-facilities]');
   const roomDetailFacilityCount = document.querySelector('[data-room-detail-facility-count]');
   let activeRoomName = '';
@@ -983,6 +984,7 @@
     if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
     if (roomDetailPrice) roomDetailPrice.textContent = price;
     renderRoomFacilities(roomId);
+    if (roomDetailBookedUnder) roomDetailBookedUnder.value = '';
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
     if (roomDetailSummaryType) roomDetailSummaryType.textContent = type;
     if (roomDetailNumber) roomDetailNumber.textContent = '';
@@ -1130,6 +1132,7 @@
     window.TheStillBooking?.start({
       roomId,
       room: activeRoomName || '',
+      bookedUnder: roomDetailBookedUnder?.value?.trim() || '',
       checkin: checkinValue,
       checkout: checkoutValue,
       guests: roomDetailGuests?.value || '2',
