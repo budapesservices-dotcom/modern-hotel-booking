@@ -9,6 +9,7 @@
   if (!list) return;
 
   const STATUS = window.TheStillBooking?.status || {
+    REQUESTED: 'request_received',
     CONFIRMED: 'confirmed',
     CANCELLATION_PENDING: 'cancellation_pending',
     CANCELLED: 'cancelled',
@@ -50,6 +51,7 @@
   };
 
   const isActive = booking =>
+    booking.status === STATUS.REQUESTED ||
     booking.status === STATUS.CONFIRMED ||
     booking.status === STATUS.CANCELLATION_PENDING;
 
@@ -61,6 +63,10 @@
   }[status] || 'Booking');
 
   const noteFor = status => {
+    if (status === STATUS.REQUESTED) {
+      return 'Your booking request has been recorded and sent to the hotel. Availability, final rate and stay conditions still need to be confirmed.';
+    }
+
     if (status === STATUS.CANCELLATION_PENDING) {
       return 'Your cancellation request has been sent to the admin desk. The booking remains active until the admin confirms or rejects the request.';
     }
@@ -137,7 +143,7 @@
         <div class="booking-empty-state">
           <p class="eyebrow">No booking record</p>
           <h2>Your next stay<br><em>starts here.</em></h2>
-          <p>Your confirmed booking will stay here until it is cancelled or its checkout date has passed.</p>
+          <p>Your booking request will stay here while the hotel confirms availability and final stay details.</p>
           <a class="button button-dark" href="rooms.html">Find a room</a>
         </div>
       `;
@@ -160,6 +166,8 @@
                   ? 'Booking history'
                   : status === STATUS.CANCELLATION_PENDING
                     ? 'Current booking / Admin review'
+                    : status === STATUS.REQUESTED
+                    ? 'Current booking / Awaiting confirmation'
                     : 'Current booking'}
               </p>
               <h2>${escapeHtml(booking.room || 'Room selection')}</h2>
