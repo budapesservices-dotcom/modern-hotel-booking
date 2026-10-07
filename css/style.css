@@ -3090,10 +3090,14 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 .room-booking-actions{
   display:grid;
-  grid-template-columns:1fr auto auto auto;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,auto) minmax(0,auto);
   align-items:center;
-  gap:12px;
+  gap:10px;
   margin-top:25px;
+  min-width:0;
+}
+.room-booking-actions>*{
+  min-width:0;
 }
 .room-booking-cancel{
   justify-self:end;
@@ -3104,16 +3108,20 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   font-size:9px;
   letter-spacing:.14em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 .room-booking-cancel:hover{color:#f0e8da}
 .room-booking-actions>span{
   color:#524a3e;
   font-size:10px;
+  line-height:1;
+  white-space:nowrap;
 }
 .room-booking-now{
-  justify-self:start;
+  justify-self:stretch;
   min-height:46px;
-  padding:12px 20px;
+  min-width:0;
+  padding:12px 16px;
   border:1px solid #d6b36a;
   background:#d6b36a;
   color:#25221d;
@@ -3121,6 +3129,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   font-weight:500;
   letter-spacing:.12em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 .room-booking-now:hover{
   border-color:#edd58f;
@@ -3128,9 +3137,10 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   color:#211f1b;
 }
 .room-booking-whatsapp{
-  justify-self:start;
+  justify-self:stretch;
   min-height:46px;
-  padding:12px 18px;
+  min-width:0;
+  padding:12px 14px;
   border:1px solid rgba(214,179,106,.55);
   background:transparent;
   color:#e8dfd0;
@@ -3138,6 +3148,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   font-weight:500;
   letter-spacing:.12em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 .room-booking-whatsapp:hover{
   border-color:#d6b36a;
