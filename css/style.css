@@ -2707,6 +2707,44 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   padding-bottom:18px;
   border-bottom:1px solid rgba(214,179,106,.18);
 }
+.booking-close-button{
+  flex:0 0 auto;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  margin:-2px -2px 0 20px;
+  padding:0;
+  border:1px solid rgba(214,179,106,.28);
+  border-radius:50%;
+  background:transparent;
+  color:#d8d0c1;
+  font:400 28px/1 Arial,sans-serif;
+  cursor:pointer;
+  transition:
+    background-color .25s ease,
+    border-color .25s ease,
+    color .25s ease,
+    transform .25s ease;
+}
+.booking-close-button:hover,
+.booking-close-button:focus-visible{
+  background:#d6b36a;
+  border-color:#d6b36a;
+  color:#292720;
+  transform:rotate(90deg);
+}
+.booking-close-button:focus-visible{
+  outline:2px solid #d6b36a;
+  outline-offset:4px;
+}
+@media(max-width:599px){
+  .booking-close-button{
+    width:40px;
+    height:40px;
+    margin-left:16px;
+  }
+}
 .booking-panel .eyebrow{
   margin:0;
   color:#a99f91;
