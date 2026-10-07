@@ -109,8 +109,8 @@
       const mobileImage = image
         .replace(/([?&])w=\d+/i, '$1w=760')
         .replace(/([?&])q=\d+/i, '$1q=78');
-      const loading = 'eager';
-      const priority = index === 0 ? 'high' : 'auto';
+      const loading = index === 0 ? 'eager' : 'lazy';
+      const priority = index === 0 ? 'high' : 'low';
       return `<div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}">
         <img src="${image}" srcset="${mobileImage} 760w, ${image} 1400w" sizes="100vw" alt="" loading="${loading}" decoding="async" fetchpriority="${priority}">
       </div>`;
@@ -144,6 +144,15 @@
     const finalCall = document.querySelector('[data-final-call]');
     if (finalCall) {
       finalCall.style.setProperty('--final-image', `url('${meta.image}')`);
+    }
+
+    // Load only the next scene ahead of time so the initial page render
+    // does not eagerly download the entire hero sequence.
+    const nextScene = scenes[(activeScene + 1) % scenes.length];
+    const nextImage = nextScene?.querySelector('img');
+    if (nextImage) {
+      nextImage.loading = 'eager';
+      nextImage.fetchPriority = 'low';
     }
 
     if (restart) startTimer();
