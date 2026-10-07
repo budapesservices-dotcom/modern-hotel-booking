@@ -1414,8 +1414,6 @@ section[id]{scroll-margin-top:92px;}
     transform:none;
   }
 
-  .time-rail>p{display:none}
-
   .time-track{
     width:100%;
     max-width:100%;
@@ -3408,7 +3406,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     min-height:188px;
     padding-block:16px;
   }
-  .page-rooms .room-dir-number{display:none !important}
+  .page-rooms .room-dir-number{display:none}
   .page-rooms .room-dir-image{
     grid-area:image !important;
     width:180px !important;
@@ -3444,7 +3442,7 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     gap:12px;
     padding:16px 16px 20px;
   }
-  .page-rooms .room-dir-number{display:none !important}
+  .page-rooms .room-dir-number{display:none}
   .page-rooms .room-dir-image{
     grid-area:image !important;
     width:100% !important;
@@ -8032,12 +8030,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .page-gallery .moments-item-last .moments-image-wrap{
     height:auto;
     aspect-ratio:4 / 3;
-  }
-
-  .page-gallery .moments-item-hero .moments-image-wrap,
-  .page-gallery .moments-item-wide .moments-image-wrap,
-  .page-gallery .moments-item-evening .moments-image-wrap{
-    aspect-ratio:5 / 4;
   }
 
   .page-gallery .moments-item figcaption{
