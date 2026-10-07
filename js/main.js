@@ -537,59 +537,183 @@
     if (roomDetailFacilityCount) roomDetailFacilityCount.textContent = String(facilities.length).padStart(2, '0');
   };
 
-  // ---------- Custom room-summary dropdowns ----------
-  const closeRoomCustomSelects = () => {
+  // ---------- Accessible custom room-summary dropdowns ----------
+  const closeRoomCustomSelects = (restoreFocus = false) => {
     document.querySelectorAll('[data-room-custom-select].is-open').forEach(root => {
       root.classList.remove('is-open');
-      root.querySelector('[data-room-select-trigger]')?.setAttribute('aria-expanded', 'false');
+
+      const trigger = root.querySelector('[data-room-select-trigger]');
+      const menu = root.querySelector('[data-room-select-menu]');
+      trigger?.setAttribute('aria-expanded', 'false');
+      menu?.setAttribute('aria-hidden', 'true');
+
+      if (restoreFocus) trigger?.focus();
     });
   };
 
+  const getRoomCustomParts = nativeSelect => {
+    const root = nativeSelect?.parentElement?.querySelector('[data-room-custom-select]');
+    if (!root) return null;
+
+    return {
+      root,
+      trigger: root.querySelector('[data-room-select-trigger]'),
+      menu: root.querySelector('[data-room-select-menu]')
+    };
+  };
+
+  const getRoomCustomOptionButtons = root =>
+    root ? [...root.querySelectorAll('[data-room-custom-value]')] : [];
+
+  const focusRoomCustomOption = (root, index) => {
+    const options = getRoomCustomOptionButtons(root);
+    if (!options.length) return;
+
+    const nextIndex = Math.min(Math.max(index, 0), options.length - 1);
+    options[nextIndex]?.focus();
+  };
+
+  const getSelectedRoomCustomIndex = nativeSelect =>
+    Math.max(
+      0,
+      [...nativeSelect.options].findIndex(option => option.value === nativeSelect.value)
+    );
+
   const refreshRoomCustomSelect = nativeSelect => {
     if (!nativeSelect) return;
-    const root = nativeSelect.parentElement?.querySelector('[data-room-custom-select]');
-    if (!root) return;
-    const trigger = root.querySelector('[data-room-select-trigger]');
-    const menu = root.querySelector('[data-room-select-menu]');
-    if (!trigger || !menu) return;
 
+    const parts = getRoomCustomParts(nativeSelect);
+    if (!parts?.trigger || !parts.menu) return;
+
+    const { root, trigger, menu } = parts;
+    const label = nativeSelect.getAttribute('aria-label') || root.dataset.roomCustomSelect || 'Select option';
     const selected = [...nativeSelect.options].find(option => option.value === nativeSelect.value);
-    trigger.textContent = selected?.textContent?.trim() || nativeSelect.value || '—';
+    const selectedText = selected?.textContent?.trim() || nativeSelect.value || '—';
+    const controlId = nativeSelect.dataset.roomCustomId ||
+      ('room-custom-' + (root.dataset.roomCustomSelect || 'select'));
+    nativeSelect.dataset.roomCustomId = controlId;
+
+    trigger.id = trigger.id || controlId + '-trigger';
+    menu.id = menu.id || controlId + '-menu';
+    trigger.setAttribute('role', 'combobox');
+    trigger.setAttribute('aria-label', label);
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-controls', menu.id);
+    trigger.setAttribute('aria-expanded', root.classList.contains('is-open') ? 'true' : 'false');
+    trigger.setAttribute('aria-autocomplete', 'none');
+    trigger.setAttribute(
+      'aria-activedescendant',
+      controlId + '-option-' + (selected?.value || '0')
+    );
+    trigger.textContent = selectedText;
+
+    menu.setAttribute('role', 'listbox');
+    menu.setAttribute('aria-label', label);
+    menu.setAttribute('aria-hidden', root.classList.contains('is-open') ? 'false' : 'true');
 
     menu.innerHTML = [...nativeSelect.options].map(option => {
       const selectedClass = option.selected ? ' is-selected' : '';
       const aria = option.selected ? 'true' : 'false';
+      const optionId = controlId + '-option-' + String(option.value).replace(/[^a-zA-Z0-9_-]/g, '-');
+
       return '<button type="button" class="room-custom-option' + selectedClass +
-        '" role="option" aria-selected="' + aria +
+        '" id="' + optionId + '" role="option" aria-selected="' + aria +
         '" data-room-custom-value="' + option.value + '">' +
         option.textContent + '</button>';
     }).join('');
   };
 
-  const setupRoomCustomSelect = nativeSelect => {
-    const root = nativeSelect?.parentElement?.querySelector('[data-room-custom-select]');
-    if (!nativeSelect || !root || root.dataset.ready === 'true') return;
+  const openRoomCustomSelect = (nativeSelect, focusSelected = true) => {
+    const parts = getRoomCustomParts(nativeSelect);
+    if (!parts?.trigger || !parts.menu) return;
 
-    const trigger = root.querySelector('[data-room-select-trigger]');
-    const menu = root.querySelector('[data-room-select-menu]');
+    closeRoomCustomSelects();
+    parts.root.classList.add('is-open');
+    parts.trigger.setAttribute('aria-expanded', 'true');
+    parts.menu.setAttribute('aria-hidden', 'false');
+
+    if (focusSelected) {
+      focusRoomCustomOption(parts.root, getSelectedRoomCustomIndex(nativeSelect));
+    }
+  };
+
+  const selectRoomCustomOption = (nativeSelect, option) => {
+    if (!nativeSelect || !option) return;
+
+    nativeSelect.value = option.dataset.roomCustomValue || nativeSelect.value;
+    nativeSelect.dispatchEvent(new Event('change', { bubbles:true }));
+    refreshRoomCustomSelect(nativeSelect);
+
+    const parts = getRoomCustomParts(nativeSelect);
+    parts?.root.classList.remove('is-open');
+    parts?.trigger?.setAttribute('aria-expanded', 'false');
+    parts?.menu?.setAttribute('aria-hidden', 'true');
+    parts?.trigger?.focus();
+  };
+
+  const setupRoomCustomSelect = nativeSelect => {
+    const parts = getRoomCustomParts(nativeSelect);
+    if (!nativeSelect || !parts?.root || parts.root.dataset.ready === 'true') return;
+
+    const { root, trigger, menu } = parts;
     if (!trigger || !menu) return;
 
     trigger.addEventListener('click', event => {
       event.stopPropagation();
-      const opening = !root.classList.contains('is-open');
-      closeRoomCustomSelects();
-      if (opening) {
-        root.classList.add('is-open');
-        trigger.setAttribute('aria-expanded', 'true');
+      if (root.classList.contains('is-open')) {
+        closeRoomCustomSelects(true);
+        return;
+      }
+      openRoomCustomSelect(nativeSelect);
+    });
+
+    trigger.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        openRoomCustomSelect(nativeSelect);
+        return;
+      }
+
+      if (event.key === 'Escape' && root.classList.contains('is-open')) {
+        event.preventDefault();
+        closeRoomCustomSelects(true);
       }
     });
 
     menu.addEventListener('click', event => {
       const option = event.target.closest('[data-room-custom-value]');
       if (!option) return;
-      nativeSelect.value = option.dataset.roomCustomValue || nativeSelect.value;
-      nativeSelect.dispatchEvent(new Event('change', { bubbles:true }));
-      closeRoomCustomSelects();
+      selectRoomCustomOption(nativeSelect, option);
+    });
+
+    menu.addEventListener('keydown', event => {
+      const option = event.target.closest('[data-room-custom-value]');
+      if (!option) return;
+
+      const options = getRoomCustomOptionButtons(root);
+      const currentIndex = options.indexOf(option);
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        focusRoomCustomOption(root, currentIndex + 1);
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        focusRoomCustomOption(root, currentIndex - 1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        focusRoomCustomOption(root, 0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        focusRoomCustomOption(root, options.length - 1);
+      } else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectRoomCustomOption(nativeSelect, option);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        closeRoomCustomSelects(true);
+      } else if (event.key === 'Tab') {
+        closeRoomCustomSelects();
+      }
     });
 
     root.dataset.ready = 'true';
