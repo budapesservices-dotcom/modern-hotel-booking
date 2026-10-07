@@ -1226,7 +1226,8 @@
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden', 'false');
     body.classList.add('no-scroll');
-    checkin?.focus();
+    const closeControl = drawer.querySelector('[data-booking-close].booking-close-button');
+    (closeControl || checkin)?.focus();
   };
   const closeBooking = (restoreFocus = true) => {
     if (!drawer) return;
