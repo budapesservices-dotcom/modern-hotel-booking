@@ -10,6 +10,7 @@
   if (!list) return;
 
   const STATUS = window.TheStillBooking?.status || {
+    REQUESTED: 'request_received',
     CONFIRMED: 'confirmed',
     CANCELLATION_PENDING: 'cancellation_pending',
     CANCELLED: 'cancelled',
@@ -164,6 +165,7 @@
     if (stats) {
       stats.innerHTML = `
         <div><span>Total records</span><strong>${bookings.length}</strong></div>
+        <div><span>Requests received</span><strong>${bookings.filter(b => b.status === STATUS.REQUESTED).length}</strong></div>
         <div><span>Confirmed</span><strong>${bookings.filter(b => b.status === STATUS.CONFIRMED).length}</strong></div>
         <div><span>Cancellation pending</span><strong>${bookings.filter(b => b.status === STATUS.CANCELLATION_PENDING).length}</strong></div>
         <div><span>Expired</span><strong>${bookings.filter(b => b.status === STATUS.EXPIRED).length}</strong></div>
@@ -175,7 +177,7 @@
         <div class="admin-booking-empty">
           <p class="eyebrow">No booking records</p>
           <h2>The desk is<br><em>quiet.</em></h2>
-          <p>Completed demo bookings will appear here.</p>
+          <p>Booking requests and confirmed stays will appear here.</p>
         </div>
       `;
       return;
