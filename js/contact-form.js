@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-        const email = window.STILL_CONTACT?.email;
+      const email = window.STILL_CONTACT?.email;
       if (!email || email.endsWith(".example")) {
         throw new Error("Contact email is not configured yet. Please contact the hotel directly.");
       }
