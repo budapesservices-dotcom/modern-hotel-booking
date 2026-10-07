@@ -436,6 +436,11 @@
             </div>
 
             <div class="still-booking-receipt-line">
+              <span>Booked under</span>
+              <strong>${escapeHtml(bookingData.bookedUnder || '—')}</strong>
+            </div>
+
+            <div class="still-booking-receipt-line">
               <span>Guests</span>
               <strong>${escapeHtml(guestCount)} guest${guestCount === '1' ? '' : 's'}</strong>
             </div>
@@ -543,6 +548,7 @@
     const data = {
       roomId: bookingData?.roomId || '',
       room: bookingData?.room || '',
+      bookedUnder: bookingData?.bookedUnder || '',
       checkin: bookingData?.checkin || '',
       checkout: bookingData?.checkout || '',
       guests: bookingData?.guests || '2',
