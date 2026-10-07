@@ -444,11 +444,12 @@
         </div>
 
         <div class="still-booking-success-actions">
+          ${whatsappUrl ? '<a class="button button-dark still-booking-whatsapp" href="' + escapeHtml(whatsappUrl) + '" target="_blank" rel="noopener">Open WhatsApp <span>↗</span></a>' : ''}
           <button
-            class="button button-dark still-booking-understand"
+            class="button ${whatsappUrl ? 'button-outline-dark' : 'button-dark'} still-booking-understand"
             type="button"
             data-booking-understand>
-            Understood
+            Done
           </button>
         </div>
       </div>
