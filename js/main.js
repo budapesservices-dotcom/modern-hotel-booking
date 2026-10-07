@@ -290,6 +290,136 @@
     }
   }
 
+  // ---------- Room inventory / availability ----------
+  const roomInventoryItems = [...document.querySelectorAll('[data-room-item]')];
+  const ROOM_BOOKING_STORAGE = 'stillHotelBookings';
+  const ACTIVE_BOOKING_STATUSES = new Set(['confirmed', 'cancellation_pending']);
+
+  const parseStayDate = value => {
+    if (!value) return null;
+    const date = new Date(value + 'T12:00:00');
+    return Number.isNaN(date.getTime()) ? null : date;
+  };
+
+  const readRoomBookings = () => {
+    try {
+      if (window.TheStillBooking?.getBookings) {
+        const bookings = window.TheStillBooking.getBookings();
+        return Array.isArray(bookings) ? bookings : [];
+      }
+      const value = JSON.parse(localStorage.getItem(ROOM_BOOKING_STORAGE) || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const datesOverlap = (startA, endA, startB, endB) =>
+    startA < endB && startB < endA;
+
+  const getRoomAvailability = (itemOrId, checkin, checkout) => {
+    const item = typeof itemOrId === 'string'
+      ? document.getElementById(itemOrId)
+      : itemOrId;
+    if (!item) return null;
+
+    const stock = Math.max(0, Number(item.dataset.roomStock) || 0);
+    const baseAvailable = Math.min(
+      stock,
+      Math.max(0, Number(item.dataset.roomBaseAvailable) || 0)
+    );
+    const start = parseStayDate(checkin);
+    const end = parseStayDate(checkout);
+    const roomName = item.querySelector('.room-dir-main h3')?.textContent?.trim() || '';
+
+    if (!start || !end || end <= start) {
+      return {
+        available: baseAvailable,
+        stock,
+        booked: Math.max(0, stock - baseAvailable),
+        validDates: false
+      };
+    }
+
+    const activeBookings = readRoomBookings().filter(booking => {
+      if (!ACTIVE_BOOKING_STATUSES.has(String(booking?.status || '').toLowerCase())) {
+        return false;
+      }
+
+      const sameRoom = booking.roomId
+        ? booking.roomId === item.id
+        : String(booking.room || '').trim() === roomName;
+      if (!sameRoom) return false;
+
+      const bookingStart = parseStayDate(booking.checkin);
+      const bookingEnd = parseStayDate(booking.checkout);
+      return Boolean(
+        bookingStart &&
+        bookingEnd &&
+        bookingEnd > bookingStart &&
+        datesOverlap(start, end, bookingStart, bookingEnd)
+      );
+    });
+
+    const available = Math.max(0, baseAvailable - activeBookings.length);
+    return {
+      available,
+      stock,
+      booked: Math.min(stock, stock - available),
+      validDates: true
+    };
+  };
+
+  const getDefaultStayDates = () => {
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const toIso = date =>
+      date.getFullYear() + '-' +
+      pad(date.getMonth() + 1) + '-' +
+      pad(date.getDate());
+    return { checkin: toIso(today), checkout: toIso(tomorrow) };
+  };
+
+  const updateRoomAvailabilityLabels = (checkin, checkout, onlyItem = null) => {
+    if (!roomInventoryItems.length) return;
+
+    const defaults = getDefaultStayDates();
+    const start = checkin || defaults.checkin;
+    const end = checkout || defaults.checkout;
+    const items = onlyItem ? [onlyItem] : roomInventoryItems;
+
+    items.forEach(item => {
+      const label = item.querySelector('.room-dir-availability');
+      if (!label) return;
+      const result = getRoomAvailability(item, start, end);
+      if (!result) return;
+
+      label.textContent = result.available + ' / ' + result.stock + ' available';
+      label.dataset.available = String(result.available);
+      label.dataset.stock = String(result.stock);
+      label.setAttribute(
+        'aria-label',
+        result.available + ' of ' + result.stock + ' rooms available for the selected dates'
+      );
+      item.dataset.roomAvailableNow = String(result.available);
+      item.classList.toggle('is-sold-out', result.available === 0);
+    });
+  };
+
+  window.TheStillRoomInventory = {
+    getAvailability: (roomId, checkin, checkout) =>
+      getRoomAvailability(roomId, checkin, checkout),
+    refresh: updateRoomAvailabilityLabels
+  };
+
+  updateRoomAvailabilityLabels();
+  window.addEventListener('still:booking-updated', () => updateRoomAvailabilityLabels());
+  window.addEventListener('storage', event => {
+    if (event.key === ROOM_BOOKING_STORAGE) updateRoomAvailabilityLabels();
+  });
+
   // ---------- Room Atlas filters ----------
   const roomFilter = document.querySelector('[data-room-filter]');
   if (roomFilter) {
@@ -655,6 +785,29 @@
     if (roomDetailSummaryType && roomDetailKicker?.textContent) {
       roomDetailSummaryType.textContent = roomDetailKicker.textContent.split(' · ')[0] || '—';
     }
+
+    if (roomDetailAvailability && roomDetailDrawer?.dataset.roomId) {
+      const availability = getRoomAvailability(
+        roomDetailDrawer.dataset.roomId,
+        roomDetailCheckin.value,
+        roomDetailCheckout.value
+      );
+      if (availability) {
+        roomDetailAvailability.textContent =
+          availability.available + ' / ' + availability.stock + ' available for these dates';
+      }
+    }
+
+    if (roomDetailDrawer?.dataset.roomId) {
+      const roomItem = document.getElementById(roomDetailDrawer.dataset.roomId);
+      if (roomItem) {
+        updateRoomAvailabilityLabels(
+          roomDetailCheckin.value,
+          roomDetailCheckout.value,
+          roomItem
+        );
+      }
+    }
   };
 
   const renderRoomDetailGallery = (item, roomId) => {
@@ -695,12 +848,12 @@
 
   const openRoomDetail = item => {
     if (!roomDetailDrawer) return;
+    roomDetailDrawer.dataset.roomId = item.id;
     activeRoomName = item.querySelector('.room-dir-main h3')?.textContent || '';
     const roomId = item.id;
     const description = item.querySelector('.room-dir-main p')?.textContent || '';
     const type = item.querySelector('.room-dir-class span')?.textContent || '';
     const size = item.querySelector('.room-dir-class i')?.textContent || '';
-    const availability = item.querySelector('.room-dir-availability')?.textContent || '';
     const price = item.querySelector('[data-room-price-current]')?.textContent || '';
     const specs = [...item.querySelectorAll('.room-dir-main>div span')].map(el => el.textContent.trim());
 
@@ -708,7 +861,6 @@
     if (roomDetailKicker) roomDetailKicker.textContent = `${type} · ${size}`;
     if (roomDetailDescription) roomDetailDescription.textContent = description;
     if (roomDetailSpecs) roomDetailSpecs.innerHTML = specs.map(spec => `<span>${spec}</span>`).join('');
-    if (roomDetailAvailability) roomDetailAvailability.textContent = availability;
     if (roomDetailPrice) roomDetailPrice.textContent = price;
     renderRoomFacilities(roomId);
     if (roomDetailSummaryRoom) roomDetailSummaryRoom.textContent = activeRoomName;
@@ -842,11 +994,24 @@
   }));
 
   document.querySelectorAll('[data-room-detail-booking-now]').forEach(btn => btn.addEventListener('click', () => {
+    const roomId = roomDetailDrawer?.dataset.roomId || '';
+    const checkinValue = roomDetailCheckin?.value || '';
+    const checkoutValue = roomDetailCheckout?.value || '';
+    const availability = roomId
+      ? getRoomAvailability(roomId, checkinValue, checkoutValue)
+      : null;
+
+    if (availability && availability.available <= 0) {
+      window.alert('This room type is not available for the selected dates. Please choose different dates.');
+      return;
+    }
+
     const price = roomDetailPrice?.textContent?.replace(/[^0-9.]/g, '') || '';
     window.TheStillBooking?.start({
+      roomId,
       room: activeRoomName || '',
-      checkin: roomDetailCheckin?.value || '',
-      checkout: roomDetailCheckout?.value || '',
+      checkin: checkinValue,
+      checkout: checkoutValue,
       guests: roomDetailGuests?.value || '2',
       price
     });
