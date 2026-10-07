@@ -464,6 +464,21 @@
     modal.querySelector('[data-booking-confirm-continue]')?.addEventListener(
       'click',
       () => {
+        if (bookingData.roomId && window.TheStillRoomInventory?.getAvailability) {
+          const availability = window.TheStillRoomInventory.getAvailability(
+            bookingData.roomId,
+            bookingData.checkin,
+            bookingData.checkout
+          );
+
+          if (availability && availability.available <= 0) {
+            window.alert(
+              'This room type is no longer available for the selected dates. Please choose different dates.'
+            );
+            return;
+          }
+        }
+
         showBookingSuccess(modal, bookingData);
       }
     );
@@ -478,6 +493,7 @@
 
   const startBooking = bookingData => {
     const data = {
+      roomId: bookingData?.roomId || '',
       room: bookingData?.room || '',
       checkin: bookingData?.checkin || '',
       checkout: bookingData?.checkout || '',
@@ -485,7 +501,21 @@
       price: bookingData?.price || ''
     };
 
-    
+    if (data.roomId && window.TheStillRoomInventory?.getAvailability) {
+      const availability = window.TheStillRoomInventory.getAvailability(
+        data.roomId,
+        data.checkin,
+        data.checkout
+      );
+
+      if (availability && availability.available <= 0) {
+        window.alert(
+          'This room type is not available for the selected dates. Please choose different dates.'
+        );
+        return;
+      }
+    }
+
     if (!BYPASS_LOGIN && !hasSession()) {
       redirectToLogin(data);
       return;
