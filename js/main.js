@@ -342,7 +342,7 @@
   // ---------- Room inventory / availability ----------
   const roomInventoryItems = [...document.querySelectorAll('[data-room-item]')];
   const ROOM_BOOKING_STORAGE = 'stillHotelBookings';
-  const ACTIVE_BOOKING_STATUSES = new Set(['confirmed', 'cancellation_pending']);
+  const ACTIVE_BOOKING_STATUSES = new Set(['request_received', 'confirmed', 'cancellation_pending']);
 
   const parseStayDate = value => {
     if (!value) return null;
@@ -1243,7 +1243,7 @@
   document.querySelectorAll('[data-booking-open]').forEach(btn => btn.addEventListener('click', openBooking));
   document.querySelectorAll('[data-booking-close]').forEach(btn => btn.addEventListener('click', closeBooking));
 
-  window.addEventListener('still:booking-confirmed', () => {
+  window.addEventListener('still:booking-requested', () => {
     closeBooking();
     closeRoomDetail();
   });
