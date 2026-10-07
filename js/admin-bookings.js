@@ -193,6 +193,7 @@
 
       const status = String(booking.status || STATUS.CONFIRMED);
       const statusLabel = {
+        [STATUS.REQUESTED]: 'Request received',
         [STATUS.CONFIRMED]: 'Confirmed',
         [STATUS.CANCELLATION_PENDING]: 'Cancellation pending',
         [STATUS.CANCELLED]: 'Cancelled',
