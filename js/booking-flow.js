@@ -93,10 +93,64 @@
   const STATUS={CONFIRMED:'confirmed',CANCELLATION_PENDING:'cancellation_pending',CANCELLED:'cancelled',EXPIRED:'expired'};
   const readJson=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key)||'');return value??fallback;}catch{return fallback;}};
   const getBookings=()=>{const value=readJson(STORAGE.bookings,[]);return Array.isArray(value)?value:[];};
-  const saveBookings=bookings=>{try{localStorage.setItem(STORAGE.bookings,JSON.stringify(bookings));return true;}catch{return false;}};
+  const saveBookings=bookings=>{
+    try{
+      const serialized=JSON.stringify(bookings);
+      localStorage.setItem(STORAGE.bookings,serialized);
+      return localStorage.getItem(STORAGE.bookings)===serialized;
+    }catch{
+      return false;
+    }
+  };
   const getNotifications=()=>{const value=readJson(STORAGE.notifications,[]);return Array.isArray(value)?value:[];};
   const saveNotifications=notifications=>{try{localStorage.setItem(STORAGE.notifications,JSON.stringify(notifications));return true;}catch{return false;}};
   const emitBookingUpdate=detail=>window.dispatchEvent(new CustomEvent('still:booking-updated',{detail:detail||{}}));
+  const persistConfirmedBooking=(bookingRecord,customerBookingId)=>{
+    let previousBookings=null;
+    let previousCurrent=null;
+
+    try{
+      previousBookings=localStorage.getItem(STORAGE.bookings);
+      previousCurrent=localStorage.getItem(STORAGE.current);
+
+      const nextBookings=[bookingRecord,...getBookings()].slice(0,25);
+      const serialized=JSON.stringify(nextBookings);
+
+      localStorage.setItem(STORAGE.bookings,serialized);
+      if(localStorage.getItem(STORAGE.bookings)!==serialized){
+        throw new Error('Booking records could not be verified after saving.');
+      }
+
+      localStorage.setItem(STORAGE.current,customerBookingId);
+      if(localStorage.getItem(STORAGE.current)!==customerBookingId){
+        throw new Error('Current booking ID could not be verified after saving.');
+      }
+
+      return {ok:true};
+    }catch{
+      try{
+        if(previousBookings===null){
+          localStorage.removeItem(STORAGE.bookings);
+        }else{
+          localStorage.setItem(STORAGE.bookings,previousBookings);
+        }
+      }catch{}
+
+      try{
+        if(previousCurrent===null){
+          localStorage.removeItem(STORAGE.current);
+        }else{
+          localStorage.setItem(STORAGE.current,previousCurrent);
+        }
+      }catch{}
+
+      return {
+        ok:false,
+        reason:'storage-error'
+      };
+    }
+  };
+
   const notifyAdmin=({type,booking,requestId='',title,message,status='pending'})=>{
     if(!booking?.bookingToken)return false;
     const id=requestId?`${type}:${requestId}`:`${type}:${booking.bookingToken}`;
@@ -303,32 +357,37 @@
         }).format(scheduledDate)
       : 'your scheduled check-in date';
 
-    try {
-      const bookingRecord = {
-        ...bookingData,
-        bookingToken: bookingIds.token,
-        customerBookingId: bookingIds.customerId,
-        adminBookingId: bookingIds.adminId,
-        status: STATUS.CONFIRMED,
-        createdAt: new Date().toISOString()
-      };
+    const bookingRecord = {
+      ...bookingData,
+      bookingToken: bookingIds.token,
+      customerBookingId: bookingIds.customerId,
+      adminBookingId: bookingIds.adminId,
+      status: STATUS.CONFIRMED,
+      createdAt: new Date().toISOString()
+    };
 
-      saveBookings([bookingRecord, ...getBookings()].slice(0, 25));
+    const persistence = persistConfirmedBooking(
+      bookingRecord,
+      bookingIds.customerId
+    );
 
-      localStorage.setItem(STORAGE.current, bookingIds.customerId);
-      emitBookingUpdate({
-        reason: 'booking-created',
-        customerBookingId: bookingIds.customerId,
-        adminBookingId: bookingIds.adminId
-      });
-    } catch {
-
+    if (!persistence.ok) {
+      window.alert(
+        'We could not save your booking on this device. The booking was not confirmed. Please try again.'
+      );
+      return false;
     }
 
     modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
 
     const receipt = modal.querySelector('.still-booking-receipt');
-    if (!receipt) return;
+    if (!receipt) return false;
+
+    emitBookingUpdate({
+      reason: 'booking-created',
+      customerBookingId: bookingIds.customerId,
+      adminBookingId: bookingIds.adminId
+    });
 
     receipt.innerHTML = `
       <div class="still-booking-success">
