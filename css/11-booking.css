@@ -1,0 +1,498 @@
+/* =========================================================
+   THE STILL HOTEL / BOOKING RECEIPT / CONFIRMATION STYLING
+   Source module extracted from the original css/style.css.
+   Cascade order is preserved by loading modules in numeric order.
+   ========================================================= */
+
+/* =========================================================
+   BOOKING — RECEIPT STYLE CONFIRMATION
+   ========================================================= */
+.still-booking-modal{
+  position:fixed;
+  inset:0;
+  z-index:180;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .28s ease,visibility .28s ease;
+}
+
+.still-booking-modal.open{
+  visibility:visible;
+  opacity:1;
+  pointer-events:auto;
+}
+
+.still-booking-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(8,7,6,.76);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+}
+
+.still-booking-receipt{
+  position:relative;
+  z-index:1;
+  width:min(100%,600px);
+  max-height:min(88vh,760px);
+  overflow:auto;
+  padding:30px 34px 28px;
+  background:#f7f4ed;
+  color:#292720;
+  border:1px solid #d4ccbe;
+  box-shadow:0 28px 90px rgba(0,0,0,.4);
+  transform:translateY(18px) scale(.985);
+  transition:transform .34s var(--ease);
+  scrollbar-width:none;
+}
+
+.still-booking-receipt::-webkit-scrollbar{
+  display:none;
+}
+
+.still-booking-modal.open .still-booking-receipt{
+  transform:translateY(0) scale(1);
+}
+
+.still-booking-receipt:before,
+.still-booking-receipt:after{
+  content:"";
+  position:absolute;
+  left:18px;
+  right:18px;
+  border-top:1px dashed #c9c0b3;
+}
+
+.still-booking-receipt:before{top:13px}
+.still-booking-receipt:after{bottom:13px}
+
+.still-booking-receipt-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:4px 0 18px;
+  border-bottom:1px solid #d6cec1;
+}
+
+.still-booking-receipt-head .eyebrow{
+  margin:0;
+  color:#837a6e;
+  font-size:8px;
+  letter-spacing:.17em;
+}
+
+.still-booking-receipt-head>span{
+  color:#9a7447;
+  font-size:7px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.still-booking-receipt-title-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  padding:27px 0 24px;
+}
+
+.still-booking-receipt-kicker{
+  margin:0 0 8px;
+  color:#8d8478;
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.still-booking-receipt h2{
+  margin:0;
+  color:#292720;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(42px,6vw,64px);
+  line-height:.88;
+  letter-spacing:-.05em;
+  font-weight:400;
+}
+
+.still-booking-receipt h2 em{
+  color:#9a7447;
+}
+
+.still-booking-receipt-mark{
+  display:grid;
+  place-items:center;
+  width:52px;
+  height:52px;
+  flex:0 0 auto;
+  border:1px solid #cfc7ba;
+  color:#9a7447;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:13px;
+  letter-spacing:.08em;
+}
+
+.still-booking-receipt-body{
+  border-top:1px solid #d6cec1;
+}
+
+.still-booking-receipt-section{
+  padding:18px 0 6px;
+}
+
+.still-booking-receipt-label{
+  margin:0 0 8px;
+  color:#91887c;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+
+.still-booking-receipt-line{
+  display:grid;
+  grid-template-columns:minmax(100px,.75fr) minmax(0,1.25fr);
+  gap:16px;
+  align-items:center;
+  padding:11px 0;
+  border-bottom:1px dashed #d7cfc3;
+}
+
+.still-booking-receipt-line span{
+  color:#7a7268;
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.still-booking-receipt-line strong{
+  color:#292720;
+  font-size:12px;
+  font-weight:500;
+  text-align:right;
+}
+
+.still-booking-receipt-line:first-of-type strong{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:16px;
+  font-weight:400;
+}
+
+.still-booking-terms{
+  margin-top:18px;
+  padding:17px 0 3px;
+  border-top:1px solid #d6cec1;
+}
+
+.still-booking-terms p:not(.still-booking-receipt-label){
+  margin:0 0 9px;
+  color:#746d64;
+  font-size:10px;
+  line-height:1.6;
+}
+
+.still-booking-terms p:last-child{
+  margin-bottom:0;
+}
+
+.still-booking-receipt-actions{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:16px;
+  margin-top:24px;
+  padding-top:18px;
+  border-top:1px solid #d6cec1;
+}
+
+.still-booking-cancel{
+  justify-self:start;
+  padding:8px 0;
+  border:0;
+  background:transparent;
+  color:#746d64;
+  font-size:9px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.still-booking-cancel:hover{
+  color:#9a7447;
+}
+
+.still-booking-continue{
+  min-width:150px;
+  justify-content:center;
+}
+
+.still-booking-modal-open{
+  overflow:hidden;
+}
+
+@media(max-width:599px){
+  .still-booking-modal{
+    padding:14px;
+    align-items:end;
+  }
+
+  .still-booking-receipt{
+    width:100%;
+    max-height:92vh;
+    padding:26px 20px 24px;
+  }
+
+  .still-booking-receipt-head{
+    padding-top:3px;
+  }
+
+  .still-booking-receipt-title-row{
+    padding:22px 0 20px;
+  }
+
+  .still-booking-receipt h2{
+    font-size:clamp(38px,12vw,54px);
+  }
+
+  .still-booking-receipt-mark{
+    width:44px;
+    height:44px;
+  }
+
+  .still-booking-receipt-line{
+    grid-template-columns:92px minmax(0,1fr);
+    gap:10px;
+  }
+
+  .still-booking-receipt-line strong{
+    font-size:11px;
+  }
+
+  .still-booking-terms p:not(.still-booking-receipt-label){
+    font-size:9px;
+  }
+
+  .still-booking-receipt-actions{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .still-booking-cancel{
+    width:100%;
+    min-height:44px;
+    border:1px solid #cfc7ba;
+    border-radius:999px;
+  }
+
+  .still-booking-continue{
+    min-width:0;
+    width:100%;
+    min-height:44px;
+  }
+}
+
+
+/* Booking receipt desktop spacing: keep the terms content comfortably
+   separated from the receipt's dashed trim lines. */
+@media(min-width:600px){
+  .still-booking-receipt{
+    padding:36px 34px 44px;
+  }
+
+  .still-booking-terms{
+    padding-top:21px;
+    padding-bottom:10px;
+  }
+
+  .still-booking-receipt-actions{
+    margin-top:28px;
+    padding-top:20px;
+  }
+}
+
+
+/* Booking receipt mobile actions: equal, balanced controls. */
+@media(max-width:599px){
+  .still-booking-receipt-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .still-booking-cancel,
+  .still-booking-continue{
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    height:44px;
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin:0;
+  }
+
+  .still-booking-cancel{
+    padding:0 14px;
+  }
+
+  .still-booking-continue{
+    padding:0 14px;
+  }
+}
+
+
+/* Booking confirmation success state. The original receipt transforms
+   in place after Continue into a clean arrival note. */
+.still-booking-receipt.is-success{
+  min-height:0;
+}
+
+.still-booking-success{
+  min-height:100%;
+}
+
+.still-booking-success .still-booking-receipt-head{
+  margin-bottom:8px;
+}
+
+.still-booking-success-mark{
+  width:56px;
+  height:56px;
+  display:grid;
+  place-items:center;
+  margin:28px auto 22px;
+  border:1px solid #9a7447;
+  border-radius:50%;
+  color:#9a7447;
+  font-size:24px;
+  line-height:1;
+}
+
+.still-booking-success-copy{
+  text-align:center;
+}
+
+.still-booking-success-copy .still-booking-receipt-kicker{
+  margin-bottom:10px;
+}
+
+.still-booking-success-copy h2{
+  font-size:clamp(42px,6vw,66px);
+}
+
+.still-booking-success-message{
+  max-width:470px;
+  margin:24px auto 0;
+  color:#746d64;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.still-booking-success-message strong{
+  color:#292720;
+  font-weight:600;
+}
+
+.still-booking-id-block{
+  margin:28px 0 0;
+  padding:18px 16px 20px;
+  border-block:1px dashed #c9c0b3;
+  text-align:center;
+  background:#f2eee6;
+}
+
+.still-booking-id-block span{
+  display:block;
+  margin-bottom:8px;
+  color:#8d8478;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.18em;
+}
+
+.still-booking-id-block strong{
+  display:block;
+  color:#292720;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(24px,4vw,34px);
+  font-weight:400;
+  letter-spacing:.05em;
+}
+
+.still-booking-success-note{
+  max-width:470px;
+  margin:22px auto 0;
+  text-align:center;
+}
+
+.still-booking-success-note p{
+  margin:0 0 9px;
+  color:#746d64;
+  font-size:10px;
+  line-height:1.6;
+}
+
+.still-booking-success-note p:last-child{
+  margin-bottom:0;
+  color:#292720;
+}
+
+.still-booking-success-actions{
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid #d6cec1;
+}
+
+.still-booking-understand{
+  width:100%;
+  min-height:46px;
+  justify-content:center;
+}
+
+@media(max-width:599px){
+  .still-booking-success-mark{
+    width:50px;
+    height:50px;
+    margin:22px auto 18px;
+  }
+
+  .still-booking-success-copy h2{
+    font-size:clamp(38px,12vw,54px);
+  }
+
+  .still-booking-success-message{
+    margin-top:20px;
+    font-size:9px;
+  }
+
+  .still-booking-id-block{
+    margin-top:22px;
+  }
+
+  .still-booking-id-block strong{
+    font-size:22px;
+  }
+
+  .still-booking-success-note{
+    margin-top:18px;
+  }
+
+  .still-booking-success-note p{
+    font-size:9px;
+  }
+
+  .still-booking-success-actions{
+    margin-top:22px;
+    padding-top:16px;
+  }
+
+  .still-booking-understand{
+    min-height:44px;
+  }
+}
+
+
