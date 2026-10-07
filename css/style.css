@@ -1,11 +1,5 @@
 /* Generated from css/*.css modules by scripts/build-css.mjs. */
 
-/* =========================================================
-   THE STILL HOTEL / CORE TOKENS, RESET, SHARED PRIMITIVES, HEADER FOUNDATION
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
 :root{--paper:#f7f4ed;--white:#fffdf9;--ink:#292720;--muted:#716c63;--line:#ded8cd;--accent:#b09a7b;--accent-soft:#d8c7ad;--olive:#727668;--max:1440px;--pad:clamp(20px,4vw,64px);--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth;overflow-x:hidden}body{margin:0;overflow-x:hidden;max-width:100%;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}body.no-scroll{overflow:hidden}img{display:block;width:100%;height:100%;object-fit:cover}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}.page-wrap{width:min(100% - 2*var(--pad),var(--max));margin-inline:auto}.section{padding-block:clamp(90px,12vw,180px)}.eyebrow{margin:0 0 24px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .site-header{position:fixed;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:26px var(--pad);transition:background .4s ease,color .4s ease,box-shadow .4s ease}.site-header.scrolled{background:rgba(247,244,238,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.06)}.brand{display:inline-flex;align-items:center;justify-content:center;width:62px;height:62px;flex:0 0 62px;margin-left:42px;color:inherit}.brand-logo{display:block;width:60px;height:60px;object-fit:contain}.site-nav{display:flex;align-items:center;gap:32px;font-size:13px}.site-nav a{position:relative}.site-nav a:after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}.site-nav a:hover:after,.site-nav a[aria-current="page"]:after{transform:scaleX(1);transform-origin:left}.nav-book{border:1px solid currentColor;border-radius:999px;padding:11px 16px;background:transparent;transition:background .35s ease,color .35s ease,border-color .35s ease,transform .3s var(--ease)}
@@ -194,12 +188,6 @@
 @media(max-width:560px){:root{--pad:20px}.site-header{padding-block:20px}.signature-header{padding-block:14px}.brand{font-size:11px}.hero-actions{flex-direction:column;align-items:flex-start;gap:18px}.section{padding-block:80px}.stat-grid{grid-template-columns:1fr}.stat-grid div,.stat-grid div+div{padding:24px 0;border-right:0;border-top:1px solid var(--line)}.stat-grid div:first-child{border-top:0}.room-entry .room-image,.room-entry.room-entry-reverse .room-image,.room-entry .room-details,.room-entry.room-entry-reverse .room-details{grid-column:auto}.amenity-grid{grid-template-columns:1fr}.amenity-grid>div:nth-child(2n){padding-left:0;border-left:0}.gallery-item,.gallery-item-large,.gallery-item-wide,.gallery-item-tall{grid-column:span 12}.footer-bottom{flex-direction:column;gap:8px}.booking-fields{grid-template-columns:1fr}.booking-fields label:last-child{grid-column:auto}.booking-panel{padding:24px 20px}.booking-panel h2{margin:36px 0}.narrow-hero h1{font-size:clamp(54px,15vw,82px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.image-frame img,.gallery-item img{transition:none}}
 :focus-visible{outline:2px solid currentColor;outline-offset:4px}
-
-/* =========================================================
-   THE STILL HOTEL / HOMEPAGE HERO AND SHARED HOME VISUAL SYSTEM
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    SIGNATURE HOMEPAGE / TIME AS INTERFACE
@@ -892,12 +880,6 @@
   .site-nav.open{display:flex !important}
 }
 @media(prefers-reduced-motion:reduce){.signature-header:after{animation:none;transform:scaleX(1);opacity:1}.hero-scene,.story-photo{transition:none;transform:none}.hero-scene.is-active,.story-photo.is-active{transform:none}.story-progress span{transition:none}}
-
-/* =========================================================
-   THE STILL HOTEL / OUR STORY ARCHITECTURE AND GLOBAL RESPONSIVE LOCK
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    OUR STORY — THE BUILDING KEEPS TIME
@@ -1985,12 +1967,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   .story-triptych-stage{transition:none}
   .story-pane{transition:none}
 }
-
-/* =========================================================
-   THE STILL HOTEL / ROOMS ATLAS, PRICING, DETAIL AND BOOKING DRAWER STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    ROOMS PAGE — STILL HOTEL ROOM ATLAS
@@ -3868,12 +3844,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / MOMENTS / GALLERY PAGE STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    MOMENTS — TIME-LED EDITORIAL GALLERY
    Inspired by the reference's filterable photo catalogue,
    but expressed through The Still Hotel's time / light language.
@@ -4558,12 +4528,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / AMENITIES PAGE STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    AMENITIES — MOMENTS HEADER DNA
    Hero carries the dark theme; header stays transparent over it.
    ========================================================= */
@@ -4985,12 +4949,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / ABOUT PAGE BASE STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    ABOUT PAGE
    ========================================================= */
 .page-about{
@@ -5045,12 +5003,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   --header-theme:#f4f0e7;
   --header-secondary:#d6b36a;
 }
-
-/* =========================================================
-   THE STILL HOTEL / LOGIN AND SHARED ABOUT/LOGIN VISUAL DNA
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    LOGIN PAGE
@@ -5767,12 +5719,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / GLOBAL CTA HOVER LANGUAGE AND CONTACT STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    GLOBAL BUTTON HOVER LANGUAGE — GOLD
    ========================================================= */
 :root{
@@ -6361,12 +6307,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / LOGIN STANDALONE RESPONSIVE REFINEMENTS
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    LOGIN — STANDALONE ONE-SCREEN EXPERIENCE
    ========================================================= */
 .page-login{
@@ -6905,12 +6845,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / BOOKING RECEIPT / CONFIRMATION STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    BOOKING — RECEIPT STYLE CONFIRMATION
    ========================================================= */
 .still-booking-modal{
@@ -7402,12 +7336,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 }
 
 /* =========================================================
-   THE STILL HOTEL / GUEST BOOKING VIEW STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
-
-/* =========================================================
    YOUR BOOKING — GUEST RESERVATION VIEW
    ========================================================= */
 .page-your-booking{
@@ -7570,12 +7498,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   font-size:10px;
   line-height:1.6;
 }
-
-/* =========================================================
-   THE STILL HOTEL / ADMIN BOOKING DESK STYLING
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    ADMIN BOOKING DESK — FRONT-END DEMO
@@ -7996,12 +7918,6 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
     height:62px;
   }
 }
-
-/* =========================================================
-   THE STILL HOTEL / AMBIENT MOTION LAYER
-   Source module extracted from the original css/style.css.
-   Cascade order is preserved by loading modules in numeric order.
-   ========================================================= */
 
 /* =========================================================
    STILL HOTEL / AMBIENT MOTION FX
