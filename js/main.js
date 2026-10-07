@@ -106,9 +106,11 @@
 
     heroScenes.innerHTML = heroTimeline.map((item, index) => {
       const image = String(item.image || '').replace(/"/g, '&quot;');
-      const mobileImage = image
-        .replace(/([?&])w=\d+/i, '$1w=760')
-        .replace(/([?&])q=\d+/i, '$1q=78');
+      const mobileImage = image.startsWith('assets/images/remote/')
+        ? image.replace(/-w\d+-q\d+(\.jpg)$/i, '-w760-q78$1')
+        : image
+          .replace(/([?&])w=\d+/i, '$1w=760')
+          .replace(/([?&])q=\d+/i, '$1q=78');
       const loading = index === 0 ? 'eager' : 'lazy';
       const priority = index === 0 ? 'high' : 'low';
       return `<div class="hero-scene${index === 0 ? ' is-active' : ''}" data-scene="${index}">
