@@ -75,7 +75,7 @@
         <article class="contact-detail-card">
           <span class="contact-detail-index">01</span>
           <p class="contact-detail-label">Phone</p>
-          <h3>+62 000 0000 0000</h3>
+          <h3 data-contact-phone>+62 000 0000 0000</h3>
           <p>Available for reservations, arrivals and guest enquiries.</p>
           <a class="contact-detail-action" href="tel:+620000000000">Call us <span>↗</span></a>
         </article>
@@ -89,15 +89,15 @@
         <article class="contact-detail-card">
           <span class="contact-detail-index">03</span>
           <p class="contact-detail-label">Email</p>
-          <h3>stay@thestillhotel.example</h3>
+          <h3 data-contact-email>stay@thestillhotel.example</h3>
           <p>For thoughtful enquiries, group stays and anything that deserves more detail.</p>
           <a class="contact-detail-action" href="mailto:stay@thestillhotel.example">Send an email <span>↗</span></a>
         </article>
         <article class="contact-detail-card">
           <span class="contact-detail-index">04</span>
           <p class="contact-detail-label">Reception</p>
-          <h3>24 hours</h3>
-          <p>Guest support is here around the clock, before arrival and after check-in.</p>
+          <h3>Guest support</h3>
+          <p>For arrival notes, stay questions and anything you need before or during your visit.</p>
           <span class="contact-detail-note">Always open</span>
         </article>
       </div>
@@ -116,7 +116,7 @@
         </div>
       </div>
 
-      <form class="contact-form" action="https://formsubmit.co/stay@thestillhotel.example" method="POST" data-contact-form novalidate>
+      <form class="contact-form" action="https://formsubmit.co/" method="POST" data-contact-form novalidate>
         <div class="contact-form-field">
           <label for="contact-name">Full name</label>
           <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" required>
@@ -155,20 +155,21 @@
     <div class="page-wrap contact-location-grid">
       <div class="contact-location-visual contact-map-frame">
         <iframe
-          title="Example Google Maps location"
-          src="https://www.google.com/maps?q=Monas%2C%20Jakarta%2C%20Indonesia&output=embed"
+          title="The Still Hotel location map"
+          src="https://www.google.com/maps?q=Jakarta%2C%20Indonesia&output=embed"
           loading="lazy" decoding="async"
           allowfullscreen
           referrerpolicy="no-referrer-when-downgrade"></iframe>
         <div class="contact-map-label">
-          <span>MAP / EXAMPLE LOCATION</span>
+          <span>MAP / GENERAL LOCATION</span>
           <strong>Jakarta, Indonesia</strong>
         </div>
       </div>
       <div class="contact-location-copy">
         <p class="eyebrow">03 / Find us</p>
         <h2>Somewhere<br><em>in the city.</em></h2>
-        <p class="contact-address">Jl. Somewhere 01<br>Central City<br>Indonesia</p>
+        <p class="contact-address">Jakarta<br>Indonesia</p>
+        <p class="micro-copy">The exact hotel address can be shared directly with confirmed guests.</p>
         <div class="contact-route-list">
           <div><span>BY CAR</span><p>Private parking is available for hotel guests.</p></div>
           <div><span>BY CITY</span><p>Easy access from the main city routes and nearby transport connections.</p></div>
