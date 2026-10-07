@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
-    delete payload._honey;
 
     try {
       const email = window.STILL_CONTACT?.email || "stay@thestillhotel.example";
