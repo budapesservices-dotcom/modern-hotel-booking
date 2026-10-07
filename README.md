@@ -27,6 +27,12 @@ Each item contains `time`, `label`, `caption`, `tone` and `image`. Add or replac
 
 For the final handoff, store approved images under `assets/images/hero/` and replace the remote image URL in the config with the local path. No HTML restructuring is required.
 
+### Production image pipeline
+
+The source keeps the current Unsplash URLs as reproducible image inputs. During the GitHub Pages build, `scripts/prepare-site.mjs` downloads those images into the deployment artifact, rewrites the site's image references to local assets, preserves the hero's mobile/desktop variants, and fails the build if any Unsplash image reference remains in the published site. This removes the runtime dependency on the Unsplash CDN while keeping the current visual asset set intact.
+
+Unsplash's current license allows downloading and using its images for free, including commercial use, subject to its license terms. For a final client handoff, replace the sample imagery with approved/licensed project photography where required.
+
 ## Booking flow
 
 Booking is a request workflow, not a final reservation confirmation. The guest reviews the stay details, the request is stored locally for the demo, and the flow opens WhatsApp with a pre-filled request so the hotel can confirm availability, final rates and stay conditions directly. Contact enquiries use a lightweight static form endpoint so the site remains a plain HTML/CSS/JS build without its own server.
