@@ -29,14 +29,14 @@ For the final handoff, store approved images under `assets/images/hero/` and rep
 
 ## Booking flow
 
-Booking uses the existing client-side WhatsApp hand-off. Contact enquiries use a lightweight static form endpoint so the site remains a plain HTML/CSS/JS build without its own server.
+Booking is a request workflow, not a final reservation confirmation. The guest reviews the stay details, the request is stored locally for the demo, and the flow opens WhatsApp with a pre-filled request so the hotel can confirm availability, final rates and stay conditions directly. Contact enquiries use a lightweight static form endpoint so the site remains a plain HTML/CSS/JS build without its own server.
 
 
 ### Contact configuration
 
 Open `js/contact-config.js` and replace `whatsappNumber`, `phoneDisplay`, `phoneHref`, `email` and `mapQuery` once. All WhatsApp, phone, email and map actions across the site read from this file.
 
-The booking review's **Continue** button generates a concise booking summary and opens a direct WhatsApp chat using the configured number. The contact form also reads the configured email instead of a hard-coded recipient.
+The booking review's **Send request** button records a booking request and opens a direct WhatsApp chat using the configured number. The request receives a Customer Booking ID for reference, but it is not treated as confirmed until the hotel confirms availability and final stay conditions. The contact form also reads the configured email instead of a hard-coded recipient.
 
 ## Image sources
 
