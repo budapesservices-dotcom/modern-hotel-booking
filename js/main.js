@@ -14,7 +14,8 @@
   const pad = n => String(n).padStart(2, '0');
   const IMAGE_FALLBACK = 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=84';
 
-  const syncHeader = () => header?.classList.toggle('scrolled', window.scrollY > 32);  const heroScenes = document.querySelector('[data-hero-scenes]');
+  const hero = document.querySelector('[data-hero]');
+  const heroScenes = document.querySelector('[data-hero-scenes]');
   const timeTrack = document.querySelector('[data-time-track]');
   const sceneLabel = document.querySelector('[data-live-label]');
   const heroDescription = document.querySelector('[data-hero-description]');
