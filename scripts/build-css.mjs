@@ -28,7 +28,11 @@ const main = async () => {
   for (const filename of MODULES) {
     const file = path.join(CSS_DIR, filename);
     const content = await fs.readFile(file, "utf8");
-    parts.push(content.trimEnd());
+    const source = content.replace(
+      /^\/\* =========================================================[\\s\\S]*?========================================================= \*\/\\s*/m,
+      ""
+    );
+    parts.push(source.trimEnd());
   }
 
   const bundle =
