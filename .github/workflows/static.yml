@@ -31,6 +31,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Build runtime CSS bundle
+        run: node scripts/build-css.mjs
+
       - name: Prepare production site and localize images
         run: node scripts/prepare-site.mjs
 
