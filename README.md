@@ -8,9 +8,16 @@ A modern, lightweight hotel booking concept built with semantic HTML5, CSS and v
 - `rooms.html` — individual room blocks, amenities and a future pricing area.
 - `gallery.html` — editorial masonry-style gallery with lightbox.
 - `contact.html` — contact form, WhatsApp, email and embedded Google Map.
-- `css/style.css` — responsive design system, typography, layout and motion.
+- `css/*.css` — modular source styles split by visual/page responsibility.
+- `css/style.css` — generated runtime bundle produced from the modular CSS sources by `scripts/build-css.mjs`.
+- `scripts/build-css.mjs` — deterministic CSS bundler that preserves the original cascade order.
 - `js/main.js` — navigation, scroll reveal, booking drawer, carousel flow, filters and lightbox.
 - `js/contact-config.js` — single source for WhatsApp number, phone, email and map location.
+
+
+### CSS architecture
+
+The stylesheet is maintained as ordered modules so individual page systems can be edited without navigating one monolithic source file. The deployment still serves a single `css/style.css` bundle, so the browser does not pay for a larger number of render-blocking CSS files. The module order is intentionally fixed to preserve the existing cascade and visual behavior.
 
 ## Concept
 
