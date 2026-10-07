@@ -90,7 +90,7 @@
 
 
   const STORAGE={bookings:'stillHotelBookings',notifications:'stillHotelAdminNotifications',current:'stillHotelCurrentBookingId'};
-  const STATUS={CONFIRMED:'confirmed',CANCELLATION_PENDING:'cancellation_pending',CANCELLED:'cancelled',EXPIRED:'expired'};
+  const STATUS={REQUESTED:'request_received',CONFIRMED:'confirmed',CANCELLATION_PENDING:'cancellation_pending',CANCELLED:'cancelled',EXPIRED:'expired'};
   const readJson=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key)||'');return value??fallback;}catch{return fallback;}};
   const getBookings=()=>{const value=readJson(STORAGE.bookings,[]);return Array.isArray(value)?value:[];};
   const saveBookings=bookings=>{
@@ -105,7 +105,7 @@
   const getNotifications=()=>{const value=readJson(STORAGE.notifications,[]);return Array.isArray(value)?value:[];};
   const saveNotifications=notifications=>{try{localStorage.setItem(STORAGE.notifications,JSON.stringify(notifications));return true;}catch{return false;}};
   const emitBookingUpdate=detail=>window.dispatchEvent(new CustomEvent('still:booking-updated',{detail:detail||{}}));
-  const persistConfirmedBooking=(bookingRecord,customerBookingId)=>{
+  const persistBookingRequest=(bookingRecord,customerBookingId)=>{
     let previousBookings=null;
     let previousCurrent=null;
 
@@ -168,7 +168,7 @@
   const expireOverdueBookings=()=>{
     const bookings=getBookings(); let changed=false;
     const next=bookings.map(booking=>{
-      const canExpire=booking.status===STATUS.CONFIRMED||booking.status===STATUS.CANCELLATION_PENDING;
+      const canExpire=booking.status===STATUS.REQUESTED||booking.status===STATUS.CONFIRMED||booking.status===STATUS.CANCELLATION_PENDING;
       if(!canExpire||!checkoutHasPassed(booking))return booking;
       const expired={...booking,status:STATUS.EXPIRED,expiredAt:booking.expiredAt||new Date().toISOString()};
       notifyAdmin({type:'expiry',booking:expired,status:'logged',title:'Booking ID expired',message:`Admin Booking ID ${expired.adminBookingId||'—'} has expired after the checkout date.`});
@@ -198,7 +198,7 @@
     const index=typeof identifier==='number'?identifier:bookings.findIndex(booking=>booking.customerBookingId===identifier||booking.adminBookingId===identifier||booking.bookingToken===identifier);
     if(index<0)return{ok:false,reason:'not-found'};
     const booking=bookings[index];
-    if(booking.status!==STATUS.CONFIRMED)return{ok:false,reason:'not-cancellable',booking};
+    if(booking.status!==STATUS.REQUESTED&&booking.status!==STATUS.CONFIRMED)return{ok:false,reason:'not-cancellable',booking};
     if(booking.checkin){
       const today=new Date(); today.setHours(0,0,0,0);
       const checkin=new Date(booking.checkin+'T00:00:00');
@@ -232,7 +232,7 @@
       return{ok:true,booking:updated};
     }
 
-    const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationRequestId:requestId,cancellationRequestedAt:requestedAt};
+    const updated={...booking,status:STATUS.CANCELLATION_PENDING,cancellationPreviousStatus:booking.status,cancellationRequestId:requestId,cancellationRequestedAt:requestedAt};
     const next=[...bookings]; next[index]=updated;
     if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
     notifyAdmin({type:'cancellation',booking:updated,requestId,title:'Cancellation request',message:`Customer ${updated.customerBookingId||'—'} requested cancellation of Admin Booking ID ${updated.adminBookingId||'—'}.`});
@@ -245,7 +245,8 @@
     if(index<0)return{ok:false,reason:'not-found'};
     const booking=bookings[index];
     if(booking.status!==STATUS.CANCELLATION_PENDING)return{ok:false,reason:'not-pending',booking};
-    const updated={...booking,status:approved?STATUS.CANCELLED:STATUS.CONFIRMED,cancellationConfirmedAt:approved?new Date().toISOString():null,cancellationRejectedAt:approved?null:new Date().toISOString()};
+    const restoredStatus=booking.cancellationPreviousStatus===STATUS.REQUESTED?STATUS.REQUESTED:STATUS.CONFIRMED;
+    const updated={...booking,status:approved?STATUS.CANCELLED:restoredStatus,cancellationConfirmedAt:approved?new Date().toISOString():null,cancellationRejectedAt:approved?null:new Date().toISOString(),cancellationPreviousStatus:null};
     const next=[...bookings]; next[index]=updated;
     if(!saveBookings(next))return{ok:false,reason:'storage-error',booking};
     saveNotifications(getNotifications().map(notification=>notification.type==='cancellation'&&notification.requestId===booking.cancellationRequestId?{...notification,status:approved?'approved':'rejected',resolvedAt:new Date().toISOString()}:notification));
@@ -368,20 +369,26 @@
       bookingToken: bookingIds.token,
       customerBookingId: bookingIds.customerId,
       adminBookingId: bookingIds.adminId,
-      status: STATUS.CONFIRMED,
+      status: STATUS.REQUESTED,
       createdAt: new Date().toISOString()
     };
 
-    const persistence = persistConfirmedBooking(
+    const persistence = persistBookingRequest(
       bookingRecord,
       bookingIds.customerId
     );
 
+    const whatsappUrl = buildWhatsAppUrl(bookingData, bookingIds.customerId);
+
     if (!persistence.ok) {
       window.alert(
-        'We could not save your booking on this device. The booking was not confirmed. Please try again.'
+        'We could not save your booking on this device. The booking request was not saved. Please try again.'
       );
       return false;
+    }
+
+    if (whatsappUrl) {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
 
     modal.querySelector('.still-booking-receipt')?.classList.add('is-success');
@@ -389,8 +396,16 @@
     const receipt = modal.querySelector('.still-booking-receipt');
     if (!receipt) return false;
 
+    notifyAdmin({
+      type: 'booking',
+      booking: bookingRecord,
+      status: 'pending',
+      title: 'Booking request received',
+      message: 'Customer ' + bookingIds.customerId + ' submitted a booking request for ' + (bookingData.room || 'a room selection') + '.'
+    });
+
     emitBookingUpdate({
-      reason: 'booking-created',
+      reason: 'booking-requested',
       customerBookingId: bookingIds.customerId,
       adminBookingId: bookingIds.adminId
     });
@@ -398,7 +413,7 @@
     receipt.innerHTML = `
       <div class="still-booking-success">
         <div class="still-booking-receipt-head">
-          <p class="eyebrow">The Still Hotel / Booking confirmed</p>
+          <p class="eyebrow">The Still Hotel / Booking request received</p>
           <span>THANK YOU</span>
         </div>
 
@@ -406,12 +421,12 @@
 
         <div class="still-booking-success-copy">
           <p class="still-booking-receipt-kicker">Your stay is noted</p>
-          <h2>Your booking<br><em>is confirmed.</em></h2>
+          <h2>Your request<br><em>is received.</em></h2>
 
           <p class="still-booking-success-message">
-            Thank you for choosing The Still Hotel. Please arrive on
-            <strong>${escapeHtml(scheduledText)}</strong> according to your
-            scheduled time and show the Booking ID below to our reception team.
+            Thank you for choosing The Still Hotel. Your booking request has been recorded.
+            We will confirm availability, final rates and stay conditions with you directly
+            before the reservation is finalized.
           </p>
         </div>
 
@@ -425,7 +440,7 @@
             Keep this Booking ID with you when you arrive. Our reception team
             will use it to locate your booking details.
           </p>
-          <p>We look forward to welcoming you. Enjoy your stay at The Still Hotel.</p>
+          <p>Please keep this Customer Booking ID for reference while we confirm your stay.</p>
         </div>
 
         <div class="still-booking-success-actions">
@@ -443,7 +458,7 @@
       'click',
       () => {
         closeConfirmation();
-        window.dispatchEvent(new CustomEvent('still:booking-confirmed', {
+        window.dispatchEvent(new CustomEvent('still:booking-requested', {
           detail: {
             ...bookingData,
             customerBookingId: bookingIds.customerId,
@@ -456,6 +471,28 @@
     window.setTimeout(() => {
       receipt.querySelector('[data-booking-understand]')?.focus();
     }, 60);
+  };
+
+  const buildWhatsAppUrl = (bookingData, customerBookingId) => {
+    const number = String(window.STILL_CONTACT?.whatsappNumber || '').replace(/\D/g, '');
+    if (!number) return '';
+
+    const nights = getNights(bookingData.checkin, bookingData.checkout);
+    const lines = [
+      'Hello, I would like to request a stay at The Still Hotel.',
+      '',
+      bookingData.room ? 'Room: ' + bookingData.room : '',
+      bookingData.bookedUnder ? 'Booked under: ' + bookingData.bookedUnder : '',
+      bookingData.checkin ? 'Check-in: ' + formatDate(bookingData.checkin) : '',
+      bookingData.checkout ? 'Check-out: ' + formatDate(bookingData.checkout) : '',
+      'Guests: ' + (bookingData.guests || '2'),
+      nights ? 'Nights: ' + nights : '',
+      'Customer Booking ID: ' + customerBookingId,
+      '',
+      'Please confirm availability, final rate and booking conditions.'
+    ].filter(Boolean);
+
+    return 'https://wa.me/' + number + '?text=' + encodeURIComponent(lines.join('\n'));
   };
 
   const showConfirmation = bookingData => {
@@ -553,11 +590,11 @@
               will be confirmed before the reservation is finalized.
             </p>
             <p>
-              Continuing sends this request to the next booking step.
+              Continuing records this request on this device and opens WhatsApp so you can send the request directly to The Still Hotel.
               No payment is taken at this stage.
             </p>
             <p>
-              By selecting Continue, you acknowledge that final availability,
+              By selecting Send request, you acknowledge that final availability,
               rates, taxes, deposits, and cancellation terms must be confirmed
               before the stay is finalized.
             </p>
@@ -574,7 +611,7 @@
             class="button button-dark still-booking-continue"
             type="button"
             data-booking-confirm-continue>
-            Continue
+            Send request
           </button>
         </div>
       </section>
