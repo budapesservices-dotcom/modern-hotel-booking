@@ -50,7 +50,8 @@
   gap:10px;
   margin-top:28px;
 }
-.footer-socials a{
+.footer-socials a,
+.footer-socials .footer-social-placeholder{
   width:36px;
   height:36px;
   display:grid;
@@ -62,6 +63,9 @@
   letter-spacing:.08em;
   text-transform:uppercase;
   transition:color .3s ease,border-color .3s ease,transform .3s var(--ease);
+}
+.footer-socials .footer-social-placeholder{
+  cursor:default;
 }
 .footer-socials a:hover{
   color:var(--accent);
