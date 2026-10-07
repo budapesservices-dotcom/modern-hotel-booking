@@ -638,7 +638,7 @@
       "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1200&q=84"
     ],
     "still-suite": [
-      "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1800&q=88",
+      "https://images.unsplash.com/photo-1670725634757-741e2236aed6?auto=format&fit=crop&fm=jpg&q=82&w=1200",
       "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=84",
       "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=84"
     ],
