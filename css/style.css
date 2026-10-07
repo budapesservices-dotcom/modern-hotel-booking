@@ -4927,10 +4927,10 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
 .page-amenities .amenity-decor-icon{
   position:absolute;
   z-index:0;
-  right:-58px;
-  bottom:-62px;
-  width:220px;
-  height:220px;
+  right:-22px;
+  bottom:-18px;
+  width:270px;
+  height:270px;
   display:block;
   color:#d9d9d9;
   opacity:.18;
@@ -4949,19 +4949,19 @@ button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
   stroke-linejoin:round;
 }
 .page-amenities .amenities-full-grid>div:nth-child(2n) .amenity-decor-icon{
-  right:-70px;
-  bottom:-50px;
-  transform:rotate(8deg) scale(1.06);
+  right:-30px;
+  bottom:-14px;
+  transform:rotate(8deg) scale(1.08);
 }
 .page-amenities .amenities-full-grid>div:nth-child(3n) .amenity-decor-icon{
-  right:-52px;
-  bottom:-74px;
-  transform:rotate(-18deg) scale(.94);
+  right:-12px;
+  bottom:-28px;
+  transform:rotate(-18deg) scale(.98);
 }
 .page-amenities .amenities-full-grid>div:nth-child(4n) .amenity-decor-icon{
-  right:-64px;
-  bottom:-44px;
-  transform:rotate(14deg) scale(1.1);
+  right:-26px;
+  bottom:-10px;
+  transform:rotate(14deg) scale(1.12);
 }
 
 @keyframes amenityWaterRipple{
