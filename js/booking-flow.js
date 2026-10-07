@@ -19,6 +19,8 @@
     }).format(date);
   };
 
+  const MAX_STAY_NIGHTS = 30;
+
   const getNights = (checkin, checkout) => {
     if (!checkin || !checkout) return 0;
 
@@ -61,6 +63,14 @@
       return {
         valid: false,
         message: 'Check-out must be at least one day after check-in.'
+      };
+    }
+
+    const nights = Math.round((end - start) / 86400000);
+    if (nights > MAX_STAY_NIGHTS) {
+      return {
+        valid: false,
+        message: 'A stay cannot exceed 30 nights. Please choose an earlier check-out date.'
       };
     }
 
@@ -604,6 +614,7 @@
     status: STATUS,
     validateBookingDates,
     config: {
+      maxStayNights: MAX_STAY_NIGHTS,
       bypassLogin: BYPASS_LOGIN,
       bypassAdminCancellation: BYPASS_ADMIN_CANCELLATION,
       loginUrl: LOGIN_URL
