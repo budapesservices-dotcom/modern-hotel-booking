@@ -1053,6 +1053,10 @@
     roomDetailDrawer.classList.add('open');
     roomDetailDrawer.setAttribute('aria-hidden', 'false');
     body.classList.add('no-scroll');
+
+    window.setTimeout(() => {
+      roomDetailDrawer.querySelector('.room-detail-close-text')?.focus();
+    }, 0);
   };
 
   const closeRoomDetail = (restoreFocus = true) => {
