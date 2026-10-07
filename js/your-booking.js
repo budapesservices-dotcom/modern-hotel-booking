@@ -175,6 +175,7 @@
           </div>
 
           <div class="your-booking-grid">
+            <div><span>Booked under</span><strong>${escapeHtml(booking.bookedUnder || '—')}</strong></div>
             <div><span>Check-in</span><strong>${escapeHtml(formatDate(booking.checkin))}</strong></div>
             <div><span>Check-out</span><strong>${escapeHtml(formatDate(booking.checkout))}</strong></div>
             <div><span>Guests</span><strong>${escapeHtml(booking.guests || '2')}</strong></div>
