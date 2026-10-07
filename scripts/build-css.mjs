@@ -73,6 +73,7 @@ const PAGE_BUNDLES = {
     "01-core.css",
     "09-global-contact.css",
     "12-your-booking.css",
+    "booking-management.css",
     "14-motion.css"
   ],
   login: [
@@ -83,7 +84,8 @@ const PAGE_BUNDLES = {
   ],
   "admin-bookings": [
     "01-core.css",
-    "13-admin-bookings.css"
+    "13-admin-bookings.css",
+    "booking-management.css"
   ]
 };
 
