@@ -386,11 +386,20 @@
     }
   };
 
+  const setStageImage = stage => {
+    const source = stage.dataset.storyImage;
+    if (!source) return;
+
+    stage.querySelectorAll('[data-panel-speed]').forEach(pane => {
+      pane.style.backgroundImage = `url("${source.replace(/"/g, '\\"')}")`;
+    });
+  };
+
   const show = index => {
     current = ((index % stages.length) + stages.length) % stages.length;
 
     stages.forEach((stage, i) => {
-      stage.style.setProperty('--story-stage-image', "url('" + stage.dataset.storyImage + "')");
+      setStageImage(stage);
       stage.classList.toggle('is-active', i === current);
       stage.setAttribute('aria-hidden', i === current ? 'false' : 'true');
     });
