@@ -303,10 +303,6 @@
 
   const readRoomBookings = () => {
     try {
-      if (window.TheStillBooking?.getBookings) {
-        const bookings = window.TheStillBooking.getBookings();
-        return Array.isArray(bookings) ? bookings : [];
-      }
       const value = JSON.parse(localStorage.getItem(ROOM_BOOKING_STORAGE) || '[]');
       return Array.isArray(value) ? value : [];
     } catch {
