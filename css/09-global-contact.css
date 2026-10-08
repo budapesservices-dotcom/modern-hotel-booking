@@ -201,10 +201,6 @@
 /* =========================================================
    CONTACT — EDITORIAL CONTENT / STILL HOTEL DNA
    ========================================================= */
-.page-contact{
-  background:#f7f4ed;
-}
-
 .page-contact .contact-intro{
   background:#fff;
 }
@@ -500,9 +496,6 @@
   line-height:1.6;
 }
 
-.page-contact .contact-cta{
-  background:#ebe6dd;
-}
 .contact-assistance{
   max-width:900px;
 }
