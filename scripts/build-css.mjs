@@ -7,6 +7,7 @@ const OUTPUT = path.join(CSS_DIR, "style.css");
 
 const MODULES = [
   "01-core.css",
+  "01b-shared-components.css",
   "02-home.css",
   "03-story-responsive.css",
   "04-rooms.css",
