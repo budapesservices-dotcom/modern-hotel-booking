@@ -616,7 +616,6 @@
   }
   .room-dir-price{align-items:flex-start;text-align:left}
   .room-dir-price strong{font-size:27px}
-  .room-detail-kicker{margin-top:54px}
 }
 @media(max-width:1100px) and (min-width:600px){
   .room-dir-action{align-items:flex-start;justify-self:start}
