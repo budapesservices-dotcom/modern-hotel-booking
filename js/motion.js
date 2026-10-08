@@ -45,7 +45,6 @@
   const sheenSelectors = [
     'main .room-image',
     'main .image-frame',
-    'main .gallery-item',
     'main .call-hero-visual',
     'main .login-image',
     'main .contact-location-visual'
@@ -59,14 +58,11 @@
     'main figure',
     'main .room-image',
     'main .image-frame',
-    'main .gallery-item',
     'main .call-hero-visual',
     'main .login-image',
     'main .contact-location-visual',
     'main .amenity-grid > div',
-    'main .stat-grid > div',
     'main .price-box',
-    'main .contact-card',
     'main .call-contact-item',
     'main .booking-empty-state',
     'main .your-booking-card'
