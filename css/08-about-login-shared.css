@@ -632,12 +632,6 @@
     margin-top:0;
     margin-bottom:0;
   }
-  .page-about .about-story-copy h2{
-    font-size:clamp(50px,15vw,78px);
-  }
-  .page-about .about-story-copy p:not(.eyebrow){
-    font-size:15px;
-  }
   .about-stats-grid{
     grid-template-columns:1fr 1fr;
   }
