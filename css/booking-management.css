@@ -74,9 +74,6 @@
   background:#e5e0d7;
 }
 
-.your-booking-status.status-cancelled{
-  background:#eee9df;
-}
 
 .admin-booking-stats{
   grid-template-columns:repeat(4,minmax(150px,220px));
