@@ -31,15 +31,11 @@
     'main figure',
     'main .room-image',
     'main .image-frame',
-    'main .gallery-item',
     'main .call-hero-visual',
     'main .login-image',
     'main .contact-location-visual',
     'main .amenity-grid > div',
-    'main .stat-grid > div',
-    'main .room-specs',
     'main .price-box',
-    'main .contact-card',
     'main .call-contact-item',
     'main .contact-form-field',
     'main .booking-empty-state',
@@ -113,7 +109,6 @@
     'image':         { y:22, duration:930, delay:55 },
     'list':          { y:13, duration:740, delay:120 },
     'form':          { y:12, duration:700, delay:140 },
-    'stat':          { y:17, duration:820, delay:80 },
     'block':         { y:17, duration:820, delay:75 }
   };
 
@@ -136,7 +131,6 @@
     if (tag === 'figure' || element.matches(sheenSelectors)) return 'image';
     if (tag === 'li') return 'list';
     if (tag === 'label' || /^(INPUT|TEXTAREA|SELECT)$/.test(element.tagName)) return 'form';
-    if (element.matches('.stat-grid > div')) return 'stat';
     return 'block';
   };
 
